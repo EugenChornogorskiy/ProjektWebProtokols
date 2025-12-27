@@ -1,0 +1,448 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+@font-face {
+  font-family: 'BoschSans';
+  src: url('/fonts/BoschSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'BoschSans-Medium';
+  src: url('/fonts/BoschSans-Medium.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'BoschSans-Light';
+  src: url('/fonts/BoschSans-Light.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+#backgr-login{  
+  width: 100%;
+  height: 100%; 
+  background-color: rgb(235, 235, 235);  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#login-form{
+  background-color: #003f79;
+  height: 60%;
+  width: 500px;
+  border-radius: 20px;
+  filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.445)); 
+  padding: 20px;
+}
+#login-inputs{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%; 
+  justify-content: space-between;
+  height: 100%;
+}
+#login-content{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+.login-input{
+  width: 100%;
+  background-color: snow;
+  border-radius: 10px;
+}
+.login-input input{
+  background-color: snow;
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 1.2em;
+}
+#login-btn{
+  background-color: rgb(11, 103, 223);
+  padding: 10px;
+  font-size: 1.3em;
+  color: snow;
+  border-radius: 10px; 
+  font-family: "BoschSans-Medium";
+  letter-spacing: 1.3px;
+  cursor: pointer;
+  border-bottom: 2px rgb(1, 62, 143) solid;
+  filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.205));  
+} 
+#navbar-toggle{
+  position: relative;
+  float: right;
+  padding: 9px 10px; 
+  background-color: transparent;  
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  gap:7px;
+  justify-content: center;
+  cursor: pointer;
+}  
+#navbar-toggle span{
+  background: #004c94;
+  width: 30px;
+  height: 3px;
+  display: block; 
+}
+#create-new-btn{
+  background-color: rgb(1, 206, 80);
+  padding: 10px;
+  font-size: 1.3em;
+  color: snow;
+  border-radius: 10px; 
+  font-family: "BoschSans-Medium";
+  letter-spacing: 1.3px;
+  cursor: pointer;
+  width: 100%;
+  border-bottom: 2px rgb(0, 92, 35) solid;
+  filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.205));  
+}
+.login-part{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.login-error{
+  color: snow;
+}
+#register-form{
+  background-color: #003f79;
+  height: 90%;
+  width: 600px;
+  border-radius: 20px;
+  filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.7)); 
+  padding: 20px;
+}
+.register-input{ 
+  width: 100%;
+  background-color: snow;
+  border-radius: 10px;
+}
+.register-input input{
+  background-color: snow;
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 1.2em;
+}
+.register-part{
+  width: 100%;
+  display: flex; 
+  gap: 10px;
+}
+#create-background{
+  width: 100%;
+  height: 100vh; 
+  display: flex;
+  flex-direction: column; 
+  justify-content: space-between; 
+}
+#container{  
+  height: 100%;
+  position: relative; 
+}
+#main{
+  background-color: rgb(47, 198, 218);
+}
+#content{ 
+  width: 1200px;
+  height: 750px;
+  margin-top: -75px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 100px;
+  color: snow;
+  font-family: 'BoschSans';
+}
+header{  
+  width: 1200px;
+  height: 75px;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 5px;
+}
+#nav-items img{
+  height: 70px;
+}
+#nav-items{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+#sing-in, #sing-up, #start {
+  transition: background-color 0.3s ease;
+}
+#sing-in{
+  border: #4367df 2px solid; 
+  border-radius: 7px;
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 1.1em;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  color: #2653e6;
+  font-family: 'BoschSans-Medium';
+  font-weight: 600;
+}
+#sing-up:hover{
+  background-color: #1b4be9;
+}
+#sing-up{ 
+  background-color: #435adf;
+  color: snow;
+  border-radius: 7px;
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 1.1em;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  font-family: 'BoschSans-Medium';
+} 
+#sing-in:hover{
+  background-color: #2653e6;
+  color: snow;
+  font-weight: 500;
+  border-color : #2653e6;
+}
+#info{
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  gap: 20px;
+}
+#monopoly{
+  font-size: 6em;
+  font-family: 'BoschSans-Medium';
+  font-weight: 600;
+  height: 100px; 
+  display: flex;
+  align-items: center;
+}
+#invite{
+  font-family: 'BoschSans-Medium';
+  font-size: 2em ;
+}
+#start{
+  color: #464646;
+  background-color: #ededed;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding: 10px;
+  font-size: 1.3em; 
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#start:hover{
+  background-color: #bbbbbb;
+}
+#nav-btns{
+  display: flex;
+  gap: 20px;
+}
+#header-login{
+  width: 100%;
+  height: 75px;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 5px;
+  background-color: snow;
+  border-bottom: 2px rgb(202, 202, 202) solid;
+  display: flex;
+  align-items: center;
+  filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.205));  
+}
+#backgr-game{
+  width: 100% ;
+  height: 100%;
+  position: relative;
+}
+#players{ 
+  width: 200px;
+  background-color: #363636;
+  height: 100%;
+  color: snow;
+  display: flex;
+  flex-direction: column; 
+}
+#room-code{  
+  width: fit-content;
+  background-color: #3870da;
+  color: snow;
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 10px;
+  height: fit-content;
+  margin-right: 20px;
+  margin-top: 20px;
+}
+#content-game{
+  width: 1200px;
+  height: 750px;
+  margin-top: -75px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 100px;
+  color: rgb(56, 56, 56);
+  font-family: 'BoschSans';
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} 
+#player{ 
+  color: snow;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+#player img{ 
+  width: 40px;
+}
+#player-list{
+  margin-top: 40px;
+  font-size: 1.1em;
+  font-family: 'BoschSans-Medium';
+  margin-left: 20px;
+  height: 100%;
+}
+#players-tag{
+  font-size: 1.5em; 
+  text-align: center;
+}
+#board-part{ 
+  display: flex;
+  flex-wrap: wrap;
+}
+#board{ 
+  width: 750px;
+}
+#board-element{
+  width: 75px;
+  height: 75px;
+  position: relative;
+}
+#board-element img{
+  width: 50px; 
+}
+.game-wrapper{
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+}
+#throw{
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+}
+#throw-bones{
+  background-color: #1b4be9;
+  color: snow;
+  border-radius: 5px;
+  font-family: 'BoschSans-Medium';
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 1.2em;
+}
+#fish-one{
+  width: 30px;
+}
+.fish-two{
+  width: 15px;
+}
+#b-logo{
+  width: 30px;
+}
+#backgr-review{
+  width: 100%;
+  height: 100%; 
+  background-color: rgba(128, 128, 128, 0.288);  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+  filter: drop-shadow(0 0 15px #000000b3); 
+  border-radius: 20px; 
+  position: absolute;
+  top: 50%;
+  left: 50%; 
+  transform: translate(-50%, -50%);
+}
+#review-form{
+  background-color: snow;
+  position: absolute;
+  top: 50%;
+  left: 50%; 
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px; 
+  border-radius: 20px; 
+}
+.cencel-review{
+  width: 100px;
+  height: 35px;
+  font-family: 'BoschSans-Medium'; 
+  border: 1px rgb(201, 201, 201) solid;
+  color: rgb(0, 110, 255);
+  border-radius: 5px;
+  font-size: 0.93em;
+  cursor: pointer;
+}
+#review-btns{
+  display: flex;
+  gap: 20px;
+  position: absolute;
+  bottom: 10px;
+  right: 30px;
+}
+#elem-info{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+#players-pos{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+#player-images{
+  display: flex;
+  gap: 10px;
+}
