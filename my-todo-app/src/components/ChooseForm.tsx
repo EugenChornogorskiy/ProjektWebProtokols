@@ -39,8 +39,8 @@ export function ChooseForm( {setGameStarted,roomList}:any) {
       }, 
     });   
     const createRoom = () => {
-      axios.get('http://localhost:3000/api/room/create',{
-        headers: { Authorization:  token }
+      axios.post('http://localhost:3000/api/room/',{
+        token:token
       } )
       .then(function (response:any) {
         console.log(response.data.hasActiveRoom);

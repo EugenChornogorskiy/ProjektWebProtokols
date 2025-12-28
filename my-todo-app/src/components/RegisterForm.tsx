@@ -9,7 +9,7 @@ import { log } from 'console';
 const axios = require('axios').default;
 export function RegisterForm( { type }: any) {   
   const [registerError, setRegisterError] = useState<any >(""); 
-  const { addLogin,addToken } :any = useLogin()
+  const { addLogin,addToken,addId } :any = useLogin()
   const formik = useFormik({
       initialValues: {  
         password: '',
@@ -23,7 +23,7 @@ export function RegisterForm( { type }: any) {
         setRegisterError("");
         setSubmitting(true);   
         startTransition(() => {   
-          axios.post('http://localhost:3000/api/auth/register', {
+          axios.post('http://localhost:3000/api/users/', {
             email: values.email,
             nickname: values.nickname,
             password: values.password,
@@ -34,6 +34,7 @@ export function RegisterForm( { type }: any) {
             console.log(response) 
             addLogin(response.data.user.nickname)
             addToken(response.data.token)
+            addId(response.data.user.id)
           })
           .catch(function (error:any) {
             console.log(error) 

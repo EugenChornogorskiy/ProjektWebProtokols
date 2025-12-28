@@ -27,7 +27,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <div id="toast-modal"></div>
         <div id="business-modal"></div>
+        <div id="dashboard-modal"></div>
+        <div id="trade-modal"></div>
+        <div id="trade-request-modal"></div>
         <LoginProvider>
           {children}
         </LoginProvider>

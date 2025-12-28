@@ -4,6 +4,7 @@ import { useLogin } from "@/src/contexts/Login";
 import { useRouter } from 'next/navigation';
 import { ChooseForm } from "@/src/components/ChooseForm";
 import { GameForm } from "@/src/components/GameForm";
+import { ToastContainer } from "@/src/components/ToastContainer";
 import Link from "next/link";
 const axios = require('axios').default;
 export default function Page( ) {      
@@ -14,6 +15,7 @@ function App( ){
     const router = useRouter(); 
     const [gameStarted, setGameStarted] = useState<boolean>(false) 
     const [roomList, setRoomList] = useState<any[]>([])  
+    const [toastList, setToastList] = useState<any[]>( []);   
     useEffect(() => { 
         if (fetched) {  
             if (token) { 
@@ -45,7 +47,7 @@ function App( ){
     useEffect(() => {
         if (token) { 
             setInterval(() => {
-                axios.get('http://localhost:3000/api/room/list',{
+                axios.get('http://localhost:3000/api/room/',{
                     headers: { Authorization:  token }
                 })
                 .then(function (response:any) {
@@ -54,7 +56,7 @@ function App( ){
                 .catch(function (error:any) {
                     console.log(error );  
                 });
-            }, 5000)
+            }, 10000)
         }
     },[]) 
     return (   
@@ -73,7 +75,9 @@ function App( ){
                     </div> 
                 </header>
             </div>
-                {gameStarted ? <GameForm/> :  <ChooseForm setGameStarted={setGameStarted} roomList={roomList}/> } 
+                {gameStarted ? <GameForm addToast={(type:string,value:string) => setToastList((prev:any) => [...prev, {type,id:Date.now(),value}])}/> :  <ChooseForm setGameStarted={setGameStarted} roomList={roomList}/> } 
+                {toastList.length > 0 && <ToastContainer data={toastList} removeToast={ (id:any) => setToastList(toastList.filter((p:any) => p.id != id)) }/> }
+
         </div> 
     );
 }  

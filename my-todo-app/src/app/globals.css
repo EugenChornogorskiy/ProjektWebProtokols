@@ -313,7 +313,7 @@ header{
 }
 #content-game{
   width: 1200px;
-  height: 750px;
+  height: 900px;
   margin-top: -75px;
   margin-left: auto;
   margin-right: auto;
@@ -386,7 +386,8 @@ header{
   width: 15px;
 }
 #b-logo{
-  width: 30px;
+  max-width: 45px;
+  max-height: 45px;
 }
 #backgr-review{
   width: 100%;
@@ -425,24 +426,312 @@ header{
 }
 #review-btns{
   display: flex;
-  gap: 20px;
+  gap: 40px;
   position: absolute;
   bottom: 10px;
-  right: 30px;
+  left: 50%;
+  letter-spacing: 50%;
+  transform: translate(-50%, -50%);
 }
 #elem-info{
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 5px;
+  justify-content: center; 
+  height: 100%;
 }
 #players-pos{
   position: absolute;
   top: 50%;
-  left: 50%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
 }
 #player-images{
   display: flex;
+  gap: 0px;
+}
+#player-images img{
+  width: 45px;
+}
+#business-name{
+  font-size: 1.3em;
+  font-family: 'BoschSans-Medium'; 
+  text-align: center;
+  margin-top: 10px;
+}
+#business-group{
+  font-size: 1.4em;
+  font-family: 'BoschSans-Medium'; 
+  text-align: center;
+  margin-top: 20px;
+}
+.money{
+  color: #00ad82;
+  font-family: 'BoschSans-Medium'; 
+  margin-top: 5px;
+}
+#close-modal{
+  position: absolute;
+  right: 10px;
+  top: 10px;  
+  background-color: #002a3b;
+  color: snow;
+  border-radius: 2em;
+  width: 40px;
+  height: 40px;
+  font-size: 1.2em;
+  cursor: pointer; 
+  z-index: 1000;
+}
+.info-dropbox-dash{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  width: 100%;
+}
+.info-dropbox-name-dash{
+  display: flex; 
+  width: 90%;
+  justify-content: space-around;
+  background-color: #e0e8fa;
+  border-radius: 10px;
+  padding: 5px;
+  font-size: 1.1em;
+  user-select: none;
+  border-bottom: 2px grey solid;
+  filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.5));  
+  align-items: center;
+  font-family: 'BoschSans-Medium';
+}
+.info-dropbox-name-dash img{
+  width: 25px;
+} 
+.review{
+  padding-right: 20px;
+  padding-left: 20px;
+  margin-top: 20px;
+  padding-bottom: 20px;
+  user-select: none;
+  border-bottom: rgb(184, 184, 184) 0.3px solid;
+}
+#reviews-count{
+  font-size: 0.9em;
+  color: rgb(78, 78, 78);
+  height: 18px; 
+  display: flex;
+  align-items: center;
+}
+#review-author{
+  height: 21px;
+}
+#author{
+  display: flex; 
+  flex-direction: column;
+}
+.dashboard-creator{
+  display: flex;
   gap: 10px;
+  margin-bottom: 20px;
+}
+.dashboard-creator img{
+  width: 40px;
+}
+#scroll{
+  overflow-y: scroll;
+  box-sizing: content-box;
+  overflow-x: hidden;
+  position: absolute; 
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0; 
+  background-color: #002a3b;
+}
+#backgr-dashboard{
+  position: fixed;
+  right: 0px; 
+  top:0px;
+  width: 500px;
+  height: 100%;
+  border-radius: 20px; 
+  background-color:#002a3b;
+  z-index: 2000; 
+  filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.7));  
+  overflow: hidden;  
+}
+#your-dashboard{
+  font-size: 1.3em;
+  color: snow;
+  margin-top: 10px;
+  text-align: center;
+}
+#trade{
+  display: flex;
+  justify-content: center; 
+  height: 80%;
+}
+.property{
+  border-bottom: 1px grey solid;
+  border-radius: 10px;
+}
+.player-property{
+  overflow-y: auto;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center; 
+  position: relative;  
+  width: 175px;
+}
+.player-property img{ 
+  max-width: 90%;
+  max-height: 90%;
+}
+#deal-property{
+  display: flex;
+  gap: 10px;
+}
+#trade-form{
+  background-color:snow;
+  position: absolute;
+  top: 50%;
+  left: 50%; 
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 600px; 
+  border-radius: 20px; 
+  color:  black; 
+}
+.property{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100px;
+  width: 100%;
+  position: relative;
+  padding-top: 20px;
+}
+#nicknames{
+  display: flex;
+  justify-content: space-around;
+}
+.money-trade{
+  color: #00ad82;
+  font-family: 'BoschSans-Medium'; 
+  margin-top: 5px;
+  position: absolute;
+  top: 10px;
+}
+.trade-input input{
+  width: 100px;
+  padding: 5px; 
+  border-radius: 5px;
+  font-family: 'BoschSans-Medium'; 
+}
+.trade-input{
+  width: 100%;
+  display: flex;
+}
+.trade-input img{
+  width: 40px;
+}
+.trade-money{
+  color: #00ad82;
+  font-family: 'BoschSans-Medium'; 
+  margin-top: 5px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+.trade-part{ 
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.trade-part .login-error{ 
+  color: black;
+}
+.trade-info{ 
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 95%;
+  width: 50%;
+}
+#trade-btns{
+  display: flex;
+  justify-content: space-around;
+  margin-left: 90px;
+  margin-right: 90px;
+  color: rgb(94, 94, 94);
+  text-align: center;
+}
+.nick{
+  font-family: 'BoschSans-Medium'; 
+  font-size: 1.1em;
+}
+#total-amount{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+}
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+#total-amount p{
+  font-family: 'BoschSans-Medium'; 
+  font-size: 1.1em;
+}
+#total-btn{
+  background-color: #74d14f;
+  color: snow;
+}
+#total-close{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: rgb(241, 241, 241);
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 10px;
+}
+.check-btn{
+  border: 1px grey solid;
+  border-radius: 5px;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  padding: 2px;
+  padding-left: 5px;
+  padding-right: 5px;  
+  width: 33px;
+  height: 33px;
+}
+#toast-container{
+  position: fixed;
+  z-index: 1000;
+  right: 0px;
+  top: 20px;
+  pointer-events: none; 
+}
+#toast-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; 
+  gap: 12px;
+  pointer-events: none; 
+}
+.close-toast{
+  position: absolute;
+  right: 13px;
+  top: 10px;
+  cursor: pointer;
 }

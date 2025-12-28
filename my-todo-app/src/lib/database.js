@@ -66,6 +66,18 @@ export function initDatabase() {
       UNIQUE(player1_id, player2_id, room_id)
     )
   `); 
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS trade_requests (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      room_id INTEGER NOT NULL,
+      sender_id INTEGER NOT NULL,
+      recepient_id INTEGER NOT NULL,  
+      business_sell TEXT,
+      business_buy TEXT,
+      price_give TEXT,
+      price_get TEXT 
+    )
+  `); 
 }
 initDatabase()
 export default db;

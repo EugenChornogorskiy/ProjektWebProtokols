@@ -8,7 +8,7 @@ import { useLogin } from '../contexts/Login';
 const axios = require('axios').default;
 export function LoginForm( {type }: any) {   
   const [loginError, setLoginError] = useState<string >("");
-  const { addLogin,addToken } :any = useLogin()
+  const { addLogin,addToken,addId } :any = useLogin()
   const router = useRouter(); 
   const formik = useFormik({
       initialValues: { 
@@ -28,6 +28,7 @@ export function LoginForm( {type }: any) {
             console.log(response.data);
             addLogin(response.data.user.nickname)
             addToken(response.data.token)
+            addId(response.data.user.id)
           })
           .catch(function (error:any) {
             console.log(error);

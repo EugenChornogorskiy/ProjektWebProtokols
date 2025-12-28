@@ -2,15 +2,23 @@
 import { LoginForm } from "@/src/components/LoginForm"
 import { RegisterForm } from "@/src/components/RegisterForm";    
 import { useParams } from 'next/navigation';
-import Link from "next/link";
-import Image from 'next/image' 
-
+import Link from "next/link"; 
+import { useEffect } from "react";
+import { useLogin } from "@/src/contexts/Login";
+import { useRouter } from "next/navigation";
 export default function Page( ) {    
   const params = useParams();
   const type = params.type as string 
   return <App type={type}/>; 
 }   
-function App({type}:any ){   
+function App({type}:any ){  
+  const {token}:any = useLogin()
+  const router = useRouter(); 
+  useEffect(() => {
+    if (token) {
+      router.push('/game')
+    } 
+  },[token])
     return (   
       
         <div id="create-background" style={{display: "flex",flexDirection:"column"}}> 

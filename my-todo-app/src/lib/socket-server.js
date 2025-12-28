@@ -3,6 +3,7 @@ import db from '@/src/lib/database';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import jwt from 'jsonwebtoken'; 
+import { error } from 'console';
 const server = createServer();
 const io = new Server(server, {
   cors: {
@@ -72,67 +73,75 @@ function movePlayer(currentPos, steps, start = false) {
 }
 const BUSINESS_GROUPS = [
   {
-    name: 'Social medias',
+    name: 'Perfume',
     businesses: [
-      { name: 'Facebook', basePrice: 200, baseProfit: 50 },
-      { name: 'Instagram', basePrice: 180, baseProfit: 45 },
-      { name: 'Telegram', basePrice: 150, baseProfit: 40 }
+      { name: 'Chanel', basePrice: 300, baseProfit: 200 },
+      { name: 'Dior', basePrice: 400, baseProfit: 250 },
+      { name: 'Gucci', basePrice: 500, baseProfit: 300 }
     ]
   },
   {
-    name: 'Perfume',
+    name: 'Social medias',
     businesses: [
-      { name: 'Chanel', basePrice: 300, baseProfit: 60 },
-      { name: 'Dior', basePrice: 280, baseProfit: 55 },
-      { name: 'Gucci', basePrice: 250, baseProfit: 50 }
+      { name: 'Facebook', basePrice: 700, baseProfit: 400 },
+      { name: 'Instagram', basePrice: 800, baseProfit: 500 },
+      { name: 'Telegram', basePrice: 1000, baseProfit: 600 }
     ]
-  },
+  }, 
   {
     name: 'Air lines',
     businesses: [
-      { name: 'Ryanair', basePrice: 400, baseProfit: 70 },
-      { name: 'Wizz Air', basePrice: 350, baseProfit: 65 },
-      { name: 'Lufthansa', basePrice: 500, baseProfit: 80 }
+      { name: 'Ryanair', basePrice: 1200, baseProfit: 800 },
+      { name: 'Wizz Air', basePrice: 1400, baseProfit: 900 },
+      { name: 'Lufthansa', basePrice: 1600, baseProfit: 1000 }
     ]
   },
   {
     name: 'Hotels',
     businesses: [
-      { name: 'Hilton', basePrice: 600, baseProfit: 90 },
-      { name: 'Marriott', basePrice: 550, baseProfit: 85 },
-      { name: 'Sheraton', basePrice: 500, baseProfit: 80 }
+      { name: 'Hilton', basePrice: 1900, baseProfit: 1200 },
+      { name: 'Marriott', basePrice: 2100, baseProfit: 1300 },
+      { name: 'Sheraton', basePrice: 2300, baseProfit: 1400 }
     ]
   },
   {
     name: 'Cars',
     businesses: [
-      { name: 'Tesla', basePrice: 700, baseProfit: 100 },
-      { name: 'Toyota', basePrice: 400, baseProfit: 70 },
-      { name: 'BMW', basePrice: 650, baseProfit: 95 }
+      { name: 'Tesla', basePrice: 2500, baseProfit: 1600 },
+      { name: 'Toyota', basePrice: 2700, baseProfit: 1700 },
+      { name: 'BMW', basePrice: 2900, baseProfit: 1800 }
     ]
   },
   {
     name: 'Technology',
     businesses: [
-      { name: 'Apple', basePrice: 800, baseProfit: 110 },
-      { name: 'Samsung', basePrice: 450, baseProfit: 75 },
-      { name: 'Microsoft', basePrice: 750, baseProfit: 105 }
+      { name: 'Apple', basePrice: 3200, baseProfit: 2000 },
+      { name: 'Samsung', basePrice: 3500, baseProfit: 2100 },
+      { name: 'Microsoft', basePrice: 3700, baseProfit: 2200 }
     ]
   },
   {
     name: 'Shops',
     businesses: [
-      { name: 'Walmart', basePrice: 350, baseProfit: 65 },
-      { name: 'Amazon', basePrice: 850, baseProfit: 115 },
-      { name: 'eBay', basePrice: 300, baseProfit: 60 }
+      { name: 'Walmart', basePrice: 4000, baseProfit: 2400 },
+      { name: 'Amazon', basePrice: 4200, baseProfit: 2500 },
+      { name: 'eBay', basePrice: 4300, baseProfit: 2600 }
     ]
   },
   {
     name: 'Drinks',
     businesses: [
-      { name: 'Coca-Cola', basePrice: 500, baseProfit: 80 },
-      { name: 'Pepsi', basePrice: 450, baseProfit: 75 },
-      { name: 'Starbucks', basePrice: 400, baseProfit: 70 }
+      { name: 'Coca-Cola', basePrice: 4500, baseProfit: 2800 },
+      { name: 'Pepsi', basePrice: 4700, baseProfit: 3000 },
+      { name: 'Starbucks', basePrice: 4800, baseProfit: 3200 }
+    ]
+  },
+  {
+    name: 'Fast-food',
+    businesses: [
+      { name: 'Mac-donalds', basePrice: 5000, baseProfit: 3400 },
+      { name: 'KFC', basePrice: 5200, baseProfit: 3600 },
+      { name: 'Burger King', basePrice: 5400, baseProfit: 3800 }
     ]
   }
 ];
@@ -174,8 +183,8 @@ function generateBusinessBoard() {
         type: 'b',
         name: business.name,
         group: group.name,
-        price: business.basePrice + Math.floor(Math.random() * 100),
-        profit: business.baseProfit + Math.floor(Math.random() * 30)
+        price: business.basePrice ,
+        profit: business.baseProfit 
       };
       
       positionIndex++;
@@ -208,45 +217,47 @@ function handleRandomEvent(player) {
   const random = Math.random();
   
   if (random < 0.2) { 
-    const amount = Math.floor(Math.random() * 300) + 100; 
+    const amount = player.property.reduce((acc,curr) => {
+      return acc+curr.profit
+    },0); 
     return {
       type: 'ec',
-      message: `Податок: -${amount}₴`,
+      message: `Player ${player.name} must pay tax: -${Math.floor(amount*0.3)}$`,
       amount: -amount
     };
   } else if (random < 0.4) { 
-    const amount = Math.floor(Math.random() * 200) + 50; 
+    const amount = 500; 
     return {
       type: 'ec',
-      message: `Штраф: -${amount}₴`,
+      message: `Player ${player.name} must pay fine: -${amount}$`,
       amount: -amount
     };
   } else if (random < 0.5) { 
-    const amount = Math.floor(Math.random() * 400) + 150; 
+    const amount = 1000; 
     return {
       type: 'ec',
-      message: `Ремонт: -${amount}₴`,
+      message: `Player ${player.name} need repair a car: -${amount}$`,
       amount: -amount
     };
   } else if (random < 0.6) { 
-    const amount = Math.floor(Math.random() * 500) + 100; 
+    const amount = 1000; 
     return {
       type: 'win',
-      message: `Виграш у лотереї: +${amount}₴`,
+      message: `Player ${player.name} won a lotery: +${amount}$`,
       amount: amount
     };
   } else if (random < 0.7) { 
-    const amount = Math.floor(Math.random() * 300) + 100; 
+    const amount = 500; 
     return {
       type: 'win',
-      message: `Несподіваний дохід: +${amount}₴`,
+      message: `Player ${player.name} earn unexpected income: +${amount}$`,
       amount: amount
     };
   } else if (random < 1) { 
-    const amount = Math.floor(Math.random() * 400) + 100; 
+    const amount = 1500; 
     return {
       type: 'ec',
-      message: `Форс-мажор: -${amount}₴`,
+      message: `Player ${player.name} has Fors-major: -${amount}$`,
       amount: -amount
     };
   } 
@@ -328,7 +339,7 @@ io.on('connection', (socket) => {
 
       let gameStatus = 'waiting';
       let gameExist
-      const playersInfo = updatedPlayers.map(p => {return ({id: p.id,nickname: p.nickname, money: 10000, property: [], position:{x:0,y:0}})})
+      const playersInfo = updatedPlayers.map(p => {return ({id: p.id,nickname: p.nickname, money: 10000, property: [], position:{x:0,y:0} })})
       if (updatedPlayers.length === 2) {
         gameStatus = 'started'; 
         const board = generateBusinessBoard()
@@ -351,7 +362,7 @@ io.on('connection', (socket) => {
             turn: game.player_turn,
             players: [JSON.parse(game.player1_info), JSON.parse(game.player2_info)],
             playerCount: updatedPlayers.length ,
-            gameStatus: game.gameStatus,
+            gameStatus: game.game_status,
             gameBoard: JSON.parse(game.game_board)
           });  
         }  
@@ -384,174 +395,8 @@ io.on('connection', (socket) => {
     }
   }); 
   socket.on('throwBones', (data,callback) => {
-    let userId
-    try {
-      const decoded = jwt.verify(data.token, 'secret123');
-      userId = decoded.userId;  
-    } catch (err) { 
-      callback({
-        success: false,
-        error: 'Server error'
-      });
-    }
-    const roomCode = data.room
-    const room = db.prepare(`
-        SELECT r.* FROM rooms r
-        Where room_code = ?
-    `).get(roomCode); 
-    const game = db.prepare(`
-          SELECT * FROM game 
-          Where room_id = ?
-    `).get(room.id); 
-    const number = Math.floor(Math.random() * 12) + 1;
-    const board = JSON.parse(game.game_board)
-    let player
-    let turn
-    if (game.player1_id == userId) {
-      player = JSON.parse(game.player1_info) 
-      turn = game.player2_id
-    }
-    else{
-      player = JSON.parse(game.player2_info) 
-      turn = game.player1_id
-    }  
-    const players = [JSON.parse(game.player1_info), JSON.parse(game.player2_info)]
-    const position = movePlayer(player.position, number)  
-    player.position = {x:position.x,y:position.y}
-    let gameStatus = "started" 
-    if (position.passedStart) {
-      const income = player.property.reduce((acc,curr) => {
-        return acc+curr.profit
-      },0)
-      player.money = player.money + income
-    } 
-    let turnEnd = true
-    let businessOwner
-    if (board[player.position.x][player.position.y].type == "b") {
-      const arleadyIn = players.find(p => p.property.some(pr => pr.name == board[player.position.x][player.position.y].name))
-      if (arleadyIn && arleadyIn.id != player.id) {
-        businessOwner = arleadyIn
-        const business = arleadyIn.property.find(p => p.name == board[player.position.x][player.position.y].name)
-        player.money - business.profit < 0  ?  gameStatus = "finished" : gameStatus = "started" 
-        player.money = player.money - business.profit
-        businessOwner.money = businessOwner.money + business.profit
-      }
-      else if(!arleadyIn){
-        turnEnd = false
-        player.property = [...player.property, {name:board[player.position.x][player.position.y].name, status:"in process"}]
-        const updatedPlayers = players.map(p => {
-          return p.id == player.id  ? player : p
-        })
-        db.prepare(`
-              UPDATE game
-              SET player1_info = ?, player2_info = ?, player_turn = ?, game_status = ?
-              WHERE room_id = ?
-        `).run(JSON.stringify(updatedPlayers[0]),JSON.stringify(updatedPlayers[1]),turn,gameStatus,room.id); 
-        io.to(socket.id).emit('businessBuy', {
-          player: player,
-          business: board[player.position.x][player.position.y] 
-        }); 
-      }  
-    } 
-    if (board[player.position.x][player.position.y].type == "r") { 
-      const amount = handleRandomEvent(player).amount
-      player.money + amount < 0  ?  gameStatus = "finished" : gameStatus = "started" 
-      player.money = player.money + amount
-    } 
-    const updatedPlayers = players.map(p => {
-      if (businessOwner) {
-        return p.id == player.id  ? player : p.id == businessOwner.id ? businessOwner : p
-      }
-      return p.id == player.id  ? player : p 
-    })
-    db.prepare(`
-          UPDATE game
-          SET player1_info = ?, player2_info = ?, player_turn = ?, game_status = ?
-          WHERE room_id = ?
-    `).run(JSON.stringify(updatedPlayers[0]),JSON.stringify(updatedPlayers[1]),turn,gameStatus,room.id); 
-    if (gameStatus == "finished") {
-      io.to(roomCode).emit('finish', {
-        winner: turn,
-        gameStatus: gameStatus
-      }); 
-    }
-    else if(turnEnd){
-      io.to(roomCode).emit('end-turn', {
-        turn: turn,
-        players: updatedPlayers,
-        playerCount: updatedPlayers.length ,
-        gameStatus: gameStatus,
-        gameBoard: JSON.parse(game.game_board)
-      }); 
-    } 
-    callback({
-      success: true,
-      players: updatedPlayers,
-      distance: number
-    } )
-  })
-  socket.on('buyDecision', (data ) => {
-    let userId
-    try {
-        const decoded = jwt.verify(data.token, 'secret123');
-        userId = decoded.userId;  
-    } catch (err) {  
-        console.log(err); 
-    }
-    if (data.decision) { 
-      const roomCode = data.room
-      const room = db.prepare(`
-          SELECT r.* FROM rooms r
-          Where room_code = ?
-      `).get(roomCode); 
-      const game = db.prepare(`
-            SELECT * FROM game 
-            Where room_id = ?
-      `).get(room.id);   
-      let player
-      let turn
-      if (game.player1_id == userId) {
-        player = JSON.parse(game.player1_info) 
-        turn = game.player2_id
-      }
-      else{
-        player = JSON.parse(game.player2_info) 
-        turn = game.player1_id
-      }  
-      let gameStatus = "started"
-      const realPlayer = player.property.find(p => p.name == data.business.name)
-      if (realPlayer) {
-        if (data.decision && player.money > data.business.price) {
-          player.property = player.property.map(pr => {
-            return pr.name == data.business.name ? {name:data.business.name, profit: data.business.profit, group:data.business.group, status:"in property"} : pr
-          }),  
-          player.money - data.business.price < 0  ?  gameStatus = "finished" : gameStatus = "started"
-          player.money = player.money - data.business.price 
-          if (player.property.filter(p => p.group == data.business.group).length == 3) {
-            player.property = player.property.map(p => {
-              return {...p, profit: p.profit*2 }
-            })
-          }
-        }
-      } 
-      const players = [JSON.parse(game.player1_info), JSON.parse(game.player2_info)]
-      const updatedPlayers = players.map(p => {
-        return p.id == player.id  ? player : p
-      })
-      db.prepare(`
-          UPDATE game
-          SET player1_info = ?, player2_info = ?, player_turn = ?, game_status = ?
-          WHERE room_id = ?
-      `).run(JSON.stringify(updatedPlayers[0]), JSON.stringify(updatedPlayers[1]), turn, gameStatus, room.id); 
-      io.to(roomCode).emit('end-turn', {
-        turn: turn,
-        players: updatedPlayers,
-        playerCount: updatedPlayers.length ,
-        gameStatus: gameStatus,
-        gameBoard: JSON.parse(game.game_board)
-      }); 
-    } 
-    else{ 
+    try{
+      const userId = socket.userId; 
       const roomCode = data.room
       const room = db.prepare(`
           SELECT r.* FROM rooms r
@@ -561,6 +406,9 @@ io.on('connection', (socket) => {
             SELECT * FROM game 
             Where room_id = ?
       `).get(room.id); 
+      console.log(room,game);
+      const number = Math.floor(Math.random() * 12) + 1;
+      const board = JSON.parse(game.game_board)
       let player
       let turn
       if (game.player1_id == userId) {
@@ -571,15 +419,377 @@ io.on('connection', (socket) => {
         player = JSON.parse(game.player2_info) 
         turn = game.player1_id
       }  
-      const updatedPlayers = [JSON.parse(game.player1_info),JSON.parse(game.player2_info) ]
-      io.to(roomCode).emit('end-turn', {
-        turn: turn,
+      console.log(player,turn);
+      const players = [JSON.parse(game.player1_info), JSON.parse(game.player2_info)]
+      const position = movePlayer(player.position, number)  
+      player.position = {x:position.x,y:position.y}
+      console.log(player.position);
+      
+      let gameStatus = "started" 
+      if (position.passedStart) {
+        const income = player.property.reduce((acc,curr) => {
+          return acc+curr.profit
+        },0)
+        player.money = player.money + income
+      } 
+      let turnEnd = true
+      let businessOwner
+      let message
+      if (board[player.position.x][player.position.y].type == "b") {
+        const arleadyIn = players.find(p => p.property.some(pr => pr.name == board[player.position.x][player.position.y].name))
+        if (arleadyIn && arleadyIn.id != player.id) {
+          businessOwner = arleadyIn
+          const business = arleadyIn.property.find(p => p.name == board[player.position.x][player.position.y].name)
+          player.money - business.profit < 0  ?  gameStatus = "finished" : gameStatus = "started" 
+          player.money = player.money - business.profit
+          businessOwner.money = businessOwner.money + business.profit
+          message = `${player.nickname} stand on ${arleadyIn.nickname} business`
+        }
+        else if(!arleadyIn){
+          turnEnd = false
+          player.property = [...player.property, {name:board[player.position.x][player.position.y].name, status:"in process"}]
+          const updatedPlayers = players.map(p => {
+            return p.id == player.id  ? player : p
+          })
+          message = `${player.nickname} can buy ${board[player.position.x][player.position.y].name} business`
+          db.prepare(`
+                UPDATE game
+                SET player1_info = ?, player2_info = ?, player_turn = ?, game_status = ?
+                WHERE room_id = ?
+          `).run(JSON.stringify(updatedPlayers[0]),JSON.stringify(updatedPlayers[1]),turn,gameStatus,room.id); 
+          io.to(socket.id).emit('businessBuy', {
+            player: player,
+            business: board[player.position.x][player.position.y] 
+          }); 
+        }  
+      } 
+      if (board[player.position.x][player.position.y].type == "r") { 
+        const event = handleRandomEvent(player) 
+        const amount = event.amount
+        player.money + amount < 0  ?  gameStatus = "finished" : gameStatus = "started" 
+        player.money = player.money + amount
+        message = event.message
+      } 
+      const updatedPlayers = players.map(p => {
+        if (businessOwner) {
+          return p.id == player.id  ? player : p.id == businessOwner.id ? businessOwner : p
+        }
+        return p.id == player.id  ? player : p 
+      })
+      console.log(updatedPlayers);
+      db.prepare(`
+            UPDATE game
+            SET player1_info = ?, player2_info = ?, player_turn = ?, game_status = ?
+            WHERE room_id = ?
+      `).run(JSON.stringify(updatedPlayers[0]),JSON.stringify(updatedPlayers[1]),turn,gameStatus,room.id); 
+      console.log(turnEnd);
+      
+      if (gameStatus == "finished") {
+        io.to(roomCode).emit('finish', {
+          winner: turn,
+          gameStatus: gameStatus,
+          players: updatedPlayers
+        }); 
+      }
+      else if(turnEnd){
+        io.to(roomCode).emit('end-turn', {
+          turn: turn,
+          players: updatedPlayers,
+          playerCount: updatedPlayers.length ,
+          gameStatus: gameStatus,
+          gameBoard: JSON.parse(game.game_board),
+          message: message
+        }); 
+      } 
+      callback({
+        success: true,
         players: updatedPlayers,
-        playerCount: updatedPlayers.length ,
-        gameStatus: game.gameStatus,
-        gameBoard: JSON.parse(game.game_board)
-      }); 
+        distance: number
+      } )
     }
+    catch (err){
+      console.log(err); 
+      callback({ 
+        success: false,
+        error: 'Server error'
+      });
+    } 
+  })
+  socket.on('buyDecision', (data,callback ) => {
+    try{
+      const userId = socket.userId;
+      if (data.decision) { 
+        const roomCode = data.room
+        const room = db.prepare(`
+            SELECT r.* FROM rooms r
+            Where room_code = ?
+        `).get(roomCode); 
+        const game = db.prepare(`
+              SELECT * FROM game 
+              Where room_id = ?
+        `).get(room.id);   
+        let player
+        let turn
+        if (game.player1_id == userId) {
+          player = JSON.parse(game.player1_info) 
+          turn = game.player2_id
+        }
+        else{
+          player = JSON.parse(game.player2_info) 
+          turn = game.player1_id
+        }  
+        let gameStatus = "started"
+        const realPlayer = player.property.find(p => p.name == data.business.name)
+        if (realPlayer) {
+          if (data.decision && player.money > data.business.price) {
+            player.property = player.property.map(pr => {
+              return pr.name == data.business.name ? {name:data.business.name, profit: data.business.profit, group:data.business.group, status:"in property"} : pr
+            }),  
+            player.money - data.business.price < 0  ?  gameStatus = "finished" : gameStatus = "started"
+            player.money = player.money - data.business.price 
+            if (player.property.filter(p => p.group == data.business.group).length == 3) {
+              player.property = player.property.map(p => {
+                return {...p, profit: p.profit*2 }
+              })
+            }
+          }
+        } 
+        const players = [JSON.parse(game.player1_info), JSON.parse(game.player2_info)]
+        const updatedPlayers = players.map(p => {
+          return p.id == player.id  ? player : p
+        })
+        db.prepare(`
+            UPDATE game
+            SET player1_info = ?, player2_info = ?, player_turn = ?, game_status = ?
+            WHERE room_id = ?
+        `).run(JSON.stringify(updatedPlayers[0]), JSON.stringify(updatedPlayers[1]), turn, gameStatus, room.id); 
+        io.to(roomCode).emit('end-turn', {
+          turn: turn,
+          players: updatedPlayers,
+          playerCount: updatedPlayers.length ,
+          gameStatus: gameStatus,
+          gameBoard: JSON.parse(game.game_board)
+        }); 
+        callback({
+          success: true, 
+        });
+      } 
+      else{ 
+        const roomCode = data.room
+        const room = db.prepare(`
+            SELECT r.* FROM rooms r
+            Where room_code = ?
+        `).get(roomCode); 
+        const game = db.prepare(`
+              SELECT * FROM game 
+              Where room_id = ?
+        `).get(room.id); 
+        let player
+        let turn
+        if (game.player1_id == userId) {
+          player = JSON.parse(game.player1_info) 
+          turn = game.player2_id
+        }
+        else{
+          player = JSON.parse(game.player2_info) 
+          turn = game.player1_id
+        }  
+        const updatedPlayers = [JSON.parse(game.player1_info),JSON.parse(game.player2_info) ]
+        io.to(roomCode).emit('end-turn', {
+          turn: turn,
+          players: updatedPlayers,
+          playerCount: updatedPlayers.length ,
+          gameStatus: game.gameStatus,
+          gameBoard: JSON.parse(game.game_board)
+        }); 
+        callback({
+          success: true, 
+        });
+      }
+    }
+    catch(err){
+      console.log(err); 
+      callback({
+        success: false,
+        error: 'Server error'
+      });
+    } 
+  })
+  socket.on('tradeRequest', (data,callback ) => {
+    try {
+      const userId = data.senderId 
+      const recepientId = data.recepientId 
+      const businessSell = data.businessSell
+      const businessBuy = data.businessBuy
+      const roomCode = data.room
+      const room = db.prepare(`
+            SELECT r.* FROM rooms r
+            Where room_code = ?
+      `).get(roomCode); 
+      const game = db.prepare(`
+              SELECT * FROM game 
+              Where room_id = ?
+      `).get(room.id);    
+      let user 
+      let recepient
+      if (game.player1_id == userId) {
+        user = JSON.parse(game.player1_info) 
+        recepient = JSON.parse(game.player2_info) 
+      }
+      else{
+        user = JSON.parse(game.player2_info) 
+        recepient = JSON.parse(game.player1_info) 
+      }   
+      const businessSellExist = businessSell.every(b => user.property.some(rb => rb.name == b.name))
+      if (!businessSellExist) {
+        callback({
+            success: false,  
+            error: "Business not found"
+        } )
+      }
+      const businessBuyExist = businessBuy.every(b => recepient.property.some(rb => rb.name == b.name))
+      if (!businessBuyExist) {
+        callback({
+            success: false  ,
+            error: "Business not found"
+        } )
+      }
+      if (recepient.money < data.priceGet) {
+        callback({
+          success: false,  
+          error: "Not enough money"
+        } )
+      }
+      if (user.money < data.priceGive) {
+        callback({
+          success: false,  
+          error: "Not enough money"
+        } )
+      } 
+      const trade = db.prepare(`
+            INSERT INTO trade_requests (room_id, sender_id, recepient_id, business_sell, business_buy, price_give, price_get)
+            VALUES (?,?,?,?,?,?,?) 
+      `).run(room.id, user.id, recepient.id, JSON.stringify(businessSell),JSON.stringify(businessBuy) , data.priceGive, data.priceGet); 
+        console.log(trade.lastInsertRowid,user.id,recepient.id,businessSell,businessBuy,data.priceGive, data.priceGet);
+        
+      io.to(roomCode).emit('trade', {
+        tradeId: trade.lastInsertRowid,
+        senderId: user.id,
+        recepientId: recepient.id,
+        businessSell: businessSell,
+        businessBuy: businessBuy,
+        priceGive: data.priceGive,
+        priceGet: data.priceGet
+      }) 
+      callback({
+          success: true 
+      } )
+    }
+    catch(err){
+      console.log(err); 
+      callback({
+        success: false,
+        error: 'Server error'
+      });
+    } 
+  } )
+  socket.on('tradeDecision', (data,callback ) => { 
+    try {
+      const tradeId = data.tradeId
+      const userId = data.senderId 
+      const recepientId = data.recepientId 
+      const businessSell = data.businessSell
+      const businessBuy = data.businessBuy
+      const roomCode = data.room
+      const room = db.prepare(`
+            SELECT r.* FROM rooms r
+            Where room_code = ?
+      `).get(roomCode); 
+      const game = db.prepare(`
+              SELECT * FROM game 
+              Where room_id = ?
+      `).get(room.id);   
+      const trade = db.prepare(`
+              SELECT * FROM trade_requests
+              Where id = ?
+      `).get(tradeId);    
+      if (trade.sender_id != userId || trade.recepient_id != recepientId || JSON.stringify(JSON.parse(trade.business_sell)) !== JSON.stringify(businessSell) || JSON.stringify(JSON.parse(trade.business_buy)) !== JSON.stringify(businessBuy) || trade.price_give != data.priceGive || trade.price_get != data.priceGet) {
+        callback({
+          success: false  
+        } )
+      }
+      if (!data.decision){
+        let user 
+        let recepient
+        if (game.player1_id == userId) {
+          user = JSON.parse(game.player1_info) 
+          recepient = JSON.parse(game.player2_info)
+        }
+        else{
+          user = JSON.parse(game.player2_info) 
+          recepient = JSON.parse(game.player1_info) 
+        }    
+        db.prepare(`
+                DELETE FROM trade_requests
+                Where id = ?
+        `).run(tradeId);   
+        const players = [JSON.parse(game.player1_info), JSON.parse(game.player2_info)]
+        io.to(roomCode).emit('tradeDone', { 
+          message: `Trade from ${user.nickname} is declined by ${recepient.nickname}`,
+          players: players
+        }) 
+        callback({
+          success: true 
+        } ) 
+      }
+      else{ 
+        let user 
+        let recepient
+        if (game.player1_id == userId) {
+          user = JSON.parse(game.player1_info) 
+          recepient = JSON.parse(game.player2_info)
+        }
+        else{
+          user = JSON.parse(game.player2_info) 
+          recepient = JSON.parse(game.player1_info) 
+        }    
+        user.property = [...user.property, ...businessBuy]
+        user.property = user.property.filter(p => !businessSell.some(bs => bs.name == p.name))
+        recepient.property = [...recepient.property, ...businessSell]
+        recepient.property = recepient.property.filter(p => !businessBuy.some(bs => bs.name == p.name))
+        user.money = user.money + data.priceGet
+        user.money = user.money - data.priceGive
+        recepient.money = recepient.money + data.priceGive
+        recepient.money = recepient.money - data.priceGet
+        const players = [JSON.parse(game.player1_info), JSON.parse(game.player2_info)]
+        const updatedPlayers = players.map(p => {
+          return p.id == user.id  ? user : p.id == recepient.id ? recepient : p
+        })
+        db.prepare(`
+            UPDATE game
+            SET player1_info = ?, player2_info = ?, player_turn = ?, game_status = ?
+            WHERE room_id = ?
+        `).run(JSON.stringify(updatedPlayers[0]), JSON.stringify(updatedPlayers[1]), game.player_turn, game.game_status, room.id); 
+        const message = (businessBuy.length > 0 && businessSell.length > 0) ? `${user.nickname} get ${data.priceGet} and ${businessBuy.map(b => b.name).join(', ')}. ${recepient.nickname} get ${data.priceGive} and ${businessSell.map(b => b.name).join(', ')}.` : 
+        businessBuy.length > 0 ? `${user.nickname} get ${data.priceGet} and ${businessBuy.map(b => b.name).join(', ')}. ${recepient.nickname} get ${data.priceGive}.` : businessSell.length > 0 ? `${user.nickname} get ${data.priceGet}. ${recepient.nickname} get ${data.priceGive} and ${businessSell.map(b => b.name).join(', ')}.` :
+        `${user.nickname} get ${data.priceGet}. ${recepient.nickname} get ${data.priceGive}.`
+        db.prepare(`
+                DELETE FROM trade_requests
+                Where id = ?
+        `).run(tradeId);  
+        io.to(roomCode).emit('tradeDone', { 
+          message: message,
+          players: updatedPlayers
+        }) 
+      } 
+    }
+    catch(err){
+      console.log(err); 
+      callback({ 
+        success: false,
+        error: 'Server error'
+      });
+    } 
   })
   socket.on('leave-room', () => {
     if (socket.roomCode) {

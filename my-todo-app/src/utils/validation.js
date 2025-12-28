@@ -55,3 +55,17 @@ export const codeValidationSchema = yup.object({
     .string()  
     .required('Code is required'), 
 });
+export const tradeValidationSchema = yup.object({ 
+  priceGive: yup
+    .number()
+    .typeError("Money must be a number") 
+    .min(0, "Money must be ≥ 0")
+    .max(4000, "Money must be ≤ 4000")
+    .required("Money is required"), 
+  priceGet: yup
+    .number()
+    .typeError("Money must be a number") 
+    .min(0, "Money must be ≥ 0")
+    .max(4000, "Money must be ≤ 4000")
+    .required("Money is required"), 
+});

@@ -12,7 +12,19 @@ export function Review( { business, onClose, socket} : any) {
     onClose()
   }
   return (  
-  <div id="review-form">   
+  <div id="review-form">  
+    <p id="business-group">{business.group}</p>
+    <p id="business-name">{business.name}</p> 
+    <div>
+      <div>
+        <p>Price:</p>
+        <p>{business.price}</p>
+      </div>
+      <div>
+        <p>Profit:</p>
+        <p>{business.profit}</p>
+      </div>
+    </div>
     <div id="review-btns">
       <button type='button' className="cencel-review" onClick={() => noBuy() }>Cencel</button> 
       <button type='button' className="cencel-review" onClick={() => buy()}>Buy</button> 

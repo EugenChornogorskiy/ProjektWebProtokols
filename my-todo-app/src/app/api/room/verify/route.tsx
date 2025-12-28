@@ -29,9 +29,9 @@ export async function GET(request: Request) {
       LIMIT 1
     `).get(userId);
     const playerInRoom = db.prepare(`
-      SELECT * FROM game_players
-      WHERE user_id = ?
-    `).get(userId);
+      SELECT * FROM game
+      WHERE player1_id = ? OR player2_id = ?
+    `).get(userId,userId);
     if (activeRoom) {
       return NextResponse.json({
         hasActiveRoom: true,

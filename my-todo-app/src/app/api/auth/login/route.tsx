@@ -28,7 +28,7 @@ export async function POST(request: Request) {
       WHERE user_id = ? 
     `).get(user.id );
     if (ses) {
-      return NextResponse.json({token:ses.token , user: {nickname: user.nickname, email:user.email, name:user.name,surname:user.surname }})
+      return NextResponse.json({token:ses.token , user: {id: user.id, nickname: user.nickname, email:user.email, name:user.name,surname:user.surname }})
     }
     const token = jwt.sign(
       { userId: user.lastInsertRowid , email: user.email },
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
       INSERT INTO sessions (token, user_id, expires_at)
       VALUES (?,?,?)
     `).run(token, user.id, new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()); 
-    return NextResponse.json({token:session.token , user: {nickname: user.nickname, email:user.email, name:user.name,surname:user.surname }}) 
+    return NextResponse.json({token:session.token , user: {id: user.id,nickname: user.nickname, email:user.email, name:user.name,surname:user.surname }}) 
   }
   catch(error){
     console.error('Login error:', error);

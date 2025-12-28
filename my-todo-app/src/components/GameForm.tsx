@@ -2,16 +2,20 @@ import { useState, startTransition,useEffect  } from 'react';
 import { useRouter } from 'next/navigation'; 
 import { useLogin } from '../contexts/Login'; 
 import { ReviewModal } from './ReviewModal';
+import { TradeModal } from './TradeModal';
+import { TradeRequestModal } from './TradeRequestModal';
 import io from 'socket.io-client';
-export function GameForm( { }: any) {   
+export function GameForm( { addToast }: any) {   
   const [gameBoard, setGameBoard] = useState<any[]>([])   
   const [players, setPlayers] = useState<any[]>([]);
   const [gameStatus, setGameStatus] = useState<'waiting' | 'started'>('waiting'); 
   const [error, setError] = useState('');
-  const {token,roomCode,loaded,login}:any = useLogin() 
+  const {token,roomCode,loaded,login,id}:any = useLogin() 
   const router = useRouter(); 
   const [roomC, setRoomC] = useState<any>(null);
   const [myTurn, setMyTurn] = useState<boolean>(false);
+  const [ trade, setTrade] = useState<any>(null);
+  const [tradeRequest, setTradeRequest] = useState<any>(null);
   const [buyBusiness, setBuyBusiness] = useState<any>({buy:false, business: null});
   const [money, setMoney] = useState<number>(0);
   const [property, setProperty] = useState<string[]>([]);
@@ -58,9 +62,13 @@ export function GameForm( { }: any) {
       socketInstance.on('game-started', (data: any) => {
         setGameStatus(data.gameStatus) 
         setGameBoard(data.gameBoard)
+        setPlayers(data.players)
         const player = data.players.filter((p:any) => p.nickname == login)
         console.log(data.players,login);
-        
+        if (player.length > 0) {
+          setMoney(player[0].money) 
+          setProperty(player[0].property) 
+        }
         if (data.turn == player[0].id) {  
           setMyTurn(true)
         }
@@ -73,6 +81,7 @@ export function GameForm( { }: any) {
         setPlayers(data.players)
         setMoney(player[0].money)
         setProperty(player[0].property) 
+        addToast("info",data.message)
         if (data.turn == player[0].id) {  
           setMyTurn(true)
         }
@@ -87,19 +96,36 @@ export function GameForm( { }: any) {
           setWinner(true)
         }  
       })
-      socketInstance.on('businessBuy', (data: any) => {  
-        const player = players.filter((p:any) => p.id == data.player.id) 
-        if (player) {
-          setBuyBusiness({buy:true,business:data.business})
+      socketInstance.on('businessBuy', (data: any) => {
+        console.log('businessBuy event:', data);
+
+        if (id === data.player.id) {
+          setBuyBusiness({
+            buy: true,
+            business: data.business
+          });
         }
-      })
+      });
+      socketInstance.on('trade', (data: any) => {
+        console.log('trade event:', data,data.recepientId, id);
+        console.log(data.recepientId == id);
+        
+        if (data.recepientId == id) {
+          setTradeRequest(data);
+        }
+      });
+      socketInstance.on('tradeDone', (data: any) => { 
+        setPlayers(data.players)
+        addToast("info",data.message) 
+      });
   } 
   
   },[ loaded]) 
   console.log(players);
   console.log(gameStatus);
-  console.log(gameBoard)
+  console.log(tradeRequest)
   const throwBones = () => {
+    setMyTurn(false)
     socket.emit('throwBones', { token:token,room:roomCode }, (response : any) => {
       if (response.success) {
         setTurnDistance(response.distance ) 
@@ -140,11 +166,11 @@ export function GameForm( { }: any) {
             <div id="player-list">
               {players.map(p => {
                 return (
-                  <div key={p.id} id="player-game">
+                  <div key={p.id} id="player-game" onClick={() => setTrade(p )}>
                     <div id="player">
                       <img src="/UserCircle.svg" alt="" /><p>{p.nickname}</p>
                     </div>
-                    <p>{p.money}</p>
+                    <p className="money">{p.money}</p>
                   </div> 
                 )
               })}
@@ -156,13 +182,12 @@ export function GameForm( { }: any) {
                 return (
                   <div key={index1} id="board-part" >
                      {b.map((n:any,index:number) => {
-                      const playersP = players.filter(p => p.position.x == index1 && p.position.y == index )
-                      console.log(playersP);
+                      const playersP = players.filter(p => p.position.x == index1 && p.position.y == index ) 
                       
                       const player = players.find(p => p.nickname == login)
-                      const inMyProperty = gameBoard[index1][index] && gameBoard[index1][index].name? player.property.find(pr => pr.name == gameBoard[index1][index].name) : null
-                      const inOtherProperty = gameBoard[index1][index] && gameBoard[index1][index].name ? players.filter(p => p.nickname != login).find(p => p.property.some(pr => pr.name == gameBoard[index1][index].name)) : null
-                      return (<div key={index} id="board-element" style={{backgroundColor: n ? inMyProperty ? "blue" : inOtherProperty ? "red" : "snow" : "black", border: n ? "grey solid 1px" : "none"}}>
+                      const inMyProperty = gameBoard[index1][index] && gameBoard[index1][index].name? player.property.find((pr:any) => pr.name == gameBoard[index1][index].name) : null
+                      const inOtherProperty = gameBoard[index1][index] && gameBoard[index1][index].name ? players.filter(p => p.nickname != login).find(p => p.property.some((pr:any) => pr.name == gameBoard[index1][index].name)) : null
+                      return (<div key={index} id="board-element" style={{backgroundColor: n ? inMyProperty ? "rgba(69, 125, 199, 0.68)" : inOtherProperty ? "rgba(192, 59, 59, 0.61)" : "snow" : "rgba(77, 77, 77, 1)", border: n ? "grey solid 1px" : "none"}}>
                         {gameBoard[index1][index] && gameBoard[index1][index].type == "b" && <div id="elem-info">
                           <img id="b-logo" src={`/b-logos/${gameBoard[index1][index].name == 'Facebook' ? "Facebook.svg" : 
                             gameBoard[index1][index].name == 'Instagram' ? "Instagram.svg" : 
@@ -188,15 +213,15 @@ export function GameForm( { }: any) {
                             gameBoard[index1][index].name == 'Coca-Cola' ? "coca-cola.png" : 
                             gameBoard[index1][index].name == 'Pepsi' ? "pepsi.png" : 
                             "starbucks.png" }`} alt="" />
-                            <p>{inMyProperty && inMyProperty.status == "in property" ? inMyProperty.profit : inOtherProperty && inOtherProperty.status == "in property" ? inOtherProperty.profit : gameBoard[index1][index].price}</p>
+                            <p className="money">{inMyProperty && inMyProperty.status == "in property" ? inMyProperty.profit : inOtherProperty && inOtherProperty.status == "in property" ? inOtherProperty.profit : gameBoard[index1][index].price}</p>
                         </div>}
                         {gameBoard[index1][index] && gameBoard[index1][index].type == "r" && 
-                          <div>
+                          <div id="elem-info">
                             <img src="/b-logos/question.svg" alt="" /> 
                           </div> }
                         {playersP.length > 0 &&
                           <div id="players-pos">
-                            {playersP.length == 1 ? <img src="/Usercircle.svg" alt="" /> : <div id="player-images"><img src="/Usercircle.svg" alt="" /><img src="/Usercircle.svg" alt="" /></div> }
+                            {(playersP.length == 1 && playersP[0].id == player.id) ? <img src="/player.png" alt="" /> : (playersP.length == 1 && playersP[0].id != player.id) ? <img src="/enemy.png" alt="" /> : playersP.length == 2 ? <div id="player-images"><img src="/enemy.png" alt="" /><img src="/player.png" alt="" /></div> : "" }
                           </div>
                         }
                       </div>)
@@ -215,6 +240,8 @@ export function GameForm( { }: any) {
         </div> 
         }
         {buyBusiness.buy && <ReviewModal business={buyBusiness.business} onClose={() => setBuyBusiness({buy:false,business:null})} socket={socket}/>}
+        {trade && <TradeModal recepient={trade} player={players.find(p => p.id == id)} onClose={() => setTrade(null)} socket={socket}/>}
+        {tradeRequest && <TradeRequestModal info={tradeRequest} players={players} onClose={() => setTradeRequest(null)} socket={socket}/>}
     </div>
   )
 }
