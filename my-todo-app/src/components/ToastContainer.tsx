@@ -5,11 +5,13 @@ import { Toast } from './Toast';
 export function ToastContainer( { data, removeToast } : any) {  
     const toastRoot = typeof window !== "undefined" ? document.getElementById("toast-modal") : null; 
     const timersRef = useRef(new Map()) 
-
+    const uniqueToasts = data.filter((toast:any, index:number, self:any) => 
+      index === self.findIndex((t:any) => t.id === toast.id)
+    );
     useEffect(() => {
         const now = Date.now()
 
-        data.forEach((toast:any) => {
+        uniqueToasts.forEach((toast:any) => {
             const elapsed = now - toast.id
 
             if (elapsed >= 3000) {
@@ -24,14 +26,14 @@ export function ToastContainer( { data, removeToast } : any) {
             timersRef.current.forEach(timer => clearTimeout(timer))
             timersRef.current.clear()
         }
-    }, [data])
-    console.log(data);
+    }, [uniqueToasts])
+    console.log(uniqueToasts);
     
     if(!toastRoot) return null
     return ReactDOM.createPortal( 
         <div id="toast-container" onClick={(e) => e.stopPropagation()}> 
             <div id="toast-list"> 
-                {data.map((t:any) => {
+                {uniqueToasts.map((t:any,index:number) => {
                     return (<Toast key={t.id} data ={t.value} removeToast={removeToast} id={t.id} type={t.type}/>)
                 })}
             </div>  

@@ -222,42 +222,42 @@ function handleRandomEvent(player) {
     },0); 
     return {
       type: 'ec',
-      message: `Player ${player.name} must pay tax: -${Math.floor(amount*0.3)}$`,
+      message: `Player ${player.nickname} must pay tax: -${Math.floor(amount*0.3)}$`,
       amount: -amount
     };
   } else if (random < 0.4) { 
     const amount = 500; 
     return {
       type: 'ec',
-      message: `Player ${player.name} must pay fine: -${amount}$`,
+      message: `Player ${player.nickname} must pay fine: -${amount}$`,
       amount: -amount
     };
   } else if (random < 0.5) { 
     const amount = 1000; 
     return {
       type: 'ec',
-      message: `Player ${player.name} need repair a car: -${amount}$`,
+      message: `Player ${player.nickname} need repair a car: -${amount}$`,
       amount: -amount
     };
   } else if (random < 0.6) { 
     const amount = 1000; 
     return {
       type: 'win',
-      message: `Player ${player.name} won a lotery: +${amount}$`,
+      message: `Player ${player.nickname} won a lotery: +${amount}$`,
       amount: amount
     };
   } else if (random < 0.7) { 
     const amount = 500; 
     return {
       type: 'win',
-      message: `Player ${player.name} earn unexpected income: +${amount}$`,
+      message: `Player ${player.nickname} earn unexpected income: +${amount}$`,
       amount: amount
     };
   } else if (random < 1) { 
     const amount = 1500; 
     return {
       type: 'ec',
-      message: `Player ${player.name} has Fors-major: -${amount}$`,
+      message: `Player ${player.nickname} has Fors-major: -${amount}$`,
       amount: -amount
     };
   } 
@@ -539,19 +539,23 @@ io.on('connection', (socket) => {
           turn = game.player1_id
         }  
         let gameStatus = "started"
+        let message = `The ${player.nickname} dont have enough money to buy ${data.business.name}`
         const realPlayer = player.property.find(p => p.name == data.business.name)
         if (realPlayer) {
-          if (data.decision && player.money > data.business.price) {
+          if ( player.money > data.business.price) {
             player.property = player.property.map(pr => {
               return pr.name == data.business.name ? {name:data.business.name, profit: data.business.profit, group:data.business.group, status:"in property"} : pr
-            }),  
-            player.money - data.business.price < 0  ?  gameStatus = "finished" : gameStatus = "started"
+            }),   
             player.money = player.money - data.business.price 
             if (player.property.filter(p => p.group == data.business.group).length == 3) {
               player.property = player.property.map(p => {
                 return {...p, profit: p.profit*2 }
               })
             }
+            message = `The ${player.nickname} bought ${data.business.name}`
+          }
+          else{
+            player.property = player.property.filter(p => p.name != data.business.name)
           }
         } 
         const players = [JSON.parse(game.player1_info), JSON.parse(game.player2_info)]
@@ -568,7 +572,8 @@ io.on('connection', (socket) => {
           players: updatedPlayers,
           playerCount: updatedPlayers.length ,
           gameStatus: gameStatus,
-          gameBoard: JSON.parse(game.game_board)
+          gameBoard: JSON.parse(game.game_board),
+          message: message
         }); 
         callback({
           success: true, 
@@ -594,13 +599,18 @@ io.on('connection', (socket) => {
           player = JSON.parse(game.player2_info) 
           turn = game.player1_id
         }  
-        const updatedPlayers = [JSON.parse(game.player1_info),JSON.parse(game.player2_info) ]
+        player.property = player.property.filter(p => p.name != data.business.name)
+        const players = [JSON.parse(game.player1_info), JSON.parse(game.player2_info)]
+        const updatedPlayers = players.map(p => {
+          return p.id == player.id  ? player : p
+        })
         io.to(roomCode).emit('end-turn', {
           turn: turn,
           players: updatedPlayers,
           playerCount: updatedPlayers.length ,
           gameStatus: game.gameStatus,
-          gameBoard: JSON.parse(game.game_board)
+          gameBoard: JSON.parse(game.game_board),
+          message: `The ${player.nickname} refused to bought ${data.business.name}`
         }); 
         callback({
           success: true, 

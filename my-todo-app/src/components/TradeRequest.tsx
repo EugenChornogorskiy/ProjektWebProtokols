@@ -129,12 +129,12 @@ export function TradeRequest( { info,players,onClose, socket} : any) {
         },0) + info.priceGive}$</div>
         <div id="total-amount">
           <p>Total amount</p>
-          <button id="total-btn" type='submit' className="cencel-review" >Accept</button> 
+          <button id="total-btn" className="cencel-review" onClick={() => Accept}>Accept</button> 
         </div>
         <div style={{width:"75px"}}>{ recepientSelected.reduce((acc,curr) => {
           return acc + curr.profit
         },0) + info.priceGet}$</div>
-        <button id="total-close" type='button' onClick={() => onClose()}>✖</button> 
+        <button id="total-close" type='button' onClick={() => Close()}>✖</button> 
       </div> 
   </div> )
 }
