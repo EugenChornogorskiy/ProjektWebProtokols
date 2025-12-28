@@ -22,6 +22,8 @@ export function GameForm( { addToast }: any) {
   const [socket, setSocket] = useState<any>(null);
   const [ turnDistance, setTurnDistance] = useState<number>(0);
   const [winner, setWinner] = useState<any>(null);
+  const [chat,setChat] = useState<string[]>([]);
+  const [chatMessage, setChatMessage] = useState('');
   useEffect(() => {
     if (loaded) { 
       console.log("error ");
@@ -58,8 +60,18 @@ export function GameForm( { addToast }: any) {
       }) 
       socketInstance.on('player-left', (data: any) => {
         setPlayers(prev => prev.filter(p => p.id !== data.playerId)) 
-      })
-      socketInstance.on('game-started', (data: any) => {
+      })  
+      socketInstance.on('finish', (data: any) => { 
+        const player = data.players.filter((p:any) => p.nickname == login) 
+        setGameStatus(data.gameStatus)
+        if (data.winner == player[0].id) {  
+          setWinner(true)
+        }  
+      }) 
+      const onMessage = (data:any) => { 
+        setChat(prev => [...prev, data.message])
+      }
+      const onGameStarted = (data:any) => {
         setGameStatus(data.gameStatus) 
         setGameBoard(data.gameBoard)
         setPlayers(data.players)
@@ -75,28 +87,8 @@ export function GameForm( { addToast }: any) {
         else{
           setMyTurn(false)
         }
-      })  
-      socketInstance.on('end-turn', (data: any) => { 
-        const player = data.players.filter((p:any) => p.nickname == login)
-        setPlayers(data.players)
-        setMoney(player[0].money)
-        setProperty(player[0].property) 
-        addToast("info",data.message)
-        if (data.turn == player[0].id) {  
-          setMyTurn(true)
-        }
-        else{
-          setMyTurn(false)
-        } 
-      })
-      socketInstance.on('finish', (data: any) => { 
-        const player = data.players.filter((p:any) => p.nickname == login) 
-        setGameStatus(data.gameStatus)
-        if (data.winner == player[0].id) {  
-          setWinner(true)
-        }  
-      })
-      socketInstance.on('businessBuy', (data: any) => {
+      }
+      const onBusinessBuy = (data:any) => {
         console.log('businessBuy event:', data);
 
         if (id === data.player.id) {
@@ -105,21 +97,50 @@ export function GameForm( { addToast }: any) {
             business: data.business
           });
         }
-      });
-      socketInstance.on('trade', (data: any) => {
+      }
+      const onTrade = (data:any) => {
         console.log('trade event:', data,data.recepientId, id);
         console.log(data.recepientId == id);
         
         if (data.recepientId == id) {
           setTradeRequest(data);
         }
-      });
-      socketInstance.on('tradeDone', (data: any) => { 
+      }
+      const onEndTurn = (data:any) => {
+        const player = data.players.filter((p:any) => p.nickname == login)
+        setPlayers(data.players)
+        setMoney(player[0].money)
+        setProperty(player[0].property) 
+        addToast("info",data.message)
+        setChat(prev => [...prev, data.message]);
+        if (data.turn == player[0].id) {  
+          setMyTurn(true)
+        }
+        else{
+          setMyTurn(false)
+        } 
+      }
+      const onTradeDone = (data:any) => {
         setPlayers(data.players)
         addToast("info",data.message) 
-      });
-  } 
-  
+        setChat(prev => [...prev, data.message]);
+      }
+      socketInstance.on('chat-message', onMessage);
+      socketInstance.on('game-started', onGameStarted);
+      socketInstance.on('businessBuy', onBusinessBuy);
+      socketInstance.on('trade', onTrade);
+      socketInstance.on('end-turn', onEndTurn);
+      socketInstance.on('tradeDone', onTradeDone);
+    return () => {
+      socketInstance.off('chat-message', onMessage);
+      socketInstance.off('businessBuy', onBusinessBuy);
+      socketInstance.off('trade', onTrade);
+      socketInstance.off('end-turn', onEndTurn);
+      socketInstance.off('tradeDone', onTradeDone);
+      socketInstance.off('game-started', onGameStarted);
+      socketInstance.disconnect();
+    };
+  }  
   },[ loaded]) 
   console.log(players);
   console.log(gameStatus);
@@ -132,6 +153,14 @@ export function GameForm( { addToast }: any) {
       } 
     })
   } 
+  const sendMessage = () => {
+    if (!chatMessage) return
+    socket.emit('chat-message', {
+      room: roomCode,
+      message: chatMessage,
+    })
+    setChatMessage('')
+  }
   return (    
     <div id="backgr-game">  
         {gameStatus != "started" &&  
@@ -142,7 +171,7 @@ export function GameForm( { addToast }: any) {
               {players.map(p => {
                 return (
                   <div key={p.id} id="player">
-                    <img src="/UserCircle.svg" alt="" /><p>{p.nickname}</p>
+                    <img src={p.id == id ? "/UserCircleB.svg" : "/UserCircleR.svg"} alt="" /><p>{p.nickname}</p>
                   </div>
                 )
               })}
@@ -185,8 +214,9 @@ export function GameForm( { addToast }: any) {
                       const playersP = players.filter(p => p.position.x == index1 && p.position.y == index ) 
                       
                       const player = players.find(p => p.nickname == login)
-                      const inMyProperty = gameBoard[index1][index] && gameBoard[index1][index].name? player.property.find((pr:any) => pr.name == gameBoard[index1][index].name) : null
-                      const inOtherProperty = gameBoard[index1][index] && gameBoard[index1][index].name ? players.filter(p => p.nickname != login).find(p => p.property.some((pr:any) => pr.name == gameBoard[index1][index].name)) : null
+                      const inMyProperty = gameBoard[index1][index] && gameBoard[index1][index].name? player.property.find((pr:any) => pr.name == gameBoard[index1][index].name) : null 
+                      const OtherPlayer = gameBoard[index1][index] && gameBoard[index1][index].name ? players.filter(p => p.nickname != login).find(p => p.property.some((pr:any) => pr.name == gameBoard[index1][index].name)) : null
+                      const inOtherProperty = OtherPlayer ? OtherPlayer.property.find((pr:any) => pr.name == gameBoard[index1][index].name) : null
                       return (<div key={index} id="board-element" style={{backgroundColor: n ? inMyProperty ? "rgba(69, 125, 199, 0.68)" : inOtherProperty ? "rgba(192, 59, 59, 0.61)" : "snow" : "rgba(77, 77, 77, 1)", border: n ? "grey solid 1px" : "none"}}>
                         {gameBoard[index1][index] && gameBoard[index1][index].type == "b" && <div id="elem-info">
                           <img id="b-logo" src={`/b-logos/${gameBoard[index1][index].name == 'Facebook' ? "Facebook.svg" : 
@@ -229,6 +259,28 @@ export function GameForm( { addToast }: any) {
                   </div>
                 )
               })}
+              {buyBusiness.buy && <div id="business-buy">
+                <p>{buyBusiness.business.name}</p>
+                <p>Do you want to buy?</p>
+                <div id="buy-btns">
+                  <button type='button' className="cencel-review" >Cencel</button> 
+                  <button type='button' className="cencel-review" >Buy</button> 
+                </div>
+              </div>}
+              <div id="chat">
+                {chat.map((m:string,index:number) => {
+                  const parts = m.split(" ") 
+                  return (
+                    <div key={index}> <p>{parts.map(p => {
+                      return p == login ? <span style={{color:"blue"}}>{p} </span> : players.filter(pl => pl.id != id).some(pl => pl.nickname == p) ? <span style={{color:"red"}}>{p} </span> : <span>{p} </span> 
+                    })}</p></div>
+                  )
+                }) }
+                <div id="chat-wrapper">
+                  <input type="text" id="chat-input" value={chatMessage} onChange={(e) => setChatMessage(e.target.value)}/>
+                  <button id="chat-btn" onClick={() => sendMessage()}>Send</button>
+                </div>
+              </div>
             </div>
           </div> 
           <div id="room-code">

@@ -350,6 +350,7 @@ header{
 }
 #board{ 
   width: 750px;
+  position: relative;
 }
 #board-element{
   width: 75px;
@@ -751,4 +752,32 @@ input[type=number]::-webkit-inner-spin-button {
   padding: 20px;
   padding-right: 30px;
   font-family: 'BoschSans-Medium'; 
+}
+#chat{
+  position: absolute;
+  top: 85px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  width: 575px;
+  height: 575px;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  color: snow;
+}
+#buy-btns{
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+#business-buy{ 
+  position: absolute;
+  width: 575px;
+  top: 85px;
+  left: 50%;
+  border-radius: 10px;
+  transform: translate(-50%, 0%);
+  background-color: snow;
 }

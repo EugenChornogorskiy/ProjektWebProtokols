@@ -222,42 +222,42 @@ function handleRandomEvent(player) {
     },0); 
     return {
       type: 'ec',
-      message: `Player ${player.nickname} must pay tax: -${Math.floor(amount*0.3)}$`,
+      message: `${player.nickname} must pay tax: -${Math.floor(amount*0.3)}$`,
       amount: -amount
     };
   } else if (random < 0.4) { 
     const amount = 500; 
     return {
       type: 'ec',
-      message: `Player ${player.nickname} must pay fine: -${amount}$`,
+      message: `${player.nickname} must pay fine: -${amount}$`,
       amount: -amount
     };
   } else if (random < 0.5) { 
     const amount = 1000; 
     return {
       type: 'ec',
-      message: `Player ${player.nickname} need repair a car: -${amount}$`,
+      message: `${player.nickname} need repair a car: -${amount}$`,
       amount: -amount
     };
   } else if (random < 0.6) { 
     const amount = 1000; 
     return {
       type: 'win',
-      message: `Player ${player.nickname} won a lotery: +${amount}$`,
+      message: `${player.nickname} won a lotery: +${amount}$`,
       amount: amount
     };
   } else if (random < 0.7) { 
     const amount = 500; 
     return {
       type: 'win',
-      message: `Player ${player.nickname} earn unexpected income: +${amount}$`,
+      message: `${player.nickname} earn unexpected income: +${amount}$`,
       amount: amount
     };
   } else if (random < 1) { 
     const amount = 1500; 
     return {
       type: 'ec',
-      message: `Player ${player.nickname} has Fors-major: -${amount}$`,
+      message: `${player.nickname} has Fors-major: -${amount}$`,
       amount: -amount
     };
   } 
@@ -443,11 +443,11 @@ io.on('connection', (socket) => {
           player.money - business.profit < 0  ?  gameStatus = "finished" : gameStatus = "started" 
           player.money = player.money - business.profit
           businessOwner.money = businessOwner.money + business.profit
-          message = `${player.nickname} stand on ${arleadyIn.nickname} business`
+          message = `${player.nickname} stand on ${arleadyIn.nickname} business -${business.profit}`
         }
         else if(!arleadyIn){
           turnEnd = false
-          player.property = [...player.property, {name:board[player.position.x][player.position.y].name, status:"in process"}]
+          player.property = [...player.property, {name:board[player.position.x][player.position.y].name, status:"in process", profit:0}]
           const updatedPlayers = players.map(p => {
             return p.id == player.id  ? player : p
           })
@@ -462,6 +462,7 @@ io.on('connection', (socket) => {
             business: board[player.position.x][player.position.y] 
           }); 
         }  
+        message = `${player.nickname} stand on his own business`
       } 
       if (board[player.position.x][player.position.y].type == "r") { 
         const event = handleRandomEvent(player) 
@@ -539,7 +540,7 @@ io.on('connection', (socket) => {
           turn = game.player1_id
         }  
         let gameStatus = "started"
-        let message = `The ${player.nickname} dont have enough money to buy ${data.business.name}`
+        let message = `${player.nickname} dont have enough money to buy ${data.business.name}`
         const realPlayer = player.property.find(p => p.name == data.business.name)
         if (realPlayer) {
           if ( player.money > data.business.price) {
@@ -552,7 +553,7 @@ io.on('connection', (socket) => {
                 return {...p, profit: p.profit*2 }
               })
             }
-            message = `The ${player.nickname} bought ${data.business.name}`
+            message = `${player.nickname} bought ${data.business.name}`
           }
           else{
             player.property = player.property.filter(p => p.name != data.business.name)
@@ -610,7 +611,7 @@ io.on('connection', (socket) => {
           playerCount: updatedPlayers.length ,
           gameStatus: game.gameStatus,
           gameBoard: JSON.parse(game.game_board),
-          message: `The ${player.nickname} refused to bought ${data.business.name}`
+          message: `${player.nickname} refused to bought ${data.business.name}`
         }); 
         callback({
           success: true, 
@@ -800,6 +801,13 @@ io.on('connection', (socket) => {
         error: 'Server error'
       });
     } 
+  })
+  socket.on('chat-message', (data ) => { 
+    const { room, message } = data;
+    io.to(room).emit('chat-message', {
+      senderId: socket.userId,
+      message: message,
+    });
   })
   socket.on('leave-room', () => {
     if (socket.roomCode) {
