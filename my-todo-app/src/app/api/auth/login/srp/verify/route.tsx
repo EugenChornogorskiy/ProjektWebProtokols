@@ -40,7 +40,7 @@ export async function POST(request: Request) {
         { status: 404 }
       );
     } 
-    const serverSession = srp.deriveSession( srpSession.b_number , srpSession.A,  user.salt, user.nickname, srpSession.A , M ) 
+    const serverSession = srp.deriveSession( srpSession.b_number , srpSession.A,  user.salt, user.nickname, user.verifier , M ) 
     db.prepare(`
       DELETE FROM srp_sessions
       WHERE user_id = ?

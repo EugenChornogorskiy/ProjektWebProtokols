@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 export async function PUT(request: Request,{ params }: any) { 
   try {   
     const { id } = await params; 
-    const { token,rate,value } = await request.json();
+    const { token,rate,value,content } = await request.json();
     let decoded: any;
     try {
       decoded = jwt.verify( token, 'secret123'); 
@@ -44,19 +44,26 @@ export async function PUT(request: Request,{ params }: any) {
       )
     } 
 
-    if (value) {
+    if (value && value != existingComment.value) {
       db.prepare(`
         UPDATE comments
         SET value = ?
         WHERE id = ?
       `).run(value,id);
     } 
-    if (rate) {
+    if (rate && rate != existingComment.rate) {
       db.prepare(`
         UPDATE comments
         SET rate = ?
         WHERE id = ?
       `).run(rate,id);
+    }  
+    if (content != existingComment.content) {
+      db.prepare(`
+        UPDATE comments
+        SET content = ?
+        WHERE id = ?
+      `).run(content,id);
     }  
     const updatedComment = db.prepare(`
       SELECT * FROM comments

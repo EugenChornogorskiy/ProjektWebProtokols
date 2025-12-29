@@ -69,3 +69,12 @@ export const tradeValidationSchema = yup.object({
     .max(4000, "Money must be ≤ 4000")
     .required("Money is required"), 
 });
+export const reviewValidationSchema = yup.object({
+  rate: yup
+    .number(),
+  value: yup
+    .string()
+    .min(10, 'Review must be at least 7 characters')
+    .max(300, 'Review cannot exceed 300 characters') 
+    .required('Review is required'), 
+});

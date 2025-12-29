@@ -1,6 +1,6 @@
 'use client'
-import { LoginForm } from "@/src/components/LoginForm"
-import { RegisterForm } from "@/src/components/RegisterForm";    
+import { LoginForm } from "@/src/components/auth/LoginForm"
+import { RegisterForm } from "@/src/components/auth/RegisterForm";    
 import { useParams } from 'next/navigation';
 import Link from "next/link"; 
 import { useEffect } from "react";

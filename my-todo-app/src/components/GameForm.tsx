@@ -1,7 +1,7 @@
 import { useState, startTransition,useEffect  } from 'react';   
 import { useRouter } from 'next/navigation'; 
 import { useLogin } from '../contexts/Login'; 
-import { ReviewModal } from './ReviewModal';
+import { BusinessBuyModal } from './BusinessBuyModal';
 import { TradeModal } from './TradeModal';
 import { TradeRequestModal } from './TradeRequestModal';
 import io from 'socket.io-client';
@@ -329,7 +329,7 @@ export function GameForm( { setGameBoard, gameBoard , addToast }: any) {
           </div>}
         </div> 
         }
-        {buyBusiness.buy && <ReviewModal business={buyBusiness.business} onClose={() => setBuyBusiness({buy:false,business:null})} socket={socket}/>}
+        {buyBusiness.buy && <BusinessBuyModal business={buyBusiness.business} onClose={() => setBuyBusiness({buy:false,business:null})} socket={socket}/>}
         {trade && <TradeModal recepient={trade} player={players.find(p => p.id == id)} onClose={() => setTrade(null)} socket={socket}/>}
         {tradeRequest && <TradeRequestModal info={tradeRequest} players={players} onClose={() => setTradeRequest(null)} socket={socket}/>}
     </div>

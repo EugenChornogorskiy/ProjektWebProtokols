@@ -429,7 +429,7 @@ header{
   left: 50%; 
   transform: translate(-50%, -50%);
 }
-#review-form{
+#business-buy-form{
   background-color: snow;
   position: absolute;
   top: 50%;
@@ -449,7 +449,7 @@ header{
   font-size: 0.93em;
   cursor: pointer;
 }
-#review-btns{
+#business-buy-btns{
   display: flex;
   gap: 40px;
   position: absolute;
@@ -963,4 +963,204 @@ input[type=number]::-webkit-inner-spin-button {
   animation: spin 1s linear infinite;
   margin-bottom: 20px;
   position: relative;
+}
+#review-form{
+  background-color: snow;
+  position: absolute;
+  top: 50%;
+  left: 50%; 
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px; 
+  border-radius: 20px; 
+}
+#write-review{
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: rgb(184, 184, 184) 0.3px solid;
+  padding-bottom: 20px;
+}
+#write-review-btn{
+  background-color: rgb(188, 232, 240);
+  color: rgb(7, 78, 90);
+  font-family: 'BoschSans-Medium';
+  padding: 7px;
+  padding-left: 12px;
+  padding-right: 12px;
+  border-radius: 2em;
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+}
+#write-review-btn:hover{
+  background-color: rgb(167, 214, 223); 
+}  
+#edit-review-btn{
+  background-color: rgb(188, 232, 240);
+  color: rgb(7, 78, 90);
+  font-family: 'BoschSans-Medium';
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 2em;
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+}
+#edit-review-btn:hover{
+  background-color: rgb(167, 214, 223); 
+} 
+#rewievs{
+  overflow-x: auto;
+  display: flex;
+  gap: 20px;
+}
+.review{
+  padding-right: 20px;
+  padding-left: 20px;
+  margin-top: 20px;
+  padding-bottom: 20px;
+  user-select: none;
+  border-bottom: rgb(184, 184, 184) 0.3px solid;
+}
+#review-rate{
+  height: 23px;
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  justify-content: space-between;
+}
+#reviews-count{
+  font-size: 0.9em;
+  color: rgb(78, 78, 78);
+  height: 18px; 
+  display: flex;
+  align-items: center;
+}
+#review-author{
+  height: 21px;
+}
+#author{
+  display: flex; 
+  flex-direction: column;
+}
+#review-creator{
+  display: flex;
+  gap: 10px;
+}
+#review-creator img{
+  width: 40px;
+}
+#review-create-wrapper{
+  width: 90%;
+  margin: auto;
+}
+#review-service-name{
+  text-align: center;
+  font-size: 1.1em;
+  margin-top: 20px;
+}
+#create-review-author{
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+#create-review-author img{
+  width: 55px;
+}
+#create-review-author p{
+  font-size: 1.4em;
+}
+#create-review-rating{
+  display: flex;
+  justify-content: center;
+  font-size: 1.4em;
+  height: 40px;
+  align-items: center;
+}
+#textarea-review{
+  display: flex;
+  justify-content: center;
+  flex-direction: column; 
+  align-items: center;
+  margin-top: 20px;
+}
+#review-value{
+  width: 100%;
+  border: 1px gray solid;
+  border-radius: 5px; 
+  height: 100px;
+  resize: none;
+  outline: none;
+  padding: 5px;
+} 
+#review-value:focus{
+  border: 2px rgb(0, 89, 255) solid;
+}
+#upload-file-review{
+  display: flex;  
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+#upload-btn-review{
+  background-color:#e7eefc; 
+  border-radius: 2em;
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px; 
+  cursor: pointer;
+  width: 100%; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  font-family: 'BoschSans-Medium';
+  color: #07133d;
+}
+#upload-btn-review:hover{
+  background-color:#d2dffa;
+}
+#create-review-btn{ 
+  width: 100px;
+  height: 35px;
+  font-family: 'BoschSans-Medium';
+  background-color: rgb(0, 110, 255);
+  color: snow;
+  border-radius: 5px;
+  font-size: 0.93em;
+  cursor: pointer;
+}
+#cencel-review{
+  width: 100px;
+  height: 35px;
+  font-family: 'BoschSans-Medium'; 
+  border: 1px rgb(201, 201, 201) solid;
+  color: rgb(0, 110, 255);
+  border-radius: 5px;
+  font-size: 0.93em;
+  cursor: pointer;
+}
+#review-btns{
+  display: flex;
+  gap: 20px;
+  position: absolute;
+  bottom: 10px;
+  right: 30px;
+}
+#delete-review{
+  width: 100px;
+  height: 35px;
+  position: absolute;
+  left: 20px;
+  bottom: 10px;
+  background-color: rgb(182, 22, 22);
+  border-radius:  5px;
+  color: snow;
+  cursor: pointer;
 }

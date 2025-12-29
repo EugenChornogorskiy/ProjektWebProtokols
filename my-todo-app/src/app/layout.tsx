@@ -32,6 +32,7 @@ export default function RootLayout({
         <div id="dashboard-modal"></div>
         <div id="trade-modal"></div>
         <div id="trade-request-modal"></div>
+        <div id="review-modal"></div>
         <LoginProvider>
           {children}
         </LoginProvider>

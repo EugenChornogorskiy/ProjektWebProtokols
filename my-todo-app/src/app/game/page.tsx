@@ -4,7 +4,7 @@ import { useLogin } from "@/src/contexts/Login";
 import { useRouter } from 'next/navigation';
 import { ChooseForm } from "@/src/components/ChooseForm";
 import { GameForm } from "@/src/components/GameForm";
-import { ToastContainer } from "@/src/components/ToastContainer";
+import { ToastContainer } from "@/src/components/Toasts/ToastContainer";
 import Link from "next/link";
 const axios = require('axios').default;
 export default function Page( ) {      

@@ -1,12 +1,12 @@
 'use client'
-import { LoginForm } from "@/src/components/LoginForm"
-import { RegisterForm } from "@/src/components/RegisterForm";    
+import { LoginForm } from "@/src/components/auth/LoginForm"
+import { RegisterForm } from "@/src/components/auth/RegisterForm";    
 import { useParams } from 'next/navigation';
 import Link from "next/link"; 
 import { useEffect,useState } from "react";
 import { useLogin } from "@/src/contexts/Login";
 import { useRouter } from "next/navigation";
-import { EditForm } from "@/src/components/EditForm";
+import { EditForm } from "@/src/components/auth/EditForm";
 import { DashboardModal } from "@/src/components/DashboardModal";
 export default function Page( ) {    
   const params = useParams();

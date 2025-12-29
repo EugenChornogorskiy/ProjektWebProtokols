@@ -2,57 +2,106 @@ import { useState, startTransition,useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik'; 
 import { registerValidationSchema } from '@/src/utils/validation'; 
-import { LoginButton } from '@/src/components/LoginButton';    
+import { LoginButton } from '@/src/components/auth/LoginButton';    
 import Link from 'next/link';
-import { useLogin } from '../contexts/Login';
-import { log } from 'console'; 
+import { useLogin } from '../../contexts/Login';
+import { log } from 'console';
+import { EditButton } from './EditButton';
 const srp = require('secure-remote-password/client')
 const axios = require('axios').default;
-export function RegisterForm( { type }: any) {   
+export function EditForm( { id }: any) {   
   const [registerError, setRegisterError] = useState<any >(""); 
-  const { addLogin,addToken,addId } :any = useLogin()
+  const { addLogin,addToken,addId,email,name,surname,login,loaded, token } :any = useLogin()
+  const [accountInfo, setAccountInfo] = useState<any >({email:"",nickname:"",name:"",surname:""}); 
+  const router = useRouter(); 
+  useEffect(() => {
+    console.log("email,login,name,surname");
+    if (email && name && surname && login) { 
+      
+      setAccountInfo({email:email,nickname:login,name:name,surname:surname})
+    }
+  },[email,name,surname,login])
   const formik = useFormik({
+      enableReinitialize: true,
       initialValues: {  
         password: '',
-        name: '',
-        surname: '',
-        email: '',
-        nickname: ''  
+        name: accountInfo.name,
+        surname: accountInfo.surname,
+        email: accountInfo.email,
+        nickname: accountInfo.nickname  
       }, 
       validationSchema: registerValidationSchema ,
       onSubmit: async (values, { resetForm ,setSubmitting}) => { 
         setRegisterError("");
-        setSubmitting(true);    
-        const salt = srp.generateSalt();
-        const privateKey = srp.derivePrivateKey(salt, values.nickname, values.password);
-        const verifier = srp.deriveVerifier(privateKey);
+        setSubmitting(true);   
+
+        const a = srp.generateEphemeral();
+        const A = a.public.toString("hex");
+
         startTransition(() => {   
-          axios.post('http://localhost:3000/api/users/', {
-            email: values.email,
-            nickname: values.nickname,
-            salt:salt,
-            verifier:verifier,
-            name: values.name,
-            surname: values.surname
-          })
-          .then(function (response:any) {
-            console.log(response) 
-            addLogin(response.data.user.nickname)
-            addToken(response.data.token)
-            addId(response.data.user.id)
+
+          axios.post('http://localhost:3000/api/auth/login/srp', {   login: login, A: A })
+          .then(function (response:any) { 
+            const salt = response.data.salt 
+            const B = response.data.B 
+
+            const privateKey = srp.derivePrivateKey(salt, login, values.password)
+            const clientSession = srp.deriveSession(a.secret, B, salt ,login, privateKey)
+            console.log(clientSession.proof,clientSession);
+            
+            const M = clientSession.proof
+            axios.put(`http://localhost:3000/api/users/${id}`, { M: M ,
+              email: values.email,
+              nickname: values.nickname, 
+              name: values.name,
+              surname: values.surname }) 
+            .then(function (response:any) { 
+              srp.verifySession(A, clientSession, response.data.serverSession );
+              addLogin(response.data.updatedUser.nickname) 
+              addId(response.data.updatedUser.id)
+            })
+            .catch(function (error:any) {
+              console.log(error);
+              setRegisterError(error.response.data.error) 
+            });
           })
           .catch(function (error:any) {
-            console.log(error) 
-            if (error.response) {
-              setRegisterError(error.response.data.error )
-           }
-          });
+            console.log(error);
+            setRegisterError(error.response.data.error) 
+          }); 
         });  
         resetForm(); 
         setRegisterError("");
         setSubmitting(false);
       }, 
     });   
+  const deleteAccount = () => {
+        const a = srp.generateEphemeral();
+        const A = a.public;
+          axios.post('http://localhost:3000/api/auth/login/srp', {   login: login, A: A.toString("hex") })
+          .then(function (response:any) { 
+            const salt = Buffer.from(response.data.salt, 'hex');
+            const B = Buffer.from(response.data.B, 'hex');
+
+            const client = new srp.Client(a.secret, formik.values.password, salt, A, B);
+            const M = client.computeProof();
+
+            axios.delete(`http://localhost:3000/api/users/${id}`, { headers:{ M: M.toString("hex")} }) 
+            .then(function (response:any) { 
+              addLogin('')
+              addToken('')
+              addId(null)
+            })
+            .catch(function (error:any) {
+              console.log(error);
+              setRegisterError(error.response.data.error) 
+            });
+          })
+          .catch(function (error:any) {
+            console.log(error);
+            setRegisterError(error.response.data.error) 
+          }); 
+  }
   return (    
     <div id="backgr-login"> 
           <div id="register-form">  
@@ -94,12 +143,9 @@ export function RegisterForm( { type }: any) {
                 {registerError &&  (
                     <div className="login-error">{registerError}</div>
                 )}
-                <LoginButton submitting={formik.isSubmitting} type={type}/> 
-              </div>
-              <Link href="/auth/login"> 
-                <button type="button" id="create-new-btn" > Login in </button>
-              </Link> 
-              
+                <EditButton submitting={formik.isSubmitting} /> 
+              </div> 
+              <button type="button" id="delete-new-btn"  onClick={() => deleteAccount()}> Delete account </button> 
             </div>
            </form>
           </div> 

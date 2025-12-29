@@ -1,5 +1,5 @@
 import { useLogin } from "../contexts/Login"
-export function Review( { business, onClose, socket} : any) {   
+export function BusinessBuy( { business, onClose, socket} : any) {   
   const {token,roomCode,loaded,login}:any = useLogin() 
   const buy = () => {
     socket.emit('buyDecision', { token:token,room:roomCode, decision: true, business: business }, (response : any) => { 
@@ -12,7 +12,7 @@ export function Review( { business, onClose, socket} : any) {
     onClose()
   }
   return (  
-  <div id="review-form">  
+  <div id="business-buy-form">  
     <p id="business-group">{business.group}</p>
     <p id="business-name">{business.name}</p> 
     <div>
@@ -25,7 +25,7 @@ export function Review( { business, onClose, socket} : any) {
         <p>{business.profit}</p>
       </div>
     </div>
-    <div id="review-btns">
+    <div id="business-buy-btns">
       <button type='button' className="cencel-review" onClick={() => noBuy() }>Cencel</button> 
       <button type='button' className="cencel-review" onClick={() => buy()}>Buy</button> 
     </div>  

@@ -143,7 +143,7 @@ export async function DELETE(request: Request,{ params }: any) {
         { status: 404 }
       );
     } 
-    const serverSession = srp.deriveSession( srpSession.b_number , srpSession.A,  existingUser.salt, existingUser.nickname,existingUser.verifier , M ) 
+    const serverSession = srp.deriveSession( srpSession.b_number , srpSession.A,  existingUser.salt, existingUser.nickname, existingUser.verifier , M ) 
  
     db.prepare(`
       DELETE FROM srp_sessions

@@ -52,6 +52,9 @@ export function Dashboard( { } : any) {
                      </div> 
             } 
           </div>
+          <div>
+            <button>Write review</button>
+          </div>
       </div> 
       } 
     </div> )

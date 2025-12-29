@@ -100,6 +100,7 @@ export function initDatabase() {
       user_id INTEGER NOT NULL,
       rate INTEGER NOT NULL,
       value TEXT NOT NULL, 
+      content TEXT, 
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
     )

@@ -2,9 +2,9 @@ import { useState, startTransition, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik'; 
 import { loginValidationSchema } from '@/src/utils/validation'; 
-import { LoginButton } from '@/src/components/LoginButton';    
+import { LoginButton } from '@/src/components/auth/LoginButton';    
 import Link from 'next/link';
-import { useLogin } from '../contexts/Login';
+import { useLogin } from '../../contexts/Login';
 const axios = require('axios').default; 
 const srp = require('secure-remote-password/client')
 export function LoginForm( {type }: any) {   
