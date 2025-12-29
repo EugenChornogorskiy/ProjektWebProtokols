@@ -80,7 +80,7 @@ body {
   background-color: snow;
   width: 100%;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 7px;
   font-size: 1.2em;
 }
 #login-btn{
@@ -125,6 +125,29 @@ body {
   width: 100%;
   border-bottom: 2px rgb(0, 92, 35) solid;
   filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.205));  
+}
+#create-new-btn:hover{
+  background-color: rgb(1, 173, 67);
+}
+#join-new-btn:hover{
+  background-color: rgb(1, 173, 67);
+}
+#create-new-btn, #join-new-btn {
+  transition: background-color 0.3s ease;
+}
+#join-new-btn{
+  background-color: rgb(1, 206, 80);
+  padding: 8px;
+  font-size: 1.3em;
+  color: snow;
+  border-radius: 10px; 
+  font-family: "BoschSans-Medium";
+  letter-spacing: 1.3px;
+  cursor: pointer;
+  width: 100%;
+  border-bottom: 2px rgb(0, 92, 35) solid;
+  filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.205));  
+  max-height: 50px;
 }
 .login-part{
   display: flex;
@@ -310,6 +333,7 @@ header{
   height: fit-content;
   margin-right: 20px;
   margin-top: 20px;
+  font-family: 'BoschSans-Medium';
 }
 #content-game{
   width: 1200px;
@@ -780,4 +804,123 @@ input[type=number]::-webkit-inner-spin-button {
   border-radius: 10px;
   transform: translate(-50%, 0%);
   background-color: snow;
+}
+#room-list-form{
+  background-color: #003f79;
+  height: 90%;
+  width: 900px;
+  border-radius: 20px;
+  filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.7)); 
+  padding: 20px;
+  display: flex;
+}
+#room-list{
+  margin-left: 10px;
+  color: snow;
+  width: 400px;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.room{
+  position: relative;
+  background-color: #00ad82;
+  border-radius: 10px;
+  padding-left: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-right: 15px;
+}
+.code{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.state{
+  color: rgb(196, 196, 196);
+  height: 20px;
+  display: flex;
+  align-items: center;
+}
+.room-players{
+  display: flex;
+  justify-content: space-around;
+  font-family: 'BoschSans-Medium'; 
+}
+.join-room-btn{ 
+  background-color: rgb(165, 101, 42);
+  padding: 5px;
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 5px;
+  font-family: 'BoschSans-Medium'; 
+  cursor: pointer;
+}
+.join-room{
+  display: flex;
+  margin-top: 10px;
+}
+#game-form{
+  width: 1200px;
+  height: 900px; 
+  margin-left: auto;
+  margin-right: auto; 
+  color: rgb(56, 56, 56);
+  font-family: 'BoschSans';
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#change-room-btn{
+  background-color: #00ad82;
+  padding: 5px;
+  padding-left: 8px;
+  padding-right: 8px;
+  font-family: 'BoschSans-Medium'; 
+  border-radius: 5px;
+  cursor: pointer;
+}
+#search-input{
+  display: flex;
+  gap: 10px;
+  position: relative;
+  width: 100%;
+  align-items: center;
+}
+#search-input input{
+  width: 75%; 
+  padding: 5px;
+  background-color: snow;
+  border-radius: 5px;
+  border-bottom: 2px black solid;
+  color: rgb(54, 54, 54);
+  font-family: 'BoschSans-Medium'; 
+}
+#search-input button{
+  background-color: rgb(1, 206, 80);
+  border-radius: 5px; 
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-bottom: 2px rgb(0, 92, 35) solid;
+  filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.205));  
+  font-family: 'BoschSans-Medium'; 
+  cursor: pointer;
+}
+#start-interval{
+  display: flex;
+  justify-content: center;
+}
+#start-interval button{
+  background-color: rgb(1, 206, 80);
+  border-radius: 5px; 
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-bottom: 2px rgb(0, 92, 35) solid;
+  filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.205));  
+  font-family: 'BoschSans-Medium'; 
+  cursor: pointer;
 }

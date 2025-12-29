@@ -5,8 +5,8 @@ import { ReviewModal } from './ReviewModal';
 import { TradeModal } from './TradeModal';
 import { TradeRequestModal } from './TradeRequestModal';
 import io from 'socket.io-client';
-export function GameForm( { addToast }: any) {   
-  const [gameBoard, setGameBoard] = useState<any[]>([])   
+const axios = require('axios').default;
+export function GameForm( { setGameBoard, gameBoard , addToast }: any) {    
   const [players, setPlayers] = useState<any[]>([]);
   const [gameStatus, setGameStatus] = useState<'waiting' | 'started'>('waiting'); 
   const [error, setError] = useState('');
@@ -23,7 +23,23 @@ export function GameForm( { addToast }: any) {
   const [ turnDistance, setTurnDistance] = useState<number>(0);
   const [winner, setWinner] = useState<any>(null);
   const [chat,setChat] = useState<string[]>([]);
-  const [chatMessage, setChatMessage] = useState('');
+  const [chatMessage, setChatMessage] = useState<string>('');
+  const [roomInfo, setRoomInfo] = useState<any>(null) 
+  const [roomChange, setRoomChange] = useState<string>('')
+  useEffect(() => {
+    if (loaded && roomCode) {
+      axios.get(`http://localhost:3000/api/room/${roomCode}`,{
+        headers: { Authorization:  token }
+      })
+      .then(function (response:any) {
+        setRoomInfo(response.data)  
+        setRoomChange(response.data.name)
+      })
+      .catch(function (error:any) {
+        console.log(error );  
+      });
+    } 
+  },[])
   useEffect(() => {
     if (loaded) { 
       console.log("error ");
@@ -112,7 +128,7 @@ export function GameForm( { addToast }: any) {
         setMoney(player[0].money)
         setProperty(player[0].property) 
         addToast("info",data.message)
-        setChat(prev => [...prev, data.message]);
+        setChat(prev => [...prev, data.message])
         if (data.turn == player[0].id) {  
           setMyTurn(true)
         }
@@ -161,6 +177,21 @@ export function GameForm( { addToast }: any) {
     })
     setChatMessage('')
   }
+  const changeRoom = () => {
+      axios.put(`http://localhost:3000/api/room/${roomCode}`,{
+        token: token,
+        name: roomChange
+      } )
+      .then(function (response:any) { 
+        console.log(response.data);
+        console.log(response);
+        addToast("info","Name changed")  
+        setRoomChange(response.data.name)
+      })
+      .catch(function (error:any) {
+        console.log(error ); 
+      });
+  }
   return (    
     <div id="backgr-game">  
         {gameStatus != "started" &&  
@@ -177,14 +208,21 @@ export function GameForm( { addToast }: any) {
               })}
             </div>
           </div>
-          <div id="content-game">
+          <div id="game-form">
             <div id="info">
               <p id="monopoly">Waiting</p>
               <p id="invite">Invite your friend to start game</p> 
-            </div>
+            </div> 
           </div> 
           <div id="room-code">
-            <p>Room code: {roomCode}</p>
+            <div style={{display: "flex", gap:"10px"}}><p>Room code:</p><p>{roomCode}</p></div>
+            <div> 
+              <div style={{display:"flex", gap:"10px"}}>
+                <p>Room name: </p>
+                <input style={{width: "125px"}} type="text" value={roomChange} onChange={(e) => setRoomChange(e.target.value)}/>
+              </div>
+              <button id="change-room-btn" onClick={() => changeRoom()}>Apply</button>
+            </div> 
           </div>
         </div>
         }
@@ -284,7 +322,7 @@ export function GameForm( { addToast }: any) {
             </div>
           </div> 
           <div id="room-code">
-            <p>Room code: {roomCode}</p>
+            <p>Room code: {roomCode}</p> 
           </div>
           {myTurn && <div id="throw">
               <button id="throw-bones" onClick={() => throwBones()}></button>

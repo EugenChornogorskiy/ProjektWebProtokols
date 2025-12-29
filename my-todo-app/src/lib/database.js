@@ -4,6 +4,7 @@ import fs from 'fs';
 
 const dbPath = path.join(process.cwd(), 'database.db'); 
 const db = new Database(dbPath); 
+db.exec('PRAGMA foreign_keys = ON');
 export function initDatabase() { 
   db.exec(`
     CREATE TABLE IF NOT EXISTS users (
@@ -45,7 +46,7 @@ export function initDatabase() {
       room_id INTEGER NOT NULL,
       joined_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (user_id) REFERENCES users (id),
-      FOREIGN KEY (room_id) REFERENCES rooms (id),
+      FOREIGN KEY (room_id) REFERENCES rooms (id) ON DELETE CASCADE,
       UNIQUE(user_id, room_id)
     )
   `); 
@@ -62,7 +63,7 @@ export function initDatabase() {
       player_turn INTEGER NOT NULL,
       FOREIGN KEY (player1_id) REFERENCES users (id),
       FOREIGN KEY (player2_id) REFERENCES users (id),
-      FOREIGN KEY (room_id) REFERENCES rooms (id),
+      FOREIGN KEY (room_id) REFERENCES rooms (id) ON DELETE CASCADE,
       UNIQUE(player1_id, player2_id, room_id)
     )
   `); 
@@ -75,7 +76,8 @@ export function initDatabase() {
       business_sell TEXT,
       business_buy TEXT,
       price_give TEXT,
-      price_get TEXT 
+      price_get TEXT,
+      FOREIGN KEY (room_id) REFERENCES rooms (id) ON DELETE CASCADE
     )
   `); 
 }

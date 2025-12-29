@@ -16,6 +16,8 @@ function App( ){
     const [gameStarted, setGameStarted] = useState<boolean>(false) 
     const [roomList, setRoomList] = useState<any[]>([])  
     const [toastList, setToastList] = useState<any[]>( []);   
+    const [gameBoard, setGameBoard] = useState<any[]>([])  
+    const [stopInterval, setStopInterval] = useState<boolean>(false)  
     useEffect(() => { 
         if (fetched) {  
             if (token) { 
@@ -45,37 +47,58 @@ function App( ){
         }
     },[fetched,token])
     useEffect(() => {
-        if (token) { 
-            setInterval(() => {
-                axios.get('http://localhost:3000/api/room/',{
-                    headers: { Authorization:  token }
-                })
-                .then(function (response:any) {
+        if (!token ) return
+        const axiosList = () => {
+            axios.get('http://localhost:3000/api/room/list',{
+                headers: { Authorization:  token }
+            })
+            .then((response:any) => {
+                if (!stopInterval) {
                     setRoomList(response.data)
-                })
-                .catch(function (error:any) {
-                    console.log(error );  
-                });
-            }, 10000)
+                } 
+            })
+            .catch(console.log);
         }
-    },[]) 
+        axiosList()
+        const intervalL = setInterval(() => {
+            if (!stopInterval) {
+                axiosList
+            }
+        }, 10000);
+        return () => clearInterval(intervalL); 
+    },[token,stopInterval]) 
+    const deleteRoom = () => {
+        if (roomCode) {
+            axios.delete(`http://localhost:3000/api/room/${roomCode}`,{
+                headers: { Authorization:  token }
+            })
+            .then(function (response:any) {
+                setGameStarted(false)
+                addRoom(null)
+            })
+            .catch(function (error:any) {
+                console.log(error );  
+            });
+        } 
+    }
     return (   
         <div id="create-background" style={{display: "flex",flexDirection:"column"}}>   
             <div id="header-login">
                 <header >
                     <div id="nav-items">
-                        <Link href={"/"}><img src="/logoB3.png" alt="" /></Link>
+                        <Link href={"/"}><img src="/logoB3.png" alt="" style={{cursor:"pointer"}}/></Link>
                         <div id="nav-btns">
-                        <div id="navbar-toggle" data-toggle="offcanvas-wrap" >
-                            <span id="icon-bar upper"></span>
-                            <span id="icon-bar middle" ></span>    
-                            <span id="icon-bar bottom"></span> 
-                        </div>
+                            {roomCode && !(gameBoard.length > 0) && <button id="sing-up" onClick={() => deleteRoom()}>Delete room</button>}
+                            <div id="navbar-toggle" data-toggle="offcanvas-wrap" >
+                                <span id="icon-bar upper"></span>
+                                <span id="icon-bar middle" ></span>    
+                                <span id="icon-bar bottom"></span> 
+                            </div>
                         </div>
                     </div> 
                 </header>
             </div>
-                {gameStarted ? <GameForm addToast={(type:string,value:string) => setToastList((prev:any) => [...prev, {type,id:Date.now(),value}])}/> :  <ChooseForm setGameStarted={setGameStarted} roomList={roomList}/> } 
+                {gameStarted ? <GameForm setGameBoard={setGameBoard} gameBoard={gameBoard} addToast={(type:string,value:string) => setToastList((prev:any) => [...prev, {type,id:Date.now(),value}])}/> :  <ChooseForm setGameStarted={setGameStarted} roomList={roomList} setRoomList={setRoomList} setStopInterval={setStopInterval} stopInterval={stopInterval}/> } 
                 {toastList.length > 0 && <ToastContainer data={toastList} removeToast={ (id:any) => setToastList(toastList.filter((p:any) => p.id != id)) }/> }
 
         </div> 

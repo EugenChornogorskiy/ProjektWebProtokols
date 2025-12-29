@@ -44,7 +44,7 @@ export async function PUT(request: Request,{ params }: any) {
         { status: 400 }
       );
     }
-    if (activeRoom.creator != user.id) {
+    if (activeRoom.owner_id != user.id) {
       return NextResponse.json( 
         { error: "User not a creator" },
         { status: 401 }
@@ -55,9 +55,11 @@ export async function PUT(request: Request,{ params }: any) {
         SET name = ?
         WHERE room_code = ?
       `).run(name,code);  
-      return NextResponse.json({
-        succes: true
-      });
+      const newRoom = db.prepare(`
+        SELECT * FROM rooms 
+        WHERE room_code = ?
+      `).get(code); 
+      return NextResponse.json(newRoom);
     }
   }
   catch(error){
@@ -71,7 +73,7 @@ export async function PUT(request: Request,{ params }: any) {
 export async function DELETE(request: Request,{ params }: any) { 
   try {
     const { code } = await params;
-    const { token } = await request.json();  
+    const token :any = await request.headers.get('Authorization');   
     let decoded: any;
     try {
       decoded = jwt.verify( token, 'secret123'); 
@@ -101,7 +103,9 @@ export async function DELETE(request: Request,{ params }: any) {
         { status: 404 }
       );
     } 
-    if (activeRoom.creator != existingUser.id) {
+    console.log(activeRoom.owner_id,existingUser.id);
+    
+    if (activeRoom.owner_id != existingUser.id) {
       return NextResponse.json( 
         { error: "Permission denied" },
         { status: 403 }
@@ -115,6 +119,52 @@ export async function DELETE(request: Request,{ params }: any) {
       return NextResponse.json({
         succes: true
       });
+    }
+  }
+  catch(error){
+    console.error('Login error:', error);
+    return NextResponse.json(
+      { error: "Server error" },
+      { status: 500 }
+    ) 
+  }
+} 
+export async function GET(request: Request,{ params }: any) { 
+  try { 
+    const { code } = await params;
+    const token :any = await request.headers.get('Authorization');   
+    let decoded: any;
+    try {
+      decoded = jwt.verify( token, 'secret123'); 
+    } catch (err) {  
+      return NextResponse.json( 
+        { error: "Invalid Token" },
+        { status: 401 }
+      );
+    } 
+    const userId = decoded.userId; 
+    const existingUser = db.prepare(`
+      SELECT * FROM users WHERE id = ? 
+    `).get(userId);
+    
+    if (!existingUser) {
+      return NextResponse.json( 
+        { error: "user not found" },
+        { status: 404 }  
+      ); 
+    } 
+    const activeRoom = db.prepare(`
+      SELECT * FROM rooms
+      WHERE room_code = ?
+    `).get(code);  
+    if (activeRoom) {
+      return NextResponse.json(activeRoom); 
+    }
+    else{
+      return NextResponse.json(
+        { error: "Not found" },
+        { status: 404 }
+      ) 
     }
   }
   catch(error){
