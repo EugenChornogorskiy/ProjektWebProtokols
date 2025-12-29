@@ -3,6 +3,7 @@ import { readdirSync } from "fs";
 import db from '@/src/lib/database';
 import path from "path"; 
 import jwt from 'jsonwebtoken';  
+const srp = require('secure-remote-password/server')
 export async function GET(request: Request,{ params }: any) { 
   try {    
     const { id } = await params;
@@ -38,23 +39,41 @@ export async function PUT(request: Request,{ params }: any) {
   try {   
     const { id } = await params;
     const userId = Number(id)
-    const { password, email, nickname, name, surname } = await request.json();
+    const { M , email, nickname, name, surname } = await request.json();
+    console.log(M);
+    
+    if (! M || M === "" || M === " "){
+      return NextResponse.json(
+        { error: "Incorrect M" },
+        { status: 401 }
+      );
+    }
     const existingUser = db.prepare(`
       SELECT * FROM users
       WHERE id = ?
     `).get(userId);
+    const srpSession = db.prepare(`
+      SELECT * FROM srp_sessions
+      WHERE user_id = ?
+    `).get(existingUser.id);
     if (!existingUser) {
       return NextResponse.json( 
         { error: "Incorrect id" },
         { status: 404 }
       )
-    }
-    if (existingUser.password !== password) {
-      return NextResponse.json( 
-        { error: "Incorrect password" },
-        { status: 401 }
-      )
     } 
+    if (!srpSession) {
+      return NextResponse.json(
+        { error: "Session not found" },
+        { status: 404 }
+      );
+    } 
+    const serverSession = srp.deriveSession( srpSession.b_number , srpSession.A,  existingUser.salt, existingUser.nickname, existingUser.verifier , M ) 
+ 
+    db.prepare(`
+      DELETE FROM srp_sessions
+      WHERE user_id = ?
+    `).run(userId);
     if (email) {
       db.prepare(`
         UPDATE users
@@ -87,7 +106,7 @@ export async function PUT(request: Request,{ params }: any) {
       SELECT id, email, nickname, name, surname FROM users
       WHERE id = ?
     `).get(userId);
-    return NextResponse.json(  updatedUser )
+    return NextResponse.json(  {updatedUser:updatedUser,serverSession: serverSession.proof} )
   }
   catch(error){
     console.error('Login error:', error);
@@ -101,30 +120,43 @@ export async function DELETE(request: Request,{ params }: any) {
   try {   
     const { id } = await params;
     const userId = Number(id)
-    const { password } = await request.json();
+    const data = request.headers.get('Authorization')
+    const dane = JSON.parse(data)
+    const M = dane.M 
     const existingUser = db.prepare(`
       SELECT * FROM users
       WHERE id = ?
     `).get(userId);
+    const srpSession = db.prepare(`
+      SELECT * FROM srp_sessions
+      WHERE user_id = ?
+    `).get(existingUser.id);
     if (!existingUser) {
       return NextResponse.json( 
-        { error: "Incorrect id" },
+        { error: "User not found" },
         { status: 404 }
       )
     }
-    if (existingUser.password !== password) {
-      return NextResponse.json( 
-        { error: "Incorrect password" },
-        { status: 401 }
-      )
-    }  
+    if (!srpSession) {
+      return NextResponse.json(
+        { error: "Session not found" },
+        { status: 404 }
+      );
+    } 
+    const serverSession = srp.deriveSession( srpSession.b_number , srpSession.A,  existingUser.salt, existingUser.nickname,existingUser.verifier , M ) 
+ 
+    db.prepare(`
+      DELETE FROM srp_sessions
+      WHERE user_id = ?
+    `).run(userId);
     db.prepare(`
       DELETE FROM users
       WHERE id = ?
     `).run(userId);
     return NextResponse.json( 
-      { message: "User deleted" },
-      { status: 200 } )
+      { message: "User deleted",serverSession:serverSession.proof },
+      { status: 200 } 
+     )
   }
   catch(error){
     console.error('Login error:', error);

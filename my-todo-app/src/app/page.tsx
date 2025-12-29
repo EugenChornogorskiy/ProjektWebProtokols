@@ -14,8 +14,8 @@ export default function Home() {
         <div id="nav-items">
           <img src="/logoB3.png" alt="" />
           <div id="nav-btns">
-            <Link href={"/auth/register"}> <button id="sing-up">Sing up</button></Link> 
-            <Link href={"/auth/login"}><button id="sing-in">Log in</button></Link> 
+            {token && <Link href={"/auth/register"}> <button id="sing-up">Sing up</button></Link>} 
+            {token && <Link href={"/auth/login"}><button id="sing-in">Log in</button></Link> }
             <div id="navbar-toggle" data-toggle="offcanvas-wrap" onClick={() => setDashBoard(true)}>
               <span id="icon-bar upper"></span>
               <span id="icon-bar middle" ></span>    

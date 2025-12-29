@@ -2,10 +2,10 @@ import { NextResponse } from "next/server";
 import { readdirSync } from "fs";
 import db from '@/src/lib/database';
 import path from "path"; 
-import jwt from 'jsonwebtoken'; 
+import jwt from 'jsonwebtoken';  
 export async function POST(request: Request) { 
   try {
-    const { email, nickname, password, name, surname } = await request.json(); 
+    const { email, nickname, salt, verifier, name, surname } = await request.json(); 
     const existingUser = db.prepare(`
       SELECT id FROM users WHERE email = ? OR nickname = ?
     `).get(email, nickname);
@@ -18,9 +18,9 @@ export async function POST(request: Request) {
     }
 
     const user = db.prepare(`
-      INSERT INTO users (email, nickname, password, name, surname)
-      VALUES (?,?,?,?,?)
-    `).run(email, nickname, password, name, surname);  
+      INSERT INTO users (email, nickname, salt, verifier, name, surname)
+      VALUES (?,?,?,?,?,?)
+    `).run(email, nickname, salt , verifier , name, surname);  
 
     const token = jwt.sign(
       { userId: user.lastInsertRowid , email: email },

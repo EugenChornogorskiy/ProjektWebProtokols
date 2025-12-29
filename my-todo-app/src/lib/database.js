@@ -11,10 +11,22 @@ export function initDatabase() {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       email TEXT UNIQUE NOT NULL,
       nickname TEXT UNIQUE NOT NULL,
-      password TEXT NOT NULL,
+      salt TEXT NOT NULL,
+      verifier TEXT NOT NULL,
       name TEXT NOT NULL,
       surname TEXT NOT NULL,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `); 
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS srp_sessions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER UNIQUE NOT NULL,
+      b_number TEXT NOT NULL,
+      B TEXT NOT NULL,
+      A TEXT NOT NULL, 
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
     )
   `); 
   db.exec(`
@@ -24,7 +36,7 @@ export function initDatabase() {
       user_id INTEGER NOT NULL,
       expires_at DATETIME NOT NULL,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (user_id) REFERENCES users (id)
+      FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
     )
   `); 
   db.exec(`
@@ -45,7 +57,7 @@ export function initDatabase() {
       user_id INTEGER NOT NULL,
       room_id INTEGER NOT NULL,
       joined_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (user_id) REFERENCES users (id),
+      FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
       FOREIGN KEY (room_id) REFERENCES rooms (id) ON DELETE CASCADE,
       UNIQUE(user_id, room_id)
     )
@@ -61,8 +73,8 @@ export function initDatabase() {
       game_board TEXT,
       game_status TEXT,
       player_turn INTEGER NOT NULL,
-      FOREIGN KEY (player1_id) REFERENCES users (id),
-      FOREIGN KEY (player2_id) REFERENCES users (id),
+      FOREIGN KEY (player1_id) REFERENCES users (id) ON DELETE CASCADE,
+      FOREIGN KEY (player2_id) REFERENCES users (id) ON DELETE CASCADE,
       FOREIGN KEY (room_id) REFERENCES rooms (id) ON DELETE CASCADE,
       UNIQUE(player1_id, player2_id, room_id)
     )
@@ -77,7 +89,19 @@ export function initDatabase() {
       business_buy TEXT,
       price_give TEXT,
       price_get TEXT,
+      FOREIGN KEY (sender_id) REFERENCES users (id) ON DELETE CASCADE,
+      FOREIGN KEY (recepient_id) REFERENCES users (id) ON DELETE CASCADE,
       FOREIGN KEY (room_id) REFERENCES rooms (id) ON DELETE CASCADE
+    )
+  `); 
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS comments (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      rate INTEGER NOT NULL,
+      value TEXT NOT NULL, 
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
     )
   `); 
 }

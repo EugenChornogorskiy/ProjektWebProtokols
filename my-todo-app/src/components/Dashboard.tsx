@@ -42,7 +42,9 @@ export function Dashboard( { } : any) {
                             <img src="/icons/UserCircle.svg" alt="" />
                             <div id="author">
                                 <div id="author"> <p id="review-author">{ name + " " +  surname}</p></div>
-                                <p style={{color:"#bbbbbbff"}} id="reviews-count">Edit</p>
+                                <Link href={`/edit/${id}`}>
+                                  <p style={{color:"#bbbbbbff",cursor:"pointer"}} id="reviews-count">Edit</p>
+                                </Link> 
                             </div>
                         </div>
                         <div className="dashboard-info">Login: { login} </div> 

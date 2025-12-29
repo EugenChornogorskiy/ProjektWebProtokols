@@ -77,6 +77,11 @@ export const LoginProvider = ({ children }:any) => {
     }
     if(loaded){
       setFetched(true)
+      if (!login || !id) {
+        setName("")
+        setEmail("")
+        setSurname("")
+      }
     } 
   }, [loaded]);
   useEffect(() => {

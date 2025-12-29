@@ -924,3 +924,43 @@ input[type=number]::-webkit-inner-spin-button {
   font-family: 'BoschSans-Medium'; 
   cursor: pointer;
 }
+#delete-new-btn{
+  background-color: rgb(206, 49, 1);
+  padding: 8px;
+  font-size: 1.3em;
+  color: snow;
+  border-radius: 10px; 
+  font-family: "BoschSans-Medium";
+  letter-spacing: 1.3px;
+  cursor: pointer;
+  width: 100%;
+  border-bottom: 2px rgb(92, 18, 0) solid;
+  filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.205));  
+  max-height: 50px;
+}
+#loader{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color:#002a3b;
+  z-index: 9999;
+  color: snow;
+}
+.spinner{
+  width: 60px;
+  height: 60px;
+  background-image: url('/logoB3.png'); 
+  background-size: 80%;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+  position: relative;
+}

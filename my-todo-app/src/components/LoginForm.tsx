@@ -5,7 +5,8 @@ import { loginValidationSchema } from '@/src/utils/validation';
 import { LoginButton } from '@/src/components/LoginButton';    
 import Link from 'next/link';
 import { useLogin } from '../contexts/Login';
-const axios = require('axios').default;
+const axios = require('axios').default; 
+const srp = require('secure-remote-password/client')
 export function LoginForm( {type }: any) {   
   const [loginError, setLoginError] = useState<string >("");
   const { addLogin,addToken,addId } :any = useLogin()
@@ -19,16 +20,32 @@ export function LoginForm( {type }: any) {
       onSubmit: async (values, { resetForm ,setSubmitting}) => { 
         setLoginError("");
         setSubmitting(true);   
+        
+        const a = srp.generateEphemeral();
+        const A = a.public;
+
         startTransition(() => { 
-          axios.post('http://localhost:3000/api/auth/login', {
-            login: values.login,
-            password: values.password
-          })
-          .then(function (response:any) {
-            console.log(response.data);
-            addLogin(response.data.user.nickname)
-            addToken(response.data.token)
-            addId(response.data.user.id)
+
+          axios.post('http://localhost:3000/api/auth/login/srp', {   login: values.login, A: A.toString("hex") })
+          .then(function (response:any) { 
+            const salt = response.data.salt 
+            const B = response.data.B 
+
+            const privateKey = srp.derivePrivateKey(salt, values.login, values.password)
+            const clientSession = srp.deriveSession(a.secret, B ,salt ,values.login, privateKey)
+            const M = clientSession.proof
+
+            axios.post("http://localhost:3000/api/auth/login/srp/verify", {  login: values.login, M: M.toString("hex") })
+            .then(function (response:any) { 
+              srp.verifySession(A, clientSession, response.data.serverSession );
+              addLogin(response.data.user.nickname)
+              addToken(response.data.token)
+              addId(response.data.user.id)
+            })
+            .catch(function (error:any) {
+              console.log(error);
+              setLoginError(error.response.data.error) 
+            });
           })
           .catch(function (error:any) {
             console.log(error);

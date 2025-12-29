@@ -5,7 +5,8 @@ import { registerValidationSchema } from '@/src/utils/validation';
 import { LoginButton } from '@/src/components/LoginButton';    
 import Link from 'next/link';
 import { useLogin } from '../contexts/Login';
-import { log } from 'console';
+import { log } from 'console'; 
+const srp = require('secure-remote-password/client')
 const axios = require('axios').default;
 export function RegisterForm( { type }: any) {   
   const [registerError, setRegisterError] = useState<any >(""); 
@@ -21,12 +22,16 @@ export function RegisterForm( { type }: any) {
       validationSchema: registerValidationSchema ,
       onSubmit: async (values, { resetForm ,setSubmitting}) => { 
         setRegisterError("");
-        setSubmitting(true);   
+        setSubmitting(true);    
+        const salt = srp.generateSalt();
+        const privateKey = srp.derivePrivateKey(salt, values.nickname, values.password);
+        const verifier = srp.deriveVerifier(privateKey);
         startTransition(() => {   
           axios.post('http://localhost:3000/api/users/', {
             email: values.email,
             nickname: values.nickname,
-            password: values.password,
+            salt:salt,
+            verifier:verifier,
             name: values.name,
             surname: values.surname
           })
