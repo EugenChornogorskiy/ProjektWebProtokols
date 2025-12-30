@@ -4,6 +4,7 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import jwt from 'jsonwebtoken'; 
 import { error } from 'console';
+import { publishGameEvent } from './mqtt.js';
 const server = createServer();
 const io = new Server(server, {
   cors: {
@@ -16,52 +17,38 @@ function movePlayer(currentPos, steps, start = false) {
   let newX = x;
   let newY = y;
   let remainingSteps = steps;
-  let passedStart = start; 
-
-  const checkIfPassedStart = (fromX, fromY, toX, toY) => { 
-    if (fromX > 0 || fromY > 0) { 
-      if ((fromX === 0 && toX > 0 && toY === 0) || 
-          (fromY === 0 && toY > 0 && fromX === 9) || 
-          (fromX === 9 && toX < 9 && fromY === 9) || 
-          (fromY === 9 && toY < 9 && toX === 0)) { 
-        passedStart = true;
-      }
-    }
-  }; 
+  let passedStart = start;  
   if (y === 0 && x < 9) {
     const moveRight = Math.min(9 - x, remainingSteps);
     const oldX = newX;
-    newX += moveRight;
-    checkIfPassedStart(oldX, y, newX, y);
+    newX += moveRight; 
     remainingSteps -= moveRight;
   } 
   if (x === 9 && y < 9 && remainingSteps > 0) {
     const moveDown = Math.min(9 - y, remainingSteps);
     const oldY = newY;
-    newY += moveDown;
-    checkIfPassedStart(x, oldY, x, newY);
+    newY += moveDown; 
     remainingSteps -= moveDown;
   } 
   if (y === 9 && x > 0 && remainingSteps > 0) {
     const moveLeft = Math.min(x, remainingSteps);
     const oldX = newX;
-    newX -= moveLeft;
-    checkIfPassedStart(oldX, y, newX, y);
+    newX -= moveLeft; 
     remainingSteps -= moveLeft;
   } 
   if (x === 0 && y > 0 && remainingSteps > 0) {
     const moveUp = Math.min(y, remainingSteps);
     const oldY = newY;
-    newY -= moveUp;
-    checkIfPassedStart(x, oldY, x, newY);
+    newY -= moveUp; 
     remainingSteps -= moveUp;
+    passedStart = remainingSteps > 0 ? true : false
   } 
   if (remainingSteps > 0) {
     const result = movePlayer({ x: newX, y: newY }, remainingSteps,passedStart);
     return {
       x: result.x,
       y: result.y,
-      passedStart: passedStart 
+      passedStart: passedStart || result.passedStart
     };
   }
   
@@ -280,8 +267,7 @@ io.on('connection', (socket) => {
   console.log(`User connected: ${socket.userId}`) 
   socket.on('join-room', (data, callback) => {
     try {
-      const { roomCode } = data 
-      console.log(roomCode,data); 
+      const { roomCode } = data  
       const room = db.prepare(`
         SELECT r.* FROM rooms r
         Where room_code = ?
@@ -299,8 +285,7 @@ io.on('connection', (socket) => {
         }) 
       } 
 
-      if (!room) {
-        console.log("!room"); 
+      if (!room) { 
         return callback({
           success: false,
           error: 'Room not found'
@@ -358,8 +343,17 @@ io.on('connection', (socket) => {
         } 
         else{ 
           gameExist = {turn: game.player_turn, players: [JSON.parse(game.player1_info), JSON.parse(game.player2_info)], status: game.game_status,gameBoard: JSON.parse(game.game_board)}
+          const player = gameExist.players.find(p => p.id == socket.userId) 
+          let businessBuy = false
+          if (player && player.property.some(b => b.status == "in process")) {
+            businessBuy = true
+            io.to(socket.id).emit('businessBuy', {
+              player: player,
+              business: board[player.position.x][player.position.y] 
+            }); 
+          }
           io.to(roomCode).emit('game-started', {
-            turn: game.player_turn,
+            turn: businessBuy ? null : game.player_turn,
             players: [JSON.parse(game.player1_info), JSON.parse(game.player2_info)],
             playerCount: updatedPlayers.length ,
             gameStatus: game.game_status,
@@ -386,8 +380,7 @@ io.on('connection', (socket) => {
         }
       });
       
-    } catch (error) {
-      console.error('Join room error:', error);
+    } catch (error) { 
       callback({
         success: false,
         error: 'Server error'
@@ -405,9 +398,8 @@ io.on('connection', (socket) => {
       const game = db.prepare(`
             SELECT * FROM game 
             Where room_id = ?
-      `).get(room.id); 
-      console.log(room,game);
-      const number = Math.floor(Math.random() * 12) + 1;
+      `).get(room.id);  
+      const number = Math.floor(Math.random() * 11) + 2;
       const board = JSON.parse(game.game_board)
       let player
       let turn
@@ -418,13 +410,12 @@ io.on('connection', (socket) => {
       else{
         player = JSON.parse(game.player2_info) 
         turn = game.player1_id
-      }  
-      console.log(player,turn);
+      }   
       const players = [JSON.parse(game.player1_info), JSON.parse(game.player2_info)]
       const position = movePlayer(player.position, number)  
-      player.position = {x:position.x,y:position.y}
-      console.log(player.position);
-      
+      player.position = {x:position.x,y:position.y} 
+      console.log(position);
+      console.log(players)
       let gameStatus = "started" 
       if (position.passedStart) {
         const income = player.property.reduce((acc,curr) => {
@@ -444,6 +435,12 @@ io.on('connection', (socket) => {
           player.money = player.money - business.profit
           businessOwner.money = businessOwner.money + business.profit
           message = `${player.nickname} stand on ${arleadyIn.nickname} business -${business.profit}`
+          publishGameEvent(roomCode, {
+            type: 'PAY_RENT',
+            from: player.nickname,
+            to: businessOwner.nickname,
+            amount: business.profit
+          }) 
         }
         else if(!arleadyIn){
           turnEnd = false
@@ -461,8 +458,13 @@ io.on('connection', (socket) => {
             player: player,
             business: board[player.position.x][player.position.y] 
           }); 
-        }  
-        message = `${player.nickname} stand on his own business`
+          publishGameEvent(roomCode, {
+            type: 'THROW_BONES',
+            player: player.nickname,
+            value: number
+          }) 
+        }   
+        message = message ? message : `${player.nickname} stand on his own business` 
       } 
       if (board[player.position.x][player.position.y].type == "r") { 
         const event = handleRandomEvent(player) 
@@ -470,29 +472,53 @@ io.on('connection', (socket) => {
         player.money + amount < 0  ?  gameStatus = "finished" : gameStatus = "started" 
         player.money = player.money + amount
         message = event.message
+        publishGameEvent(roomCode, {
+          type: 'RANDOM_EVENT',
+          message: message,
+          amount: amount
+        }) 
       } 
       const updatedPlayers = players.map(p => {
         if (businessOwner) {
           return p.id == player.id  ? player : p.id == businessOwner.id ? businessOwner : p
         }
         return p.id == player.id  ? player : p 
-      })
-      console.log(updatedPlayers);
+      }) 
       db.prepare(`
             UPDATE game
             SET player1_info = ?, player2_info = ?, player_turn = ?, game_status = ?
             WHERE room_id = ?
-      `).run(JSON.stringify(updatedPlayers[0]),JSON.stringify(updatedPlayers[1]),turn,gameStatus,room.id); 
-      console.log(turnEnd);
+      `).run(JSON.stringify(updatedPlayers[0]),JSON.stringify(updatedPlayers[1]),turn,gameStatus,room.id);  
       
       if (gameStatus == "finished") {
+        const winner = updatedPlayers.find(p => p.id == turn)
+        console.log(updatedPlayers)
         io.to(roomCode).emit('finish', {
-          winner: turn,
+          winner: winner,
           gameStatus: gameStatus,
-          players: updatedPlayers
+          players: updatedPlayers,
+          message: message
         }); 
+        db.prepare(`
+          DELETE FROM rooms 
+          WHERE room_code = ?
+        `).run( roomCode );  
+        publishGameEvent(roomCode, {
+          type: 'THROW_BONES',
+          player: player.nickname,
+          value: number
+        });
+        publishGameEvent(roomCode, {
+          type: 'GAME_FINISHED',
+          winner: updatedPlayers.find(p => p.id == turn)
+        }) 
       }
       else if(turnEnd){
+        publishGameEvent(roomCode, {
+          type: 'THROW_BONES',
+          player: player.nickname,
+          value: number
+        }) 
         io.to(roomCode).emit('end-turn', {
           turn: turn,
           players: updatedPlayers,
@@ -501,7 +527,7 @@ io.on('connection', (socket) => {
           gameBoard: JSON.parse(game.game_board),
           message: message
         }); 
-      } 
+      }  
       callback({
         success: true,
         players: updatedPlayers,
@@ -517,7 +543,7 @@ io.on('connection', (socket) => {
     } 
   })
   socket.on('buyDecision', (data,callback ) => {
-    try{
+    try{ 
       const userId = socket.userId;
       if (data.decision) { 
         const roomCode = data.room
@@ -576,6 +602,13 @@ io.on('connection', (socket) => {
           gameBoard: JSON.parse(game.game_board),
           message: message
         }); 
+        publishGameEvent(roomCode, {
+          type: 'BUY_BUSINESS',
+          player: player.nickname,
+          business: data.business.name,
+          price: data.business.price,
+          decision: true
+        });
         callback({
           success: true, 
         });
@@ -605,6 +638,11 @@ io.on('connection', (socket) => {
         const updatedPlayers = players.map(p => {
           return p.id == player.id  ? player : p
         })
+        db.prepare(`
+            UPDATE game
+            SET player1_info = ?, player2_info = ?, player_turn = ?, game_status = ?
+            WHERE room_id = ?
+        `).run(JSON.stringify(updatedPlayers[0]), JSON.stringify(updatedPlayers[1]), turn, game.gameStatus, room.id); 
         io.to(roomCode).emit('end-turn', {
           turn: turn,
           players: updatedPlayers,
@@ -612,6 +650,13 @@ io.on('connection', (socket) => {
           gameStatus: game.gameStatus,
           gameBoard: JSON.parse(game.game_board),
           message: `${player.nickname} refused to bought ${data.business.name}`
+        }); 
+        publishGameEvent(roomCode, {
+          type: 'BUY_BUSINESS',
+          player: player.nickname,
+          business: data.business.name,
+          price: data.business.price,
+          decision: false
         }); 
         callback({
           success: true, 
@@ -681,8 +726,7 @@ io.on('connection', (socket) => {
             INSERT INTO trade_requests (room_id, sender_id, recepient_id, business_sell, business_buy, price_give, price_get)
             VALUES (?,?,?,?,?,?,?) 
       `).run(room.id, user.id, recepient.id, JSON.stringify(businessSell),JSON.stringify(businessBuy) , data.priceGive, data.priceGet); 
-        console.log(trade.lastInsertRowid,user.id,recepient.id,businessSell,businessBuy,data.priceGive, data.priceGet);
-        
+  
       io.to(roomCode).emit('trade', {
         tradeId: trade.lastInsertRowid,
         senderId: user.id,

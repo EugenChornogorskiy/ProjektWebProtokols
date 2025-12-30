@@ -37,7 +37,7 @@ export function TradeRequest( { info,players,onClose, socket} : any) {
               <div className='trade-input'> <img src="/dolar2.png" alt="" /><p>{info.priceGet}</p></div> 
             </div>
             <div className="player-property"> 
-              {player.property.map((p:any) => {
+              {info.businessBuy.property.map((p:any) => {
                 return (
                   <div key={p.name} className="property" >
                     <img  src={`/b-logos/${p.name == 'Facebook' ? "Facebook.svg" : 
@@ -84,7 +84,7 @@ export function TradeRequest( { info,players,onClose, socket} : any) {
                
             </div>
             <div className="player-property"> 
-              {recepient.property.map((p:any) => {
+              {info.businessSell.map((p:any) => {
                 return (
                   <div key={p.name} className="property"  >
                     <img  src={`/b-logos/${p.name == 'Facebook' ? "Facebook.svg" : 
@@ -112,8 +112,7 @@ export function TradeRequest( { info,players,onClose, socket} : any) {
                       p.name == 'Pepsi' ? "pepsi.png" : 
                       "starbucks.png" }`} alt="" />
                     <p  className="trade-money">{p.profit}$</p>
-                    <button type="button" className="check-btn"onClick={() => recepientSelected.some(ps => ps.name == p.name) ? setRecepientSelected(recepientSelected.filter(rp => rp.name != p.name)) : setRecepientSelected([...recepientSelected, p])}>{recepientSelected.some(ps => ps.name == p.name) ? "✔" : "\u00A0"}</button>
-                  </div>
+                   </div>
                 )
               })}
             </div>
@@ -129,7 +128,7 @@ export function TradeRequest( { info,players,onClose, socket} : any) {
         },0) + info.priceGive}$</div>
         <div id="total-amount">
           <p>Total amount</p>
-          <button id="total-btn" className="cencel-review" onClick={() => Accept}>Accept</button> 
+          <button id="total-btn" className="cencel-review" onClick={() => Accept()}>Accept</button> 
         </div>
         <div style={{width:"75px"}}>{ recepientSelected.reduce((acc,curr) => {
           return acc + curr.profit

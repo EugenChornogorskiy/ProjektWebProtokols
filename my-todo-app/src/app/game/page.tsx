@@ -62,7 +62,7 @@ function App( ){
         axiosList()
         const intervalL = setInterval(() => {
             if (!stopInterval) {
-                axiosList
+                axiosList()
             }
         }, 10000);
         return () => clearInterval(intervalL); 
@@ -98,7 +98,7 @@ function App( ){
                     </div> 
                 </header>
             </div>
-                {gameStarted ? <GameForm setGameBoard={setGameBoard} gameBoard={gameBoard} addToast={(type:string,value:string) => setToastList((prev:any) => [...prev, {type,id:Date.now(),value}])}/> :  <ChooseForm setGameStarted={setGameStarted} roomList={roomList} setRoomList={setRoomList} setStopInterval={setStopInterval} stopInterval={stopInterval}/> } 
+                {gameStarted ? <GameForm setGameBoard={setGameBoard} gameBoard={gameBoard} addToast={(type:string,value:string) => setToastList((prev:any) => [...prev, {type,id:Date.now(),value}])} setGameStarted={setGameStarted}/> :  <ChooseForm setGameStarted={setGameStarted} roomList={roomList} setRoomList={setRoomList} setStopInterval={setStopInterval} stopInterval={stopInterval}/> } 
                 {toastList.length > 0 && <ToastContainer data={toastList} removeToast={ (id:any) => setToastList(toastList.filter((p:any) => p.id != id)) }/> }
 
         </div> 

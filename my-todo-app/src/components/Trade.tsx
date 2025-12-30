@@ -103,30 +103,32 @@ export function Trade( { recepient,player, onClose, socket} : any) {
               {recepient.property.map((p:any) => {
                 return (
                   <div key={p.name} className="property"  >
-                    <img  src={`/b-logos/${p.name == 'Facebook' ? "Facebook.svg" : 
-                      p.name == 'Instagram' ? "Instagram.svg" : 
-                      p.name == 'Telegram' ? "Telegram.svg" : 
-                      p.name == 'Chanel' ? "chanel.png" : 
-                      p.name == 'Dior' ? "dior.png" : 
-                      p.name == 'Gucci' ? "gucci.png" : 
-                      p.name == 'Ryanair' ? "RYA.svg" : 
-                      p.name == 'Wizz Air' ? "WIZZ.svg" : 
-                      p.name == 'Lufthansa' ? "LHA.svg" : 
-                      p.name == 'Hilton' ? "hilton.png" : 
-                      p.name == 'Marriott' ? "marriott.png" : 
-                      p.name == 'Sheraton' ? "sheraton.png" : 
-                      p.name == 'Tesla' ? "tesla.png" : 
-                      p.name == 'Toyota' ? "toyota.png" : 
-                      p.name == 'BMW' ? "bmw.png" : 
-                      p.name == 'Apple' ? "apple.png" : 
-                      p.name == 'Samsung' ? "samsung.png" : 
-                      p.name == 'Microsoft' ? "microsoft.png" : 
-                      p.name == 'Walmart' ? "walmart.svg" : 
-                      p.name == 'Amazon' ? "amazon.png" : 
-                      p.name == 'eBay' ? "EBAY.svg" : 
-                      p.name == 'Coca-Cola' ? "coca-cola.png" : 
-                      p.name == 'Pepsi' ? "pepsi.png" : 
-                      "starbucks.png" }`} alt="" />
+                    <div>
+                      <img  src={`/b-logos/${p.name == 'Facebook' ? "Facebook.svg" : 
+                        p.name == 'Instagram' ? "Instagram.svg" : 
+                        p.name == 'Telegram' ? "Telegram.svg" : 
+                        p.name == 'Chanel' ? "chanel.png" : 
+                        p.name == 'Dior' ? "dior.png" : 
+                        p.name == 'Gucci' ? "gucci.png" : 
+                        p.name == 'Ryanair' ? "RYA.svg" : 
+                        p.name == 'Wizz Air' ? "WIZZ.svg" : 
+                        p.name == 'Lufthansa' ? "LHA.svg" : 
+                        p.name == 'Hilton' ? "hilton.png" : 
+                        p.name == 'Marriott' ? "marriott.png" : 
+                        p.name == 'Sheraton' ? "sheraton.png" : 
+                        p.name == 'Tesla' ? "tesla.png" : 
+                        p.name == 'Toyota' ? "toyota.png" : 
+                        p.name == 'BMW' ? "bmw.png" : 
+                        p.name == 'Apple' ? "apple.png" : 
+                        p.name == 'Samsung' ? "samsung.png" : 
+                        p.name == 'Microsoft' ? "microsoft.png" : 
+                        p.name == 'Walmart' ? "walmart.svg" : 
+                        p.name == 'Amazon' ? "amazon.png" : 
+                        p.name == 'eBay' ? "EBAY.svg" : 
+                        p.name == 'Coca-Cola' ? "coca-cola.png" : 
+                        p.name == 'Pepsi' ? "pepsi.png" : 
+                        "starbucks.png" }`} alt="" />
+                      </div>
                     <p  className="trade-money">{p.profit}$</p>
                     <button type="button" className="check-btn"onClick={() => recepientSelected.some(ps => ps.name == p.name) ? setRecepientSelected(recepientSelected.filter(rp => rp.name != p.name)) : setRecepientSelected([...recepientSelected, p])}>{recepientSelected.some(ps => ps.name == p.name) ? "✔" : "\u00A0"}</button>
                   </div>

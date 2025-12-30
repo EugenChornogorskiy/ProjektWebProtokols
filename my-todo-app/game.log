@@ -1,0 +1,157 @@
+[2025-12-30T01:07:43.371Z] game/NYXU35/events: {"type":"THROW_BONES","player":"bosch3","value":9,"timestamp":1767056863337}
+[2025-12-30T01:07:56.568Z] game/NYXU35/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"Ryanair","price":1200,"decision":true,"timestamp":1767056876543}
+[2025-12-30T01:08:25.955Z] game/NYXU35/events: {"type":"THROW_BONES","player":"bosch1","value":2,"timestamp":1767056905931}
+[2025-12-30T01:08:27.734Z] game/NYXU35/events: {"type":"BUY_BUSINESS","player":"bosch1","business":"Dior","price":400,"decision":true,"timestamp":1767056907710}
+[2025-12-30T01:08:32.807Z] game/NYXU35/events: {"type":"THROW_BONES","player":"bosch3","value":8,"timestamp":1767056912782}
+[2025-12-30T01:08:35.086Z] game/NYXU35/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"Tesla","price":2500,"decision":true,"timestamp":1767056915063}
+[2025-12-30T01:08:38.017Z] game/NYXU35/events: {"type":"THROW_BONES","player":"bosch1","value":8,"timestamp":1767056917992}
+[2025-12-30T01:08:39.135Z] game/NYXU35/events: {"type":"BUY_BUSINESS","player":"bosch1","business":"Wizz Air","price":1400,"decision":true,"timestamp":1767056919112}
+[2025-12-30T01:08:41.702Z] game/NYXU35/events: {"type":"THROW_BONES","player":"bosch3","value":8,"timestamp":1767056921677}
+[2025-12-30T01:08:42.694Z] game/NYXU35/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"Walmart","price":4000,"decision":true,"timestamp":1767056922671}
+[2025-12-30T01:11:02.254Z] game/NYXU35/events: {"type":"THROW_BONES","player":"bosch1","value":11,"timestamp":1767057062230}
+[2025-12-30T01:11:11.138Z] game/NYXU35/events: {"type":"BUY_BUSINESS","player":"bosch1","business":"Apple","price":3200,"decision":true,"timestamp":1767057071114}
+[2025-12-30T01:11:19.106Z] game/NYXU35/events: {"type":"THROW_BONES","player":"bosch3","value":5,"timestamp":1767057079082}
+[2025-12-30T01:11:23.319Z] game/NYXU35/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"Pepsi","price":4700,"decision":false,"timestamp":1767057083296}
+[2025-12-30T01:11:27.425Z] game/NYXU35/events: {"type":"THROW_BONES","player":"bosch1","value":2,"timestamp":1767057087401}
+[2025-12-30T01:11:32.388Z] game/NYXU35/events: {"type":"BUY_BUSINESS","player":"bosch1","business":"Microsoft","price":3700,"decision":true,"timestamp":1767057092364}
+[2025-12-30T01:11:36.408Z] game/NYXU35/events: {"type":"THROW_BONES","player":"bosch3","value":9,"timestamp":1767057096384}
+[2025-12-30T01:11:37.845Z] game/NYXU35/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"Gucci","price":500,"decision":true,"timestamp":1767057097821}
+[2025-12-30T01:14:13.304Z] game/NYXU35/events: {"type":"THROW_BONES","player":"bosch1","value":3,"timestamp":1767057253278}
+[2025-12-30T01:14:16.470Z] game/NYXU35/events: {"type":"BUY_BUSINESS","player":"bosch1","business":"Amazon","price":4200,"decision":false,"timestamp":1767057256445}
+[2025-12-30T01:14:23.289Z] game/NYXU35/events: {"type":"THROW_BONES","player":"bosch3","value":6,"timestamp":1767057263264}
+[2025-12-30T01:14:28.540Z] game/NYXU35/events: {"type":"THROW_BONES","player":"bosch1","value":8,"timestamp":1767057268514}
+[2025-12-30T01:14:30.464Z] game/NYXU35/events: {"type":"BUY_BUSINESS","player":"bosch1","business":"KFC","price":5200,"decision":false,"timestamp":1767057270438}
+[2025-12-30T01:14:33.676Z] game/NYXU35/events: {"type":"THROW_BONES","player":"bosch3","value":10,"timestamp":1767057273651}
+[2025-12-30T01:14:41.190Z] game/NYXU35/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"BMW","price":2900,"decision":false,"timestamp":1767057281159}
+[2025-12-30T01:14:45.233Z] game/NYXU35/events: {"type":"PAY_RENT","from":"bosch1","to":"bosch3","amount":250,"timestamp":1767057285192}
+[2025-12-30T01:14:45.233Z] game/NYXU35/events: {"type":"THROW_BONES","player":"bosch1","value":4,"timestamp":1767057285200}
+[2025-12-30T01:31:57.289Z] game/NYXU35/events: {"type":"THROW_BONES","player":"bosch3","value":10,"timestamp":1767058317264}
+[2025-12-30T01:44:02.883Z] game/NYXU35/events: {"type":"THROW_BONES","player":"bosch1","value":12,"timestamp":1767059042857}
+[2025-12-30T01:53:19.946Z] game/NYXU35/events: {"type":"THROW_BONES","player":"bosch3","value":9,"timestamp":1767059599922}
+[2025-12-30T01:54:05.907Z] game/NYXU35/events: {"type":"THROW_BONES","player":"bosch1","value":8,"timestamp":1767059645883}
+[2025-12-30T02:01:15.094Z] game/NYXU35/events: {"type":"THROW_BONES","player":"bosch3","value":9,"timestamp":1767060075062}
+[2025-12-30T02:01:27.339Z] game/NYXU35/events: {"type":"PAY_RENT","from":"bosch1","to":"bosch3","amount":0,"timestamp":1767060087306}
+[2025-12-30T02:01:27.340Z] game/NYXU35/events: {"type":"THROW_BONES","player":"bosch1","value":7,"timestamp":1767060087314}
+[2025-12-30T02:01:39.943Z] game/NYXU35/events: {"type":"RANDOM_EVENT","message":"bosch3 won a lotery: +1000$","amount":1000,"timestamp":1767060099910}
+[2025-12-30T02:01:39.943Z] game/NYXU35/events: {"type":"THROW_BONES","player":"bosch3","value":1,"timestamp":1767060099916}
+[2025-12-30T02:01:42.856Z] game/NYXU35/events: {"type":"THROW_BONES","player":"bosch1","value":2,"timestamp":1767060102832}
+[2025-12-30T02:04:26.341Z] game/NYXU35/events: {"type":"PAY_RENT","from":"bosch3","to":"bosch1","amount":2000,"timestamp":1767060266309}
+[2025-12-30T02:04:26.342Z] game/NYXU35/events: {"type":"THROW_BONES","player":"bosch3","value":9,"timestamp":1767060266316}
+[2025-12-30T02:04:39.176Z] game/NYXU35/events: {"type":"THROW_BONES","player":"bosch1","value":6,"timestamp":1767060279152}
+[2025-12-30T02:07:47.667Z] game/FQRN85/events: {"type":"THROW_BONES","player":"bosch1","value":5,"timestamp":1767060467643}
+[2025-12-30T02:08:38.206Z] game/FQRN85/events: {"type":"RANDOM_EVENT","message":"bosch3 has Fors-major: -1500$","amount":-1500,"timestamp":1767060518173}
+[2025-12-30T02:08:38.207Z] game/FQRN85/events: {"type":"THROW_BONES","player":"bosch3","value":8,"timestamp":1767060518181}
+[2025-12-30T02:08:41.050Z] game/FQRN85/events: {"type":"THROW_BONES","player":"bosch1","value":5,"timestamp":1767060521025}
+[2025-12-30T02:12:29.718Z] game/JHAS65/events: {"type":"THROW_BONES","player":"bosch3","value":1,"timestamp":1767060749693}
+[2025-12-30T02:13:53.535Z] game/PFNW54/events: {"type":"RANDOM_EVENT","message":"bosch3 has Fors-major: -1500$","amount":-1500,"timestamp":1767060833502}
+[2025-12-30T02:13:53.537Z] game/PFNW54/events: {"type":"THROW_BONES","player":"bosch3","value":8,"timestamp":1767060833511}
+[2025-12-30T02:13:56.140Z] game/PFNW54/events: {"type":"THROW_BONES","player":"bosch1","value":1,"timestamp":1767060836116}
+[2025-12-30T02:39:04.371Z] game/ZNDA77/events: {"type":"THROW_BONES","player":"bosch3","value":2,"timestamp":1767062344346}
+[2025-12-30T02:41:03.454Z] game/ZNDA77/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"Dior","price":400,"decision":true,"timestamp":1767062463430}
+[2025-12-30T02:41:15.455Z] game/ZNDA77/events: {"type":"THROW_BONES","player":"bosch1","value":10,"timestamp":1767062475427}
+[2025-12-30T02:41:19.535Z] game/ZNDA77/events: {"type":"BUY_BUSINESS","player":"bosch1","business":"Wizz Air","price":1400,"decision":false,"timestamp":1767062479513}
+[2025-12-30T02:41:26.008Z] game/ZNDA77/events: {"type":"THROW_BONES","player":"bosch3","value":1,"timestamp":1767062485985}
+[2025-12-30T02:41:27.095Z] game/ZNDA77/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"Gucci","price":500,"decision":true,"timestamp":1767062487072}
+[2025-12-30T02:46:45.013Z] game/EQXE46/events: {"type":"THROW_BONES","player":"bosch3","value":5,"timestamp":1767062804989}
+[2025-12-30T02:47:35.222Z] game/EQXE46/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"Facebook","price":700,"decision":true,"timestamp":1767062855197}
+[2025-12-30T02:47:38.980Z] game/EQXE46/events: {"type":"RANDOM_EVENT","message":"bosch1 has Fors-major: -1500$","amount":-1500,"timestamp":1767062858949}
+[2025-12-30T02:47:38.980Z] game/EQXE46/events: {"type":"THROW_BONES","player":"bosch1","value":12,"timestamp":1767062858955}
+[2025-12-30T02:47:42.322Z] game/EQXE46/events: {"type":"RANDOM_EVENT","message":"bosch3 has Fors-major: -1500$","amount":-1500,"timestamp":1767062862291}
+[2025-12-30T02:47:42.323Z] game/EQXE46/events: {"type":"THROW_BONES","player":"bosch3","value":7,"timestamp":1767062862298}
+[2025-12-30T02:47:47.164Z] game/EQXE46/events: {"type":"THROW_BONES","player":"bosch1","value":11,"timestamp":1767062867138}
+[2025-12-30T02:47:52.702Z] game/EQXE46/events: {"type":"BUY_BUSINESS","player":"bosch1","business":"Microsoft","price":3700,"decision":false,"timestamp":1767062872678}
+[2025-12-30T02:47:56.076Z] game/EQXE46/events: {"type":"THROW_BONES","player":"bosch3","value":2,"timestamp":1767062876051}
+[2025-12-30T02:47:57.577Z] game/EQXE46/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"Marriott","price":2100,"decision":true,"timestamp":1767062877553}
+[2025-12-30T02:59:34.294Z] game/QTVM68/events: {"type":"THROW_BONES","player":"bosch3","value":7,"timestamp":1767063574268}
+[2025-12-30T02:59:38.491Z] game/QTVM68/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"Telegram","price":1000,"decision":false,"timestamp":1767063578467}
+[2025-12-30T02:59:41.836Z] game/QTVM68/events: {"type":"THROW_BONES","player":"bosch1","value":1,"timestamp":1767063581813}
+[2025-12-30T02:59:42.930Z] game/QTVM68/events: {"type":"BUY_BUSINESS","player":"bosch1","business":"Chanel","price":300,"decision":true,"timestamp":1767063582907}
+[2025-12-30T02:59:46.514Z] game/QTVM68/events: {"type":"THROW_BONES","player":"bosch3","value":3,"timestamp":1767063586490}
+[2025-12-30T02:59:48.616Z] game/QTVM68/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"Wizz Air","price":1400,"decision":true,"timestamp":1767063588579}
+[2025-12-30T04:39:28.013Z] game/AAAN35/events: {"type":"THROW_BONES","player":"bosch3","value":11,"timestamp":1767069567989}
+[2025-12-30T04:39:35.917Z] game/AAAN35/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"Lufthansa","price":1600,"decision":true,"timestamp":1767069575894}
+[2025-12-30T04:40:01.564Z] game/AAAN35/events: {"type":"THROW_BONES","player":"bosch1","value":5,"timestamp":1767069601537}
+[2025-12-30T04:40:06.914Z] game/AAAN35/events: {"type":"BUY_BUSINESS","player":"bosch1","business":"Facebook","price":700,"decision":true,"timestamp":1767069606888}
+[2025-12-30T04:40:09.157Z] game/AAAN35/events: {"type":"THROW_BONES","player":"bosch3","value":12,"timestamp":1767069609130}
+[2025-12-30T04:40:23.470Z] game/AAAN35/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"Microsoft","price":3700,"decision":true,"timestamp":1767069623443}
+[2025-12-30T04:40:27.913Z] game/AAAN35/events: {"type":"THROW_BONES","player":"bosch1","value":13,"timestamp":1767069627886}
+[2025-12-30T04:40:31.919Z] game/AAAN35/events: {"type":"BUY_BUSINESS","player":"bosch1","business":"Toyota","price":2700,"decision":true,"timestamp":1767069631892}
+[2025-12-30T04:40:36.660Z] game/AAAN35/events: {"type":"THROW_BONES","player":"bosch3","value":8,"timestamp":1767069636633}
+[2025-12-30T04:40:46.187Z] game/AAAN35/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"Starbucks","price":4800,"decision":true,"timestamp":1767069646161}
+[2025-12-30T04:40:49.237Z] game/AAAN35/events: {"type":"RANDOM_EVENT","message":"bosch1 has Fors-major: -1500$","amount":-1500,"timestamp":1767069649207}
+[2025-12-30T04:40:49.238Z] game/AAAN35/events: {"type":"THROW_BONES","player":"bosch1","value":2,"timestamp":1767069649210}
+[2025-12-30T04:41:02.991Z] game/AAAN35/events: {"type":"THROW_BONES","player":"bosch3","value":8,"timestamp":1767069662967}
+[2025-12-30T04:41:05.493Z] game/AAAN35/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"Gucci","price":500,"decision":true,"timestamp":1767069665469}
+[2025-12-30T04:41:18.398Z] game/AAAN35/events: {"type":"RANDOM_EVENT","message":"bosch1 has Fors-major: -1500$","amount":-1500,"timestamp":1767069678335}
+[2025-12-30T04:41:18.398Z] game/AAAN35/events: {"type":"THROW_BONES","player":"bosch1","value":12,"timestamp":1767069678374}
+[2025-12-30T04:41:33.414Z] game/AAAN35/events: {"type":"THROW_BONES","player":"bosch3","value":4,"timestamp":1767069693390}
+[2025-12-30T04:41:40.516Z] game/AAAN35/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"Telegram","price":1000,"decision":true,"timestamp":1767069700490}
+[2025-12-30T04:41:43.237Z] game/AAAN35/events: {"type":"THROW_BONES","player":"bosch1","value":9,"timestamp":1767069703213}
+[2025-12-30T04:41:53.573Z] game/AAAN35/events: {"type":"THROW_BONES","player":"bosch3","value":3,"timestamp":1767069713552}
+[2025-12-30T04:41:56.981Z] game/AAAN35/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"Wizz Air","price":1400,"decision":true,"timestamp":1767069716961}
+[2025-12-30T04:41:59.675Z] game/AAAN35/events: {"type":"THROW_BONES","player":"bosch1","value":10,"timestamp":1767069719655}
+[2025-12-30T04:42:02.750Z] game/AAAN35/events: {"type":"BUY_BUSINESS","player":"bosch1","business":"Sheraton","price":2300,"decision":true,"timestamp":1767069722730}
+[2025-12-30T04:42:05.696Z] game/AAAN35/events: {"type":"THROW_BONES","player":"bosch3","value":9,"timestamp":1767069725675}
+[2025-12-30T04:42:15.070Z] game/AAAN35/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"BMW","price":2900,"decision":true,"timestamp":1767069735049}
+[2025-12-30T04:42:18.632Z] game/AAAN35/events: {"type":"THROW_BONES","player":"bosch1","value":6,"timestamp":1767069738612}
+[2025-12-30T04:42:25.212Z] game/AAAN35/events: {"type":"BUY_BUSINESS","player":"bosch1","business":"Apple","price":3200,"decision":true,"timestamp":1767069745192}
+[2025-12-30T04:42:28.916Z] game/AAAN35/events: {"type":"RANDOM_EVENT","message":"bosch3 has Fors-major: -1500$","amount":-1500,"timestamp":1767069748892}
+[2025-12-30T04:42:28.917Z] game/AAAN35/events: {"type":"THROW_BONES","player":"bosch3","value":13,"timestamp":1767069748896}
+[2025-12-30T04:42:58.744Z] game/AAAN35/events: {"type":"THROW_BONES","player":"bosch1","value":10,"timestamp":1767069778718}
+[2025-12-30T04:43:08.335Z] game/AAAN35/events: {"type":"BUY_BUSINESS","player":"bosch1","business":"Starbucks","price":4800,"decision":true,"timestamp":1767069788310}
+[2025-12-30T04:43:11.376Z] game/AAAN35/events: {"type":"THROW_BONES","player":"bosch3","value":13,"timestamp":1767069791351}
+[2025-12-30T04:43:24.111Z] game/AAAN35/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"Ryanair","price":1200,"decision":true,"timestamp":1767069804085}
+[2025-12-30T04:43:26.476Z] game/AAAN35/events: {"type":"THROW_BONES","player":"bosch1","value":10,"timestamp":1767069806450}
+[2025-12-30T04:43:31.546Z] game/AAAN35/events: {"type":"THROW_BONES","player":"bosch3","value":4,"timestamp":1767069811521}
+[2025-12-30T04:43:34.987Z] game/AAAN35/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"Hilton","price":1900,"decision":true,"timestamp":1767069814949}
+[2025-12-30T04:45:07.019Z] game/AAAN35/events: {"type":"THROW_BONES","player":"bosch1","value":9,"timestamp":1767069906995}
+[2025-12-30T04:45:09.443Z] game/AAAN35/events: {"type":"BUY_BUSINESS","player":"bosch1","business":"Marriott","price":2100,"decision":false,"timestamp":1767069909419}
+[2025-12-30T04:45:18.447Z] game/AAAN35/events: {"type":"RANDOM_EVENT","message":"bosch3 must pay tax: -1860$","amount":-6200,"timestamp":1767069918418}
+[2025-12-30T04:45:18.448Z] game/AAAN35/events: {"type":"THROW_BONES","player":"bosch3","value":11,"timestamp":1767069918424}
+[2025-12-30T04:45:18.448Z] game/AAAN35/events: {"type":"GAME_FINISHED","winner":{"id":2,"nickname":"bosch1","money":200,"property":[{"name":"Facebook","profit":400,"group":"Social medias","status":"in property"},{"name":"Toyota","profit":1700,"group":"Cars","status":"in property"},{"name":"Sheraton","profit":1400,"group":"Hotels","status":"in property"},{"name":"Apple","profit":2000,"group":"Technology","status":"in property"}],"position":{"x":9,"y":5}},"timestamp":1767069918424}
+[2025-12-30T04:54:36.438Z] game/UMRB96/events: {"type":"RANDOM_EVENT","message":"bosch3 won a lotery: +1000$","amount":1000,"timestamp":1767070476410}
+[2025-12-30T04:54:36.439Z] game/UMRB96/events: {"type":"THROW_BONES","player":"bosch3","value":4,"timestamp":1767070476413}
+[2025-12-30T04:55:03.946Z] game/UMRB96/events: {"type":"THROW_BONES","player":"bosch1","value":3,"timestamp":1767070503915}
+[2025-12-30T04:55:08.291Z] game/UMRB96/events: {"type":"BUY_BUSINESS","player":"bosch1","business":"Gucci","price":500,"decision":true,"timestamp":1767070508267}
+[2025-12-30T04:55:10.345Z] game/UMRB96/events: {"type":"THROW_BONES","player":"bosch3","value":13,"timestamp":1767070510296}
+[2025-12-30T04:55:14.278Z] game/UMRB96/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"Tesla","price":2500,"decision":true,"timestamp":1767070514254}
+[2025-12-30T04:55:26.561Z] game/UMRB96/events: {"type":"THROW_BONES","player":"bosch1","value":10,"timestamp":1767070526537}
+[2025-12-30T04:55:32.545Z] game/UMRB96/events: {"type":"BUY_BUSINESS","player":"bosch1","business":"Hilton","price":1900,"decision":true,"timestamp":1767070532521}
+[2025-12-30T04:57:05.188Z] game/UMRB96/events: {"type":"THROW_BONES","player":"bosch3","value":12,"timestamp":1767070625164}
+[2025-12-30T04:58:45.880Z] game/UMRB96/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"Coca-Cola","price":4500,"decision":true,"timestamp":1767070725853}
+[2025-12-30T05:04:03.839Z] game/SGQG57/events: {"type":"THROW_BONES","player":"bosch3","value":7,"timestamp":1767071043814}
+[2025-12-30T05:04:06.119Z] game/SGQG57/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"Telegram","price":1000,"decision":true,"timestamp":1767071046096}
+[2025-12-30T05:04:11.777Z] game/SGQG57/events: {"type":"THROW_BONES","player":"bosch1","value":2,"timestamp":1767071051753}
+[2025-12-30T05:04:15.269Z] game/SGQG57/events: {"type":"BUY_BUSINESS","player":"bosch1","business":"Dior","price":400,"decision":true,"timestamp":1767071055244}
+[2025-12-30T05:04:23.354Z] game/SGQG57/events: {"type":"THROW_BONES","player":"bosch3","value":6,"timestamp":1767071063329}
+[2025-12-30T05:04:29.175Z] game/SGQG57/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"Hilton","price":1900,"decision":true,"timestamp":1767071069150}
+[2025-12-30T05:04:31.719Z] game/SGQG57/events: {"type":"THROW_BONES","player":"bosch1","value":3,"timestamp":1767071071695}
+[2025-12-30T05:04:34.588Z] game/SGQG57/events: {"type":"BUY_BUSINESS","player":"bosch1","business":"Facebook","price":700,"decision":true,"timestamp":1767071074564}
+[2025-12-30T05:04:41.882Z] game/SGQG57/events: {"type":"THROW_BONES","player":"bosch3","value":9,"timestamp":1767071081857}
+[2025-12-30T05:04:44.977Z] game/SGQG57/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"Samsung","price":3500,"decision":true,"timestamp":1767071084953}
+[2025-12-30T05:04:51.195Z] game/SGQG57/events: {"type":"THROW_BONES","player":"bosch1","value":5,"timestamp":1767071091170}
+[2025-12-30T05:04:54.410Z] game/SGQG57/events: {"type":"BUY_BUSINESS","player":"bosch1","business":"Wizz Air","price":1400,"decision":true,"timestamp":1767071094386}
+[2025-12-30T05:04:57.405Z] game/SGQG57/events: {"type":"THROW_BONES","player":"bosch3","value":9,"timestamp":1767071097381}
+[2025-12-30T05:05:23.526Z] game/SGQG57/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"Starbucks","price":4800,"decision":true,"timestamp":1767071123502}
+[2025-12-30T05:06:22.538Z] game/SGQG57/events: {"type":"THROW_BONES","player":"bosch1","value":5,"timestamp":1767071182515}
+[2025-12-30T05:06:25.092Z] game/SGQG57/events: {"type":"BUY_BUSINESS","player":"bosch1","business":"Sheraton","price":2300,"decision":true,"timestamp":1767071185058}
+[2025-12-30T05:06:28.104Z] game/SGQG57/events: {"type":"THROW_BONES","player":"bosch3","value":2,"timestamp":1767071188073}
+[2025-12-30T05:06:34.426Z] game/SGQG57/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"Mac-donalds","price":5000,"decision":false,"timestamp":1767071194403}
+[2025-12-30T05:06:36.796Z] game/SGQG57/events: {"type":"THROW_BONES","player":"bosch1","value":10,"timestamp":1767071196774}
+[2025-12-30T05:06:44.459Z] game/SGQG57/events: {"type":"BUY_BUSINESS","player":"bosch1","business":"Walmart","price":4000,"decision":true,"timestamp":1767071204437}
+[2025-12-30T05:06:47.882Z] game/SGQG57/events: {"type":"RANDOM_EVENT","message":"bosch3 has Fors-major: -1500$","amount":-1500,"timestamp":1767071207857}
+[2025-12-30T05:06:47.883Z] game/SGQG57/events: {"type":"THROW_BONES","player":"bosch3","value":11,"timestamp":1767071207859}
+[2025-12-30T05:07:31.038Z] game/SGQG57/events: {"type":"THROW_BONES","player":"bosch1","value":8,"timestamp":1767071251017}
+[2025-12-30T05:07:33.413Z] game/SGQG57/events: {"type":"BUY_BUSINESS","player":"bosch1","business":"Mac-donalds","price":5000,"decision":true,"timestamp":1767071253392}
+[2025-12-30T05:07:39.779Z] game/SGQG57/events: {"type":"RANDOM_EVENT","message":"bosch3 must pay fine: -500$","amount":-500,"timestamp":1767071259754}
+[2025-12-30T05:07:39.780Z] game/SGQG57/events: {"type":"THROW_BONES","player":"bosch3","value":4,"timestamp":1767071259757}
+[2025-12-30T05:07:45.399Z] game/SGQG57/events: {"type":"RANDOM_EVENT","message":"bosch1 must pay fine: -500$","amount":-500,"timestamp":1767071265374}
+[2025-12-30T05:07:45.400Z] game/SGQG57/events: {"type":"THROW_BONES","player":"bosch1","value":11,"timestamp":1767071265377}
+[2025-12-30T05:24:25.366Z] game/SGQG57/events: {"type":"PAY_RENT","from":"bosch3","to":"bosch1","amount":1400,"timestamp":1767072265326}
+[2025-12-30T05:24:25.366Z] game/SGQG57/events: {"type":"THROW_BONES","player":"bosch3","value":3,"timestamp":1767072265329}
+[2025-12-30T05:24:35.398Z] game/SGQG57/events: {"type":"THROW_BONES","player":"bosch1","value":2,"timestamp":1767072275366}
+[2025-12-30T05:24:42.309Z] game/SGQG57/events: {"type":"THROW_BONES","player":"bosch3","value":2,"timestamp":1767072282285}
+[2025-12-30T05:24:44.491Z] game/SGQG57/events: {"type":"BUY_BUSINESS","player":"bosch3","business":"Tesla","price":2500,"decision":true,"timestamp":1767072284467}
+[2025-12-30T05:24:47.369Z] game/SGQG57/events: {"type":"RANDOM_EVENT","message":"bosch1 won a lotery: +1000$","amount":1000,"timestamp":1767072287342}
+[2025-12-30T05:24:47.369Z] game/SGQG57/events: {"type":"THROW_BONES","player":"bosch1","value":2,"timestamp":1767072287345}
+[2025-12-30T06:15:16.133Z] game/SGQG57/events: {"type":"THROW_BONES","player":"bosch3","value":5,"timestamp":1767075316108}
