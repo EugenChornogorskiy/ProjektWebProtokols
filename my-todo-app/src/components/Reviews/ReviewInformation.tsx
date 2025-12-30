@@ -10,7 +10,7 @@ export function ReviewInformation( { addedReview, setAddedReview,setCreateReview
   const [axiosDone, setAxiosDone] = useState<boolean >(false);   
   useEffect(() => {
     if (addedReview) { 
-      axios.get(`http://localhost:3000/api/comment` )
+      axios.get(`https://localhost:3000/api/comment` )
       .then(function (response:any) {  
         setCommentsList(response.data ) 
         setAxiosDone(true)

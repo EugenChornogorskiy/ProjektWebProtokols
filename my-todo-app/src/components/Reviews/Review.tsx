@@ -20,7 +20,7 @@ export function Review( { onClose,setAddedReview } : any) {
       onSubmit: async (values, { resetForm ,setSubmitting }) => { 
         setSubmitting(true); 
         startTransition(() => {   
-          axios.post(`http://localhost:3000/api/comment`,{
+          axios.post(`https://localhost:3000/api/comment`,{
             token: token,  
             rate: values.rate,
             value: values.value,

@@ -1,14 +1,17 @@
 
-import db from '@/src/lib/database';
-import { createServer } from 'http';
+import db from '@/src/lib/database'; 
 import { Server } from 'socket.io';
-import jwt from 'jsonwebtoken'; 
-import { error } from 'console';
+import jwt from 'jsonwebtoken';  
+import https from 'https';
+const fs = require('fs');
 import { publishGameEvent } from './mqtt.js';
-const server = createServer();
+const server = https.createServer({
+  key: fs.readFileSync('kluczBez.key'),
+  cert: fs.readFileSync('certyfikat.crt'),
+});
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3001", 
+    origin: "https://localhost:3001", 
     methods: ["GET", "POST"]
   }
 });

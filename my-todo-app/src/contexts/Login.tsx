@@ -45,12 +45,12 @@ export const LoginProvider = ({ children }:any) => {
   }, []);
   useEffect(() => {
     if (loaded && token ) { 
-      axios.get('http://localhost:3000/api/auth/verify', {
+      axios.get('https://localhost:3000/api/auth/verify', {
         headers: { Authorization: token }
       })
       .then(function (response:any) { 
         console.log('User authenticated');
-        axios.get('http://localhost:3000/api/room/verify', {
+        axios.get('https://localhost:3000/api/room/verify', {
           headers: { Authorization: token }
         })
         .then(function (response:any) { 
@@ -86,7 +86,7 @@ export const LoginProvider = ({ children }:any) => {
   }, [loaded]);
   useEffect(() => {
     if (loaded && id) {
-      axios.get( `http://localhost:3000/api/users/${id}`)
+      axios.get( `https://localhost:3000/api/users/${id}`)
       .then(function (response:any) {
         console.log(response.data); 
         setName(response.data.name)

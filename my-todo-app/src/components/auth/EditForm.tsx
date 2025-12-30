@@ -1,11 +1,8 @@
 import { useState, startTransition,useEffect } from 'react';   
 import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik'; 
-import { registerValidationSchema } from '@/src/utils/validation'; 
-import { LoginButton } from '@/src/components/auth/LoginButton';    
-import Link from 'next/link';
-import { useLogin } from '../../contexts/Login';
-import { log } from 'console';
+import { registerValidationSchema } from '@/src/utils/validation';   
+import { useLogin } from '../../contexts/Login'; 
 import { EditButton } from './EditButton';
 const srp = require('secure-remote-password/client')
 const axios = require('axios').default;
@@ -40,7 +37,7 @@ export function EditForm( { id }: any) {
 
         startTransition(() => {   
 
-          axios.post('http://localhost:3000/api/auth/login/srp', {   login: login, A: A })
+          axios.post('https://localhost:3000/api/auth/login/srp', {   login: login, A: A })
           .then(function (response:any) { 
             const salt = response.data.salt 
             const B = response.data.B 
@@ -50,7 +47,7 @@ export function EditForm( { id }: any) {
             console.log(clientSession.proof,clientSession);
             
             const M = clientSession.proof
-            axios.put(`http://localhost:3000/api/users/${id}`, { M: M ,
+            axios.put(`https://localhost:3000/api/users/${id}`, { M: M ,
               email: values.email,
               nickname: values.nickname, 
               name: values.name,
@@ -78,7 +75,7 @@ export function EditForm( { id }: any) {
   const deleteAccount = () => {
         const a = srp.generateEphemeral();
         const A = a.public;
-          axios.post('http://localhost:3000/api/auth/login/srp', {   login: login, A: A.toString("hex") })
+          axios.post('https://localhost:3000/api/auth/login/srp', {   login: login, A: A.toString("hex") })
           .then(function (response:any) { 
             const salt = Buffer.from(response.data.salt, 'hex');
             const B = Buffer.from(response.data.B, 'hex');
@@ -86,7 +83,7 @@ export function EditForm( { id }: any) {
             const client = new srp.Client(a.secret, formik.values.password, salt, A, B);
             const M = client.computeProof();
 
-            axios.delete(`http://localhost:3000/api/users/${id}`, { headers:{ M: M.toString("hex")} }) 
+            axios.delete(`https://localhost:3000/api/users/${id}`, { headers:{ M: M.toString("hex")} }) 
             .then(function (response:any) { 
               addLogin('')
               addToken('')

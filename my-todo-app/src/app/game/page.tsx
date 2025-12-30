@@ -20,9 +20,8 @@ function App( ){
     const [stopInterval, setStopInterval] = useState<boolean>(false)  
     useEffect(() => { 
         if (fetched) {  
-            if (token) { 
-                
-                axios.get('http://localhost:3000/api/room/verify',{
+            if (token) {  
+                axios.get('https://localhost:3000/api/room/verify',{
                     headers: { Authorization:  token }
                 } )
                 .then(function (response:any) {
@@ -49,7 +48,7 @@ function App( ){
     useEffect(() => {
         if (!token ) return
         const axiosList = () => {
-            axios.get('http://localhost:3000/api/room/list',{
+            axios.get('https://localhost:3000/api/room/list',{
                 headers: { Authorization:  token }
             })
             .then((response:any) => {
@@ -69,7 +68,7 @@ function App( ){
     },[token,stopInterval]) 
     const deleteRoom = () => {
         if (roomCode) {
-            axios.delete(`http://localhost:3000/api/room/${roomCode}`,{
+            axios.delete(`https://localhost:3000/api/room/${roomCode}`,{
                 headers: { Authorization:  token }
             })
             .then(function (response:any) {

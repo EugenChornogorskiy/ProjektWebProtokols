@@ -14,7 +14,7 @@ export async function POST(request: Request) {
       );
     }
     const user = db.prepare(`
-      SELECT id, salt, verifier FROM users
+      SELECT * FROM users
       WHERE email = ? OR nickname = ?
     `).get(login, login);
     
@@ -51,7 +51,8 @@ export async function POST(request: Request) {
     `).run(user.id, bSecret , B , A) 
     return NextResponse.json({
       salt: user.salt,
-      B: B.toString("hex")
+      B: B.toString("hex"),
+      login: user.nickname
     }); 
    }
   catch(error){

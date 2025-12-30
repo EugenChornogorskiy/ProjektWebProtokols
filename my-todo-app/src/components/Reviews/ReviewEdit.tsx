@@ -20,7 +20,7 @@ export function ReviewEdit( { review, onClose,setAddedReview } : any) {
       onSubmit: async (values, { resetForm ,setSubmitting }) => { 
         setSubmitting(true); 
         startTransition(() => {   
-          axios.put(`http://localhost:3000/api/comment/${review.id}`,{
+          axios.put(`https://localhost:3000/api/comment/${review.id}`,{
             token: token,  
             rate: values.rate,
             value: values.value,
@@ -40,7 +40,7 @@ export function ReviewEdit( { review, onClose,setAddedReview } : any) {
       },
     });   
   const deleteReview = () => {  
-    axios.delete(`http://localhost:3000/api/comment/${review.id}`, { headers:{ Authorization: token} }) 
+    axios.delete(`https://localhost:3000/api/comment/${review.id}`, { headers:{ Authorization: token} }) 
     .then(function (response:any) { 
       onClose()
       setAddedReview(true)

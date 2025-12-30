@@ -27,7 +27,7 @@ export function RegisterForm( { type }: any) {
         const privateKey = srp.derivePrivateKey(salt, values.nickname, values.password);
         const verifier = srp.deriveVerifier(privateKey);
         startTransition(() => {   
-          axios.post('http://localhost:3000/api/users/', {
+          axios.post('https://localhost:3000/api/users/', {
             email: values.email,
             nickname: values.nickname,
             salt:salt,

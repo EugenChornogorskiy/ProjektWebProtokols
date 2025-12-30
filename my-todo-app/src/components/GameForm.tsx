@@ -48,7 +48,7 @@ export function GameForm( { setGameBoard, gameBoard , addToast,setGameStarted }:
       } 
       setRoomC(roomCode) 
       
-      const socketInstance = io('http://localhost:3001', {
+      const socketInstance = io('https://localhost:3001', {
             auth: { token },
             transports: ['websocket', 'polling']
       }); 
@@ -193,7 +193,7 @@ export function GameForm( { setGameBoard, gameBoard , addToast,setGameStarted }:
     setChatMessage('')
   }
   const changeRoom = () => {
-      axios.put(`http://localhost:3000/api/room/${roomCode}`,{
+      axios.put(`https://localhost:3000/api/room/${roomCode}`,{
         token: token,
         name: roomChange
       } )

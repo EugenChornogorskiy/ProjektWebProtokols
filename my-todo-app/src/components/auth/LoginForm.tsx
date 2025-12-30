@@ -22,20 +22,21 @@ export function LoginForm( {type }: any) {
         setSubmitting(true);   
         
         const a = srp.generateEphemeral();
-        const A = a.public;
+        const A = a.public.toString("hex");
 
         startTransition(() => { 
 
-          axios.post('http://localhost:3000/api/auth/login/srp', {   login: values.login, A: A.toString("hex") })
+          axios.post('https://localhost:3000/api/auth/login/srp', {   login: values.login, A: A })
           .then(function (response:any) { 
             const salt = response.data.salt 
             const B = response.data.B 
-
-            const privateKey = srp.derivePrivateKey(salt, values.login, values.password)
-            const clientSession = srp.deriveSession(a.secret, B ,salt ,values.login, privateKey)
+            const login = response.data.login
+            console.log(login); 
+            const privateKey = srp.derivePrivateKey(salt, login, values.password)
+            const clientSession = srp.deriveSession(a.secret, B ,salt ,login, privateKey)
             const M = clientSession.proof
 
-            axios.post("http://localhost:3000/api/auth/login/srp/verify", {  login: values.login, M: M.toString("hex") })
+            axios.post("https://localhost:3000/api/auth/login/srp/verify", {  login: login, M: M })
             .then(function (response:any) { 
               srp.verifySession(A, clientSession, response.data.serverSession );
               addLogin(response.data.user.nickname)

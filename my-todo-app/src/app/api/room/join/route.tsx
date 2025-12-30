@@ -7,9 +7,15 @@ export async function GET(request: Request) {
   try {
     const token :any = await request.headers.get('Authorization'); 
     const room :any = await request.headers.get('Room'); 
-    console.log(token);
-    
-    const decoded = jwt.verify(token, 'secret123') as any;
+    let decoded: any;
+    try {
+      decoded = jwt.verify( token, 'secret123'); 
+    } catch (err) {  
+      return NextResponse.json( 
+        { error: "Invalid Token" },
+        { status: 401 }
+      );
+    } 
     const userId = decoded.userId; 
     const existingUser = db.prepare(`
       SELECT * FROM users WHERE id = ? 

@@ -6,22 +6,35 @@ import { useLogin } from '../contexts/Login';
 import { DashboardModal } from '../components/DashboardModal';
 import { ReviewInformation } from '../components/Reviews/ReviewInformation';
 import { ReviewModal } from '../components/Reviews/ReviewModal';
-import { ReviewEditModal } from '../components/Reviews/ReviewEditModal';
+import { ReviewEditModal } from '../components/Reviews/ReviewEditModal'; 
+const axios = require('axios').default;
 export default function Home() {
   const [dashBoard,setDashBoard] = useState<boolean>(false)
   const router = useRouter(); 
-  const { token }:any = useLogin()
+  const { token,addLogin,addId,addToken }:any = useLogin()
   const [createReview,setCreateReview] = useState<boolean>(false) 
   const [editReview,setEditReview] = useState<any>(null) 
   const [addedReview,setAddedReview] = useState<boolean>(true) 
+  const logOut = () => {
+    axios.get(`https://localhost:3000/api/auth/logout`,{ headers: { Authorization:  token } } )
+    .then(function (response:any) {    
+      addLogin('')
+      addToken('')
+      addId(null)
+    })
+    .catch(function (error:any) {
+      console.log(error ); 
+    }); 
+  }
   return ( 
     <div id="container">  
       <header >
         <div id="nav-items">
           <img src="/logoB3.png" alt="" />
           <div id="nav-btns">
-            {token && <Link href={"/auth/register"}> <button id="sing-up">Sing up</button></Link>} 
-            {token && <Link href={"/auth/login"}><button id="sing-in">Log in</button></Link> }
+            {!token && <Link href={"/auth/register"}> <button id="sing-up">Sing up</button></Link>} 
+            {!token && <Link href={"/auth/login"}><button id="sing-in">Log in</button></Link> }
+            {token && <button id="sing-up" onClick={() => logOut()}>Log out</button> }
             <div id="navbar-toggle" data-toggle="offcanvas-wrap" onClick={() => setDashBoard(true)}>
               <span id="icon-bar upper"></span>
               <span id="icon-bar middle" ></span>    

@@ -14,7 +14,7 @@ export async function POST(request: Request) {
       );
     }
     const user = db.prepare(`
-      SELECT id, salt, verifier FROM users
+      SELECT * FROM users
       WHERE email = ? OR nickname = ?
     `).get(login, login);
     
