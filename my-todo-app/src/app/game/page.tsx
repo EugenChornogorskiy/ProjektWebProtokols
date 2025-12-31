@@ -7,11 +7,13 @@ import { GameForm } from "@/src/components/GameForm";
 import { ToastContainer } from "@/src/components/Toasts/ToastContainer";
 import Link from "next/link";
 import { SpectateGameForm } from "@/src/components/SpectateGameForm";
+import { DashboardModal } from "@/src/components/DashboardModal";
 const axios = require('axios').default;
 export default function Page( ) {      
   return <App />; 
 }   
-function App( ){     
+function App( ){    
+    const [dashBoard,setDashBoard] = useState<boolean>(false)
     const {login,loaded,roomCode,token,fetched,addRoom}:any = useLogin()
     const router = useRouter(); 
     const [gameStarted, setGameStarted] = useState<boolean>(false) 
@@ -93,17 +95,18 @@ function App( ){
                         <div id="nav-btns">
                             {roomCode && !(gameBoard.length > 0) && <button id="sing-up" onClick={() => deleteRoom()}>Delete room</button>}
                             {spectator && <button id="sing-up" onClick={() => {setSpectator(null),setStopInterval(false)}}>Quit</button>}
-                            <div id="navbar-toggle" data-toggle="offcanvas-wrap" >
+                            {!roomCode && <div id="navbar-toggle" data-toggle="offcanvas-wrap" onClick={() => setDashBoard(true)}>
                                 <span id="icon-bar upper"></span>
                                 <span id="icon-bar middle" ></span>    
                                 <span id="icon-bar bottom"></span> 
-                            </div>
+                            </div>}
                         </div>
                     </div> 
                 </header>
             </div>
+                {dashBoard && <DashboardModal onClose={() => setDashBoard(false)}/> } 
                 {!spectator && gameStarted && <GameForm setGameBoard={setGameBoard} gameBoard={gameBoard} addToast={(type:string,value:string) => setToastList((prev:any) => [...prev, {type,id:Date.now(),value}])} setGameStarted={setGameStarted} setStopInterval={setStopInterval}/>}  
-                    {!spectator && !gameStarted &&<ChooseForm setGameStarted={setGameStarted} roomList={roomList} setRoomList={setRoomList} setStopInterval={setStopInterval} stopInterval={stopInterval} setSpectator={setSpectator}/> } 
+                {!spectator && !gameStarted &&<ChooseForm setGameStarted={setGameStarted} roomList={roomList} setRoomList={setRoomList} setStopInterval={setStopInterval} stopInterval={stopInterval} setSpectator={setSpectator}/> } 
                 {toastList.length > 0 && <ToastContainer data={toastList} removeToast={ (id:any) => setToastList(toastList.filter((p:any) => p.id != id)) }/> }
                 {spectator && <SpectateGameForm roomCode={spectator} onClose= {() => setSpectator(null)} addToast={(type:string,value:string) => setToastList((prev:any) => [...prev, {type,id:Date.now(),value}])}/>}
         </div> 

@@ -105,6 +105,16 @@ export function initDatabase() {
       FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
     )
   `);  
+  db.exec(`
+    CREATE TABLE IF NOT EXISTS game_history (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      room_code TEXT NOT NULL,
+      winner INTEGER NOT NULL,  
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+    )
+  `);  
 }
 initDatabase()
 export default db;

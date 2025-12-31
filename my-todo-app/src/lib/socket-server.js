@@ -44,7 +44,7 @@ function movePlayer(currentPos, steps, start = false) {
     const oldY = newY;
     newY -= moveUp; 
     remainingSteps -= moveUp;
-    passedStart = remainingSteps > 0 ? true : false
+    passedStart = remainingSteps >= 0 ? true : false
   } 
   if (remainingSteps > 0) {
     const result = movePlayer({ x: newX, y: newY }, remainingSteps,passedStart);
@@ -528,6 +528,14 @@ io.on('connection', (socket) => {
           DELETE FROM rooms 
           WHERE room_code = ?
         `).run( roomCode );  
+        db.prepare(`
+          INSERT INTO game_history (user_id, room_code, winner)
+          VALUES (?,?,?)
+        `).run(turn,roomCode,turn);  
+        db.prepare(`
+          INSERT INTO game_history (user_id, room_code, winner)
+          VALUES (?,?,?)
+        `).run(player.id,roomCode,player.id);  
         publishGameEvent(roomCode, {
           type: 'THROW_BONES',
           messageSpec: message,

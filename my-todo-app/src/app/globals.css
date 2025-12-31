@@ -1261,3 +1261,13 @@ input[type=number]::-webkit-inner-spin-button {
   position: absolute;
   right: 10px; 
 }
+.review-img{
+  max-width: 200px;
+  max-height: 200px;
+}
+#image-delete{
+  background-color:#0098d4;
+  width: fit-content;
+  padding: 5px;
+  border-radius: 15px;
+}

@@ -38,7 +38,7 @@ export function ReviewInformation( { addedReview, setAddedReview,setCreateReview
                 return ( 
                     <div key={index} className='review'>
                         <div id="review-creator">
-                            <img src="/icons/BxsUserCircleB.svg" alt="" />
+                            <img src="/BxsUserCircleB.svg" alt="" />
                             <div id="author">
                                 <div id="author"> <p id="review-author">{r.creator.name + " " + r.creator.surname}</p></div>
                                 <p id="reviews-count">{reviewCount } reviews</p>
@@ -51,7 +51,7 @@ export function ReviewInformation( { addedReview, setAddedReview,setCreateReview
                             </div>}
                          </div>
                         <p>{r.comment.value}</p>
-                        {r.content && (r.content.includes("data:image/") ? <img src={r.content } alt="" /> : r.content.includes("data:video/") ? <video src={r.content} controls/> : <img src={r.content} alt="" />)} 
+                        {r.comment.content && (r.comment.content.includes("data:image/") ? <img className='review-img' src={r.comment.content } alt="" /> : r.comment.content.includes("data:video/") ? <video className='review-img' src={r.comment.content} controls/> : <img className='review-img' src={r.comment.content} alt="" />)} 
                     </div>
                 )
             })}
