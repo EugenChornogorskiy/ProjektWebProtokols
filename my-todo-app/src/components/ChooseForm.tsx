@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { useLogin } from '../contexts/Login';
 import { log } from 'console';
 const axios = require('axios').default;
-export function ChooseForm( {setGameStarted,roomList,setRoomList, setStopInterval,stopInterval }:any) {   
+export function ChooseForm( {setGameStarted,roomList,setRoomList, setStopInterval,stopInterval,setSpectator }:any) {   
   const [roomSearch, setRoomSearch] = useState<any >(""); 
   const {token,addRoom}:any = useLogin()
   const formik = useFormik({
@@ -18,13 +18,14 @@ export function ChooseForm( {setGameStarted,roomList,setRoomList, setStopInterva
       onSubmit: async (values, { resetForm ,setSubmitting}) => {  
         setSubmitting(true);   
         startTransition(async() => {  
-          axios.get('http://localhost:3000/api/room/join',{
+          axios.get('https://localhost:3000/api/room/join',{
             headers: { Authorization:  token, Room: values.code }
           } )
           .then(function (response:any) {
             console.log(response.data );
             if (response.data.joinAllowed) { 
               addRoom(values.code)
+              setStopInterval(true)
               setGameStarted(true)
             } 
           })
@@ -37,14 +38,15 @@ export function ChooseForm( {setGameStarted,roomList,setRoomList, setStopInterva
       }, 
     });   
   const createRoom = () => {
-      axios.post('http://localhost:3000/api/room/',{
+      axios.post('https://localhost:3000/api/room/',{
         token:token
       } )
       .then(function (response:any) {
         console.log(response.data.hasActiveRoom);
         if (response.data.hasActiveRoom) { 
           addRoom(response.data.roomCode)
-          setGameStarted(true)
+          setStopInterval(true)
+          setGameStarted(true) 
         }
         else{ 
           console.log("error ");
@@ -57,7 +59,7 @@ export function ChooseForm( {setGameStarted,roomList,setRoomList, setStopInterva
     console.log(roomList);
   const searchRoom = () => {
       setStopInterval(true)
-      axios.get(`http://localhost:3000/api/room/search?name=${roomSearch}`,{
+      axios.get(`https://localhost:3000/api/room/search?name=${roomSearch}`,{
         headers: {Authorization: token }
         
       } )
@@ -106,7 +108,8 @@ export function ChooseForm( {setGameStarted,roomList,setRoomList, setStopInterva
                   )
                 })}
               </div>
-              {r.players.length < 2 && <div className='join-room'><button className='join-room-btn' onClick={() => {addRoom(r.room.room_code), setGameStarted(true)}}>Join</button></div>}
+              {r.players.length < 2 && <div className='join-room'><button className='join-room-btn' onClick={() => {addRoom(r.room.room_code), setGameStarted(true),setStopInterval(true)}}>Join</button></div>}
+              {r.room.game_state != "initialization" && <button className='join-room-btn' onClick={() => {setSpectator(r.room.room_code),setStopInterval(true)}}>Spectate</button>}
             </div>
           )
         })}

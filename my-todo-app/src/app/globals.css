@@ -337,8 +337,7 @@ header{
 }
 #content-game{
   width: 1200px;
-  height: 900px;
-  margin-top: -55px;
+  height: 800px; 
   margin-left: auto;
   margin-right: auto; 
   color: rgb(56, 56, 56);
@@ -1185,6 +1184,10 @@ input[type=number]::-webkit-inner-spin-button {
   width: 75%;
   color: rgb(43, 43, 43);
 }
+#chat div{
+  position: relative;
+  width: 100%;
+}
 #chat-wrapper{
   width: 100%;
   display: flex;
@@ -1232,6 +1235,8 @@ input[type=number]::-webkit-inner-spin-button {
   height: 100%; 
   background-color: rgba(128, 128, 128, 0.288);  
   display: flex;
+  flex-direction: column;
+  gap: 20px;
   justify-content: center;
   align-items: center;
   z-index: 200;
@@ -1241,4 +1246,18 @@ input[type=number]::-webkit-inner-spin-button {
   top: 50%;
   left: 50%; 
   transform: translate(-50%, -50%);
+}
+#finish button{
+  background-color: #00ad82;
+  color: snow;
+  padding: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 1.2em;
+  border-radius: 10px;
+  font-family: 'BoschSans-Medium'; 
+}
+.edit-img{
+  position: absolute;
+  right: 10px; 
 }

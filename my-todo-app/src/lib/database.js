@@ -104,7 +104,7 @@ export function initDatabase() {
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
     )
-  `); 
+  `);  
 }
 initDatabase()
 export default db;

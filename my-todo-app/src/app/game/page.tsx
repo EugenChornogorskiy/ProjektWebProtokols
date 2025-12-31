@@ -6,6 +6,7 @@ import { ChooseForm } from "@/src/components/ChooseForm";
 import { GameForm } from "@/src/components/GameForm";
 import { ToastContainer } from "@/src/components/Toasts/ToastContainer";
 import Link from "next/link";
+import { SpectateGameForm } from "@/src/components/SpectateGameForm";
 const axios = require('axios').default;
 export default function Page( ) {      
   return <App />; 
@@ -18,6 +19,7 @@ function App( ){
     const [toastList, setToastList] = useState<any[]>( []);   
     const [gameBoard, setGameBoard] = useState<any[]>([])  
     const [stopInterval, setStopInterval] = useState<boolean>(false)  
+    const [spectator, setSpectator] = useState<any>(null)  
     useEffect(() => { 
         if (fetched) {  
             if (token) {  
@@ -28,11 +30,13 @@ function App( ){
                     console.log(response.data );
                     if (response.data.hasActiveRoom) { 
                         addRoom(response.data.roomCode)
+                        setStopInterval(true)
                         setGameStarted(true)
                     }
                     else{
                         addRoom("")
                         setGameStarted(false)
+                        setStopInterval(false)
                     } 
                 })
                 .catch(function (error:any) {
@@ -88,6 +92,7 @@ function App( ){
                         <Link href={"/"}><img src="/logoB3.png" alt="" style={{cursor:"pointer"}}/></Link>
                         <div id="nav-btns">
                             {roomCode && !(gameBoard.length > 0) && <button id="sing-up" onClick={() => deleteRoom()}>Delete room</button>}
+                            {spectator && <button id="sing-up" onClick={() => {setSpectator(null),setStopInterval(false)}}>Quit</button>}
                             <div id="navbar-toggle" data-toggle="offcanvas-wrap" >
                                 <span id="icon-bar upper"></span>
                                 <span id="icon-bar middle" ></span>    
@@ -97,9 +102,10 @@ function App( ){
                     </div> 
                 </header>
             </div>
-                {gameStarted ? <GameForm setGameBoard={setGameBoard} gameBoard={gameBoard} addToast={(type:string,value:string) => setToastList((prev:any) => [...prev, {type,id:Date.now(),value}])} setGameStarted={setGameStarted}/> :  <ChooseForm setGameStarted={setGameStarted} roomList={roomList} setRoomList={setRoomList} setStopInterval={setStopInterval} stopInterval={stopInterval}/> } 
+                {!spectator && gameStarted && <GameForm setGameBoard={setGameBoard} gameBoard={gameBoard} addToast={(type:string,value:string) => setToastList((prev:any) => [...prev, {type,id:Date.now(),value}])} setGameStarted={setGameStarted} setStopInterval={setStopInterval}/>}  
+                    {!spectator && !gameStarted &&<ChooseForm setGameStarted={setGameStarted} roomList={roomList} setRoomList={setRoomList} setStopInterval={setStopInterval} stopInterval={stopInterval} setSpectator={setSpectator}/> } 
                 {toastList.length > 0 && <ToastContainer data={toastList} removeToast={ (id:any) => setToastList(toastList.filter((p:any) => p.id != id)) }/> }
-
+                {spectator && <SpectateGameForm roomCode={spectator} onClose= {() => setSpectator(null)} addToast={(type:string,value:string) => setToastList((prev:any) => [...prev, {type,id:Date.now(),value}])}/>}
         </div> 
     );
 }  

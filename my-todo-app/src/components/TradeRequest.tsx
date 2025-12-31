@@ -37,7 +37,7 @@ export function TradeRequest( { info,players,onClose, socket} : any) {
               <div className='trade-input'> <img src="/dolar2.png" alt="" /><p>{info.priceGet}</p></div> 
             </div>
             <div className="player-property"> 
-              {info.businessBuy.property.map((p:any) => {
+              {info.businessBuy.map((p:any) => {
                 return (
                   <div key={p.name} className="property" >
                     <img  src={`/b-logos/${p.name == 'Facebook' ? "Facebook.svg" : 
@@ -125,14 +125,14 @@ export function TradeRequest( { info,players,onClose, socket} : any) {
       <div id="trade-btns">
         <div style={{width:"75px"}}>{ playerSelected.reduce((acc,curr) => {
           return acc + curr.profit
-        },0) + info.priceGive}$</div>
+        },0) + info.priceGet}$</div>
         <div id="total-amount">
           <p>Total amount</p>
           <button id="total-btn" className="cencel-review" onClick={() => Accept()}>Accept</button> 
         </div>
         <div style={{width:"75px"}}>{ recepientSelected.reduce((acc,curr) => {
           return acc + curr.profit
-        },0) + info.priceGet}$</div>
+        },0) + info.priceGive}$</div>
         <button id="total-close" type='button' onClick={() => Close()}>✖</button> 
       </div> 
   </div> )

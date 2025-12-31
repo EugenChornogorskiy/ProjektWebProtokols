@@ -45,7 +45,7 @@ export function Trade( { recepient,player, onClose, socket} : any) {
           </div> 
           <div className="trade-part">
             <div style={{width:"100%",height:"60px"}}>
-              <div className='trade-input'> <img src="/dolar2.png" alt="" /> <input type="number" min={0} max={player.money} id="login-password" name="priceGive" placeholder="Cash &#x270F;" value={formik.values.priceGive} onChange={formik.handleChange} onBlur={formik.handleBlur}/></div>
+              <div className='trade-input'> <img src="/dolar2.png" alt="" /> <input type="number" min={0} max={player.money-1} id="login-password" name="priceGive" placeholder="Cash &#x270F;" value={formik.values.priceGive} onChange={formik.handleChange} onBlur={formik.handleBlur}/></div>
               {formik.touched.priceGive && formik.errors.priceGive && (
                 <div className="login-error">{formik.errors.priceGive}</div>
               )}
@@ -94,7 +94,7 @@ export function Trade( { recepient,player, onClose, socket} : any) {
           </div> 
           <div className="trade-part"> 
             <div style={{width:"100%",height:"60px"}}>
-              <div className='trade-input'><img src="/dolar2.png" alt="" /> <input type="number" min={0} max={recepient.money} id="login-password" name="priceGet" placeholder="Cash &#x270F;" value={formik.values.priceGet} onChange={formik.handleChange} onBlur={formik.handleBlur}/></div>
+              <div className='trade-input'><img src="/dolar2.png" alt="" /> <input type="number" min={0} max={recepient.money-1} id="login-password" name="priceGet" placeholder="Cash &#x270F;" value={formik.values.priceGet} onChange={formik.handleChange} onBlur={formik.handleBlur}/></div>
               {formik.touched.priceGet && formik.errors.priceGet && (
                 <div className="login-error">{formik.errors.priceGet}</div>
               )}

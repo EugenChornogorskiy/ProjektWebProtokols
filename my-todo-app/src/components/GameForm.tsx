@@ -7,13 +7,11 @@ import { TradeRequestModal } from './TradeRequestModal';
 import mqtt from 'mqtt';
 import io from 'socket.io-client';
 const axios = require('axios').default;
-export function GameForm( { setGameBoard, gameBoard , addToast,setGameStarted }: any) {    
+export function GameForm( { setGameBoard, gameBoard , addToast,setGameStarted,setStopInterval }: any) {    
   const [players, setPlayers] = useState<any[]>([]);
-  const [gameStatus, setGameStatus] = useState<'waiting' | 'started'>('waiting'); 
-  const [error, setError] = useState('');
+  const [gameStatus, setGameStatus] = useState<'waiting' | 'started'>('waiting');  
   const {token,roomCode,loaded,login,id,addRoom}:any = useLogin() 
-  const router = useRouter(); 
-  const [roomC, setRoomC] = useState<any>(null);
+  const router = useRouter();  
   const [myTurn, setMyTurn] = useState<boolean>(false);
   const [ trade, setTrade] = useState<any>(null);
   const [tradeRequest, setTradeRequest] = useState<any>(null);
@@ -45,8 +43,7 @@ export function GameForm( { setGameBoard, gameBoard , addToast,setGameStarted }:
       if (!token || !roomCode ) {  
         router.push('/');
         return;
-      } 
-      setRoomC(roomCode) 
+      }  
       
       const socketInstance = io('https://localhost:3001', {
             auth: { token },
@@ -65,8 +62,7 @@ export function GameForm( { setGameBoard, gameBoard , addToast,setGameStarted }:
             setPlayers(response.players) 
             setGameStatus(response.gameStatus) 
           } else { 
-            console.log("error ",response.error); 
-            setError(response.error || 'Cannot join room') 
+            console.log("error ",response.error);  
             setTimeout(() => router.push('/'), 2000) 
           }
         }) 
@@ -166,8 +162,10 @@ export function GameForm( { setGameBoard, gameBoard , addToast,setGameStarted }:
   },[ loaded])  
   const throwBones = () => {
     setMyTurn(false)
+    console.log(players)
     socket.emit('throwBones', { token:token,room:roomCode }, (response : any) => {
       if (response.success) {
+        console.log(response.distance)
         setTurnDistance(response.distance); 
         setShowAnimation(true);
         setTimeout(() => {
@@ -224,7 +222,7 @@ export function GameForm( { setGameBoard, gameBoard , addToast,setGameStarted }:
         )}
         {winner && <div id="finish">
           <p id="monopoly">Winner: {players.find(p => p.id == winner.id).nickname}</p>
-          <button onClick={() => {setGameStarted(false),addRoom('')}}>Confirm</button>
+          <button onClick={() => {setGameStarted(false),addRoom(''),setStopInterval(false)}}>Confirm</button>
         </div>}
         {!winner && gameStatus != "started" &&  
         <div className ="game-wrapper">
