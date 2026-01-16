@@ -49,6 +49,7 @@ export async function POST(request: Request) {
       SELECT * FROM sessions 
       WHERE user_id = ? 
     `).get(user.id );
+    console.log(ses)
     if (ses) {
       return NextResponse.json({serverSession: serverSession.proof,token:ses.token , user: {id: user.id, nickname: user.nickname, email:user.email, name:user.name,surname:user.surname }})
     }
@@ -62,7 +63,8 @@ export async function POST(request: Request) {
       INSERT INTO sessions (token, user_id, expires_at)
       VALUES (?,?,?)
     `).run(token, user.id, new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()); 
-    return NextResponse.json({serverSession: serverSession.proof,token:session.token , user: {id: user.id,nickname: user.nickname, email:user.email, name:user.name,surname:user.surname }}) 
+    console.log(session)
+    return NextResponse.json({serverSession: serverSession.proof,token:token , user: {id: user.id,nickname: user.nickname, email:user.email, name:user.name,surname:user.surname }}) 
    }
   catch(error){
     console.error('Login error:', error);

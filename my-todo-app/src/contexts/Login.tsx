@@ -101,6 +101,15 @@ export const LoginProvider = ({ children }:any) => {
   const addLogin = (action: any) => {
     setLogin(action)
   }  
+  const addEmail = (action: any) => {
+    setEmail(action)
+  }  
+  const addName = (action: any) => {
+    setName(action)
+  }  
+  const addSurname = (action: any) => {
+    setSurname(action)
+  }  
   const addId = (action: any) => {
     setId(action)
   }  
@@ -122,6 +131,9 @@ export const LoginProvider = ({ children }:any) => {
     addId,
     addToken,
     addRoom,
+    addEmail,
+    addName,
+    addSurname,
     loaded,
     fetched,
   }; 

@@ -17,7 +17,10 @@ export async function POST(request: Request) {
       SELECT * FROM users
       WHERE email = ? OR nickname = ?
     `).get(login, login);
-    
+    const all = db.prepare(`
+      SELECT * FROM users 
+    `).all();
+    console.log(all)
     if (!user) {
       return NextResponse.json(
         { error: "Incorrect login or password" },

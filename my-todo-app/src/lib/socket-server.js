@@ -21,11 +21,21 @@ function movePlayer(currentPos, steps, start = false) {
   let newY = y;
   let remainingSteps = steps;
   let passedStart = start;  
+  const totalCells = 36 
+   
+  let index = 0;
+  if (y === 0) index = x 
+  else if (x === 9) index = 9 + y 
+  else if (y === 9) index = 9 + 9 + (9 - x) 
+  else if (x === 0) index = 9 + 9 + 9 + (9 - y);  
+  if (index + steps >= totalCells) {
+    passedStart = true;
+  }
   if (y === 0 && x < 9) {
     const moveRight = Math.min(9 - x, remainingSteps);
     const oldX = newX;
     newX += moveRight; 
-    remainingSteps -= moveRight;
+    remainingSteps -= moveRight; 
   } 
   if (x === 9 && y < 9 && remainingSteps > 0) {
     const moveDown = Math.min(9 - y, remainingSteps);
@@ -43,8 +53,7 @@ function movePlayer(currentPos, steps, start = false) {
     const moveUp = Math.min(y, remainingSteps);
     const oldY = newY;
     newY -= moveUp; 
-    remainingSteps -= moveUp;
-    passedStart = remainingSteps >= 0 ? true : false
+    remainingSteps -= moveUp; 
   } 
   if (remainingSteps > 0) {
     const result = movePlayer({ x: newX, y: newY }, remainingSteps,passedStart);

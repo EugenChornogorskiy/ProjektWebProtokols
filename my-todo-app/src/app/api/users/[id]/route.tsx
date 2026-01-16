@@ -39,7 +39,7 @@ export async function PUT(request: Request,{ params }: any) {
   try {   
     const { id } = await params;
     const userId = Number(id)
-    const { M , email, nickname, name, surname } = await request.json();
+    const { M , email, nickname, name, surname,salt,verifier } = await request.json();
     console.log(M);
     
     if (! M || M === "" || M === " "){
@@ -81,12 +81,12 @@ export async function PUT(request: Request,{ params }: any) {
         WHERE id = ?
       `).run(email,userId);
     } 
-    if (nickname) {
+    if (nickname) { 
       db.prepare(`
         UPDATE users
-        SET nickname = ?
+        SET nickname = ?, verifier = ?, salt = ?
         WHERE id = ?
-      `).run(nickname,userId);
+      `).run(nickname,verifier,salt,userId);
     } 
     if (name) {
       db.prepare(`

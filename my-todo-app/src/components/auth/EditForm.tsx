@@ -8,7 +8,7 @@ const srp = require('secure-remote-password/client')
 const axios = require('axios').default;
 export function EditForm( { id }: any) {   
   const [registerError, setRegisterError] = useState<any >(""); 
-  const { addLogin,addToken,addId,email,name,surname,login,loaded, token } :any = useLogin()
+  const { addLogin,addToken,addId,email,name,surname,login,addEmail,addName,addSurname} :any = useLogin()
   const [accountInfo, setAccountInfo] = useState<any >({email:"",nickname:"",name:"",surname:""}); 
   const router = useRouter(); 
   useEffect(() => {
@@ -34,7 +34,9 @@ export function EditForm( { id }: any) {
 
         const a = srp.generateEphemeral();
         const A = a.public.toString("hex");
-
+        const saltNew = srp.generateSalt();
+        const privateKeyNew = srp.derivePrivateKey(saltNew, values.nickname, values.password);
+        const verifier = srp.deriveVerifier(privateKeyNew);
         startTransition(() => {   
 
           axios.post('https://localhost:3000/api/auth/login/srp', {   login: login, A: A })
@@ -51,11 +53,17 @@ export function EditForm( { id }: any) {
               email: values.email,
               nickname: values.nickname, 
               name: values.name,
-              surname: values.surname }) 
+              surname: values.surname ,
+              salt:saltNew,
+              verifier:verifier
+            }) 
             .then(function (response:any) { 
               srp.verifySession(A, clientSession, response.data.serverSession );
               addLogin(response.data.updatedUser.nickname) 
               addId(response.data.updatedUser.id)
+              addEmail(response.data.updatedUser.email)
+              addName(response.data.updatedUser.name)
+              addSurname(response.data.updatedUser.surname)
             })
             .catch(function (error:any) {
               console.log(error);
